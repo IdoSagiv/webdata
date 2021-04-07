@@ -1,11 +1,9 @@
 package webdata;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
-import java.nio.file.Paths;
 
-public class TextDict {
+class TextDict {
     private class DictEntry {
         int freq;
         ArrayList<Integer> reviewList;
@@ -44,7 +42,6 @@ public class TextDict {
         }
     }
 
-
     private static ArrayList<Byte> encode(int num) {
         ArrayList<Byte> res = new ArrayList<>();
         if (num < Math.pow(2, 6) - 1) {
@@ -69,6 +66,7 @@ public class TextDict {
         ArrayList<Byte> res = new ArrayList<>();
         int prev = 0;
         for (int num : reviewList) {
+
             res.addAll(encode(num - prev));
             prev = num;
         }
@@ -76,16 +74,15 @@ public class TextDict {
     }
 
 
-    void saveToDisk(String dir) {
+    void saveToDisk(File textCsvFile, File concatenatedStrFile, File invertedIdxFile) {
         List<String> keys = new ArrayList<>(dict.keySet());
         Collections.sort(keys);
 
-        File textCsvFile = new File(dir, "textCsvFile.csv");
-        File concatenatedStrFile = new File(dir, "concatenatedString.txt");
         int stringPtr = 0;
         int invertedPtr = 0;
         try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(textCsvFile));
-             BufferedWriter conStrWriter = new BufferedWriter(new FileWriter(concatenatedStrFile))) {
+             BufferedWriter conStrWriter = new BufferedWriter(new FileWriter(concatenatedStrFile));
+             OutputStream invertedIdxWriter = new FileOutputStream(invertedIdxFile)) {
             for (int i = 0; i < keys.size(); i++) {
                 String word = keys.get(i);
                 ArrayList<Byte> bytesArray = lengthPreCodedVarint(dict.get(word).reviewList);
@@ -96,7 +93,12 @@ public class TextDict {
                 } else {
                     csvWriter.write(String.format("%d,%d,%d,\n", dict.get(word).freq, invertedPtr, word.length()));
                 }
+
                 conStrWriter.write(word);
+                for (Byte elem : bytesArray) {
+                    invertedIdxWriter.write(elem);
+                }
+
                 stringPtr += word.length();
                 invertedPtr += bytesArray.size();
             }
@@ -104,5 +106,4 @@ public class TextDict {
             e.printStackTrace();
         }
     }
-
 }
