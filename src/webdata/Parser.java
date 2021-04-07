@@ -7,7 +7,6 @@ class Parser {
 
     Parser(String inputFile) {
         File file = new File(inputFile);
-
         try {
             reader = new BufferedReader(new FileReader(file));
         } catch (FileNotFoundException e) {

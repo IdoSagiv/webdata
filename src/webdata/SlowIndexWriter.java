@@ -25,7 +25,7 @@ public class SlowIndexWriter {
 
             reviewId++;
         }
-        System.out.println("");
+        textDict.saveToDisk(dir);
 
     }
 
