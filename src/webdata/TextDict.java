@@ -1,6 +1,7 @@
 package webdata;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.nio.file.Paths;
 
@@ -43,27 +44,61 @@ public class TextDict {
         }
     }
 
+
+    private static ArrayList<Byte> encode(int num) {
+        ArrayList<Byte> res = new ArrayList<>();
+        if (num < Math.pow(2, 6) - 1) {
+            res.add((byte) num);
+        } else if (num < Math.pow(2, 14) - 1) {
+            res.add((byte) ((num >>> 8) | (int) Math.pow(2, 6)));
+            res.add((byte) num);
+        } else if (num < Math.pow(2, 22) - 1) {
+            res.add((byte) ((num >>> 16) | (int) Math.pow(2, 7)));
+            res.add((byte) (num >>> 8));
+            res.add((byte) num);
+        } else if (num < Math.pow(2, 30) - 1) {
+            res.add((byte) ((num >>> 24) | (int) (Math.pow(2, 7) + Math.pow(2, 6))));
+            res.add((byte) (num >>> 16));
+            res.add((byte) (num >>> 8));
+            res.add((byte) num);
+        }
+        return res;
+    }
+
+    private ArrayList<Byte> lengthPreCodedVarint(ArrayList<Integer> reviewList) {
+        ArrayList<Byte> res = new ArrayList<>();
+        int prev = 0;
+        for (int num : reviewList) {
+            res.addAll(encode(num - prev));
+            prev = num;
+        }
+        return res;
+    }
+
+
     void saveToDisk(String dir) {
         List<String> keys = new ArrayList<>(dict.keySet());
         Collections.sort(keys);
+
         File textCsvFile = new File(dir, "textCsvFile.csv");
         File concatenatedStrFile = new File(dir, "concatenatedString.txt");
         int stringPtr = 0;
+        int invertedPtr = 0;
         try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(textCsvFile));
              BufferedWriter conStrWriter = new BufferedWriter(new FileWriter(concatenatedStrFile))) {
             for (int i = 0; i < keys.size(); i++) {
                 String word = keys.get(i);
+                ArrayList<Byte> bytesArray = lengthPreCodedVarint(dict.get(word).reviewList);
                 if (i % 4 == 3) {
-                    csvWriter.write(String.join(",", Integer.toString(dict.get(word).freq), "", "", "").concat("\n"));
+                    csvWriter.write(String.format("%d,%d,,\n", dict.get(word).freq, invertedPtr));
                 } else if (i % 4 == 0) {
-                    csvWriter.write(String.join(",", Integer.toString(dict.get(word).freq), "",
-                            Integer.toString(word.length()), Integer.toString(stringPtr)).concat("\n"));
+                    csvWriter.write(String.format("%d,%d,%d,%d\n", dict.get(word).freq, invertedPtr, word.length(), stringPtr));
                 } else {
-                    csvWriter.write(String.join(",", Integer.toString(dict.get(word).freq), "",
-                            Integer.toString(word.length()), "").concat("\n"));
+                    csvWriter.write(String.format("%d,%d,%d,\n", dict.get(word).freq, invertedPtr, word.length()));
                 }
                 conStrWriter.write(word);
                 stringPtr += word.length();
+                invertedPtr += bytesArray.size();
             }
         } catch (IOException e) {
             e.printStackTrace();
