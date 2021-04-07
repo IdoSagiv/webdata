@@ -14,58 +14,21 @@ public class SlowIndexWriter {
     public void slowWrite(String inputFile, String dir) {
         Parser parser = new Parser(inputFile);
         String[] section;
+        TextDict textDict = new TextDict();
+        int reviewId = 1;
 
         while ((section = parser.nextSection()) != null) {
             System.out.println(section[0] + "," + section[1] + "," + section[2] + "," + section[3]);
             // add text to dictionary
+            textDict.addText(section[3], reviewId);
             // write the section
+
+            reviewId++;
         }
-
-
-    }
-
-//    private String[] nextSection(BufferedReader reader) throws IOException {
-//        String line;
-//        String[] section = new String[4];
-//        while ((line = reader.readLine()) != null) {
-//            if (line.isEmpty()) {
-//                return section;
-//            }
-//            if (line.startsWith("product/productId")) {
-//                section[0] = line.substring(line.indexOf(':') + 2);
-//            } else if (line.startsWith("review/helpfulness")) {
-//                section[1] = line.substring(line.indexOf(':') + 2);
-//            } else if (line.startsWith("review/score")) {
-//                section[2] = line.substring(line.indexOf(':') + 2);
-//            } else if (line.startsWith("review/text")) {
-//                reader.
-//                section[3] = line.substring(line.indexOf(':') + 2);
-//            }
-//        }
-//        return null;
-//    }
-
-//    public void parser(String inputFile) {
-//        File file = new File(inputFile);
-//
-//        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-//            String[] section;
-//            while ((section = nextSection(reader)) != null) {
-//                System.out.println(section[0] + "," + section[1] + "," + section[2] + "," + section[3]);
-//                // add text to dictionary
-//                // write the section
-//            }
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-
-    public void parse(String inputFile) throws IOException {
+        System.out.println("");
 
     }
+
 
     /**
      * Delete all index files by removing the given directory
