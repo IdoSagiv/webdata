@@ -4,7 +4,7 @@ public class main {
     public static void main(String[] args){
         SlowIndexWriter writer = new SlowIndexWriter();
         System.out.println("start");
-        writer.parser("C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\webdata\\datasets\\100.txt");
+        writer.slowWrite("C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\webdata\\datasets\\100.txt","");
         System.out.println("ddddddd");
     }
 }
