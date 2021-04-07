@@ -4,10 +4,13 @@ import java.util.Enumeration;
 
 public class IndexReader {
 
+    private final String dir;
+
     /**
      * Creates an IndexReader which will read from the given directory
      */
     public IndexReader(String dir) {
+        this.dir = dir;
     }
 
     /**
@@ -15,6 +18,7 @@ public class IndexReader {
      * Returns null if there is no review with the given identifier
      */
     public String getProductId(int reviewId) {
+        return "";
     }
 
     /**
@@ -22,6 +26,7 @@ public class IndexReader {
      * Returns -1 if there is no review with the given identifier
      */
     public int getReviewScore(int reviewId) {
+        return 0;
     }
 
     /**
@@ -29,6 +34,7 @@ public class IndexReader {
      * Returns -1 if there is no review with the given identifier
      */
     public int getReviewHelpfulnessNumerator(int reviewId) {
+        return 0;
     }
 
     /**
@@ -36,6 +42,7 @@ public class IndexReader {
      * Returns -1 if there is no review with the given identifier
      */
     public int getReviewHelpfulnessDenominator(int reviewId) {
+        return 0;
     }
 
     /**
@@ -43,6 +50,7 @@ public class IndexReader {
      * Returns -1 if there is no review with the given identifier
      */
     public int getReviewLength(int reviewId) {
+        return 0;
     }
 
     /**
@@ -50,6 +58,7 @@ public class IndexReader {
      * Returns 0 if there are no reviews containing this token
      */
     public int getTokenFrequency(String token) {
+        return 0;
     }
 
     /**
@@ -58,7 +67,9 @@ public class IndexReader {
      * Returns 0 if there are no reviews containing this token
      */
     public int getTokenCollectionFrequency(String token) {
+        return 0;
     }
+
 
     /**
      * Return a series of integers of the form id-1, freq-1, id-2, freq-2, ... such
@@ -75,6 +86,7 @@ public class IndexReader {
      * Return the number of product reviews available in the system
      */
     public int getNumberOfReviews() {
+        return 0;
     }
 
     /**
@@ -82,6 +94,7 @@ public class IndexReader {
      * (Tokens should be counted as many times as they appear)
      */
     public int getTokenSizeOfReviews() {
+        return 0;
     }
 
     /**
@@ -91,5 +104,6 @@ public class IndexReader {
      * Returns an empty Enumeration if there are no reviews for this product
      */
     public Enumeration<Integer> getProductReviews(String productId) {
+        return null;
     }
 }
