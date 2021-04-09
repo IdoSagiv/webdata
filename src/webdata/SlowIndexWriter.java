@@ -4,19 +4,21 @@ import webdata.Dictionary.ProductIdDict;
 import webdata.Dictionary.TextDict;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class SlowIndexWriter {
+    // the text index filed
     private final String TEXT_DICT_PATH = "textDictFile.bin";
     private final String TEXT_CONC_STR_PATH = "textConcatenatedString.txt";
     private final String TEXT_INV_IDX_PATH = "textInvertedIndex.bin";
 
+    // the product id index filed
     private final String PRODUCT_ID_DICT_PATH = "productIdDictFile.bin";
     private final String PRODUCT_ID_CONC_STR_PATH = "productIdConcatenatedString.txt";
     private final String PRODUCT_ID_INV_IDX_PATH = "productIdInvertedIndex.bin";
 
+    //  the rest of the product fields files
     private final String FIELDS_PATH = "reviewsFields.bin";
 
     /**
@@ -37,9 +39,9 @@ public class SlowIndexWriter {
         int reviewId = 1;
 
         while ((section = parser.nextSection()) != null) {
-            // add text to dictionary
-            textDict.addText(section[3], reviewId);
-            productIdDict.addText(section[0], reviewId);
+            // add text to dictionaries
+            textDict.addText(section[Parser.TEXT_IDX], reviewId);
+            productIdDict.addText(section[Parser.PRODUCT_ID_IDX], reviewId);
 
             reviewId++;
         }
@@ -67,14 +69,11 @@ public class SlowIndexWriter {
                 PRODUCT_ID_CONC_STR_PATH, PRODUCT_ID_INV_IDX_PATH, FIELDS_PATH};
 
         String dirPath = Paths.get(dir).toAbsolutePath().toString();
-        for (String file : indexFiles) {
-            Path path = Paths.get(dirPath, file);
-            File f = new File(path.toAbsolutePath().toString());
-            if (f.delete()) {
-                System.out.println("Deleting " + file);
-
+        for (String fileName : indexFiles) {
+            Path path = Paths.get(dirPath, fileName);
+            if (new File(path.toAbsolutePath().toString()).delete()) {
+                System.out.println("Deleting " + fileName);
             }
-//                Files.deleteIfExists(path);
         }
 
     }

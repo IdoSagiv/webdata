@@ -30,12 +30,12 @@ class TextDictOld {
 //        text = text.toLowerCase();
 //        for (String token : text.split("[^\\w]")) {
 //            if (!token.isEmpty()) {
-//                addWord(token, reviewId);
+//                addToken(token, reviewId);
 //            }
 //        }
 //    }
 //
-//    private void addWord(String word, int reviewId) {
+//    private void addToken(String word, int reviewId) {
 //        if (dict.containsKey(word)) {
 //            DictEntry entry = dict.get(word);
 //            int lastIdx = entry.reviewIds.size() - 1;

@@ -3,6 +3,10 @@ package webdata;
 import java.io.*;
 
 class Parser {
+    public final static int PRODUCT_ID_IDX = 0;
+    public final static int HELPFULNESS_IDX = 1;
+    public final static int SCORE_IDX = 2;
+    public final static int TEXT_IDX = 3;
     private BufferedReader reader;
 
     Parser(String inputFile) {
@@ -14,6 +18,11 @@ class Parser {
         }
     }
 
+    /**
+     * parse the next section in the file.
+     *
+     * @return the parsed section ro null if it can not be parsed correctly.
+     */
     String[] nextSection() {
         String line;
         String[] section = new String[4];
@@ -22,14 +31,15 @@ class Parser {
                 if (line.isEmpty()) {
                     return section;
                 }
+                String subsection = line.substring(line.indexOf(':') + 2);
                 if (line.startsWith("product/productId")) {
-                    section[0] = line.substring(line.indexOf(':') + 2);
+                    section[PRODUCT_ID_IDX] = subsection;
                 } else if (line.startsWith("review/helpfulness")) {
-                    section[1] = line.substring(line.indexOf(':') + 2);
+                    section[HELPFULNESS_IDX] = subsection;
                 } else if (line.startsWith("review/score")) {
-                    section[2] = line.substring(line.indexOf(':') + 2);
+                    section[SCORE_IDX] = subsection;
                 } else if (line.startsWith("review/text")) {
-                    section[3] = line.substring(line.indexOf(':') + 2);
+                    section[TEXT_IDX] = subsection;
                 }
             }
             return null;
