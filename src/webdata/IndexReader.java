@@ -58,6 +58,7 @@ public class IndexReader {
      * Returns 0 if there are no reviews containing this token
      */
     public int getTokenFrequency(String token) {
+//        the length of the posting list
         return 0;
     }
 
@@ -72,17 +73,19 @@ public class IndexReader {
 
 
     /**
-     * Return a series of integers of the form id-1, freq-1, id-2, freq-2, ... such
-     * that id-n is the n-th review containing the given token and freq-n is the
+     * Return a series of integers of the form id-1, totalFreq-1, id-2, totalFreq-2, ... such
+     * that id-n is the n-th review containing the given token and totalFreq-n is the
      * number of times that the token appears in review id-n
      * Only return ids of reviews that include the token
      * Note that the integers should be sorted by id
      * <p>
      * Returns an empty Enumeration if there are no reviews containing this token
-     * /
-     * public Enumeration<Integer> getReviewsWithToken(String token) {}
-     * <p>
-     * /**
+     */
+    public Enumeration<Integer> getReviewsWithToken(String token) {
+        return null;
+    }
+
+    /**
      * Return the number of product reviews available in the system
      */
     public int getNumberOfReviews() {

@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/TextDict.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/TextDict.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/IndexReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/IndexReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webdata/SlowIndexWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/SlowIndexWriter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webdata/TextDict.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/TextDict.java" afterDir="false" />
     </list>
@@ -21,8 +19,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/webdata/IndexReader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="774">
-              <caret line="68" column="55" selection-start-line="68" selection-start-column="55" selection-end-line="68" selection-end-column="55" />
+            <state relative-caret-position="235">
+              <caret line="102" column="4" lean-forward="true" selection-start-line="102" selection-start-column="4" selection-end-line="110" selection-end-column="5" />
               <folding>
                 <element signature="e#234#235#0" expanded="true" />
                 <element signature="e#257#258#0" expanded="true" />
@@ -36,10 +34,10 @@
                 <element signature="e#1037#1038#0" expanded="true" />
                 <element signature="e#1203#1204#0" expanded="true" />
                 <element signature="e#1224#1225#0" expanded="true" />
-                <element signature="e#1412#1413#0" expanded="true" />
-                <element signature="e#1433#1434#0" expanded="true" />
                 <element signature="e#1661#1662#0" expanded="true" />
                 <element signature="e#1682#1683#0" expanded="true" />
+                <element signature="e#2405#2406#0" expanded="true" />
+                <element signature="e#2431#2432#0" expanded="true" />
                 <element signature="e#2322#2323#0" expanded="true" />
                 <element signature="e#2349#2350#0" expanded="true" />
                 <element signature="e#2508#2509#0" expanded="true" />
@@ -51,11 +49,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/webdata/SlowIndexWriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="483">
-              <caret line="26" column="66" selection-start-line="26" selection-start-column="66" selection-end-line="26" selection-end-column="66" />
+            <state relative-caret-position="830">
+              <caret line="51" column="61" lean-forward="true" selection-start-line="51" selection-start-column="61" selection-end-line="51" selection-end-column="61" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -63,14 +61,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/webdata/TextDict.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="76" column="82" selection-start-line="76" selection-start-column="67" selection-end-line="76" selection-end-column="82" />
+            <state relative-caret-position="233">
+              <caret line="94" column="42" selection-start-line="94" selection-start-column="42" selection-end-line="94" selection-end-column="42" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#423#424#0" expanded="true" />
+                <element signature="e#531#532#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -79,8 +77,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/webdata/Parser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="10" column="12" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="62" />
+            <state relative-caret-position="338">
+              <caret line="14" column="5" lean-forward="true" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -88,8 +86,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="29" selection-end-column="11" />
+            <state relative-caret-position="168">
+              <caret line="13" selection-start-line="13" selection-end-line="14" selection-end-column="112" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -110,6 +108,7 @@
     <findStrings>
       <find>token</find>
       <find>removing</find>
+      <find>encode</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -118,13 +117,13 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/webdata/IndexReader.java" />
         <option value="$PROJECT_DIR$/src/webdata/parser.java" />
         <option value="$PROJECT_DIR$/src/webdata/Parser.java" />
         <option value="$PROJECT_DIR$/src/webdata/InvertedIndex.java" />
+        <option value="$PROJECT_DIR$/src/webdata/SlowIndexWriter.java" />
+        <option value="$PROJECT_DIR$/src/webdata/IndexReader.java" />
         <option value="$PROJECT_DIR$/src/main.java" />
         <option value="$PROJECT_DIR$/src/webdata/TextDict.java" />
-        <option value="$PROJECT_DIR$/src/webdata/SlowIndexWriter.java" />
       </list>
     </option>
   </component>
@@ -154,12 +153,6 @@
               <item name="webdata" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="webdata" type="b2602c69:ProjectViewProjectNode" />
-              <item name="webdata" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="webdata" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -167,7 +160,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1617816088711" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1617968922179" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -224,13 +217,13 @@
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.108208954" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Terminal" weight="0.24593717" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" sideWeight="0.49946696" weight="0.3347779" />
+      <window_info anchor="bottom" id="Event Log" sideWeight="0.50053304" side_tool="true" weight="0.24593717" />
       <window_info anchor="bottom" id="Messages" weight="0.32936078" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.28710726" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.09100758" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.219935" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -249,9 +242,21 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main.java</url>
-          <line>30</line>
+          <line>35</line>
           <properties />
           <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/webdata/SlowIndexWriter.java</url>
+          <line>35</line>
+          <properties />
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/webdata/TextDict.java</url>
+          <line>37</line>
+          <properties />
+          <option name="timeStamp" value="26" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -295,27 +300,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/webdata/Parser.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_60/src.zip!/java/nio/file/Files.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="10" column="12" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="29" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="723">
+          <caret line="1163" column="26" selection-start-line="1163" selection-start-column="26" selection-end-line="1163" selection-end-column="26" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/webdata/IndexReader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="774">
-          <caret line="68" column="55" selection-start-line="68" selection-start-column="55" selection-end-line="68" selection-end-column="55" />
+        <state relative-caret-position="235">
+          <caret line="102" column="4" lean-forward="true" selection-start-line="102" selection-start-column="4" selection-end-line="110" selection-end-column="5" />
           <folding>
             <element signature="e#234#235#0" expanded="true" />
             <element signature="e#257#258#0" expanded="true" />
@@ -329,10 +324,10 @@
             <element signature="e#1037#1038#0" expanded="true" />
             <element signature="e#1203#1204#0" expanded="true" />
             <element signature="e#1224#1225#0" expanded="true" />
-            <element signature="e#1412#1413#0" expanded="true" />
-            <element signature="e#1433#1434#0" expanded="true" />
             <element signature="e#1661#1662#0" expanded="true" />
             <element signature="e#1682#1683#0" expanded="true" />
+            <element signature="e#2405#2406#0" expanded="true" />
+            <element signature="e#2431#2432#0" expanded="true" />
             <element signature="e#2322#2323#0" expanded="true" />
             <element signature="e#2349#2350#0" expanded="true" />
             <element signature="e#2508#2509#0" expanded="true" />
@@ -343,23 +338,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/webdata/TextDict.java">
+    <entry file="file://$PROJECT_DIR$/src/webdata/Parser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="76" column="82" selection-start-line="76" selection-start-column="67" selection-end-line="76" selection-end-column="82" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#423#424#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="338">
+          <caret line="14" column="5" lean-forward="true" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/webdata/SlowIndexWriter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="26" column="66" selection-start-line="26" selection-start-column="66" selection-end-line="26" selection-end-column="66" />
+        <state relative-caret-position="830">
+          <caret line="51" column="61" lean-forward="true" selection-start-line="51" selection-start-column="61" selection-end-line="51" selection-end-column="61" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="13" selection-start-line="13" selection-end-line="14" selection-end-column="112" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webdata/TextDict.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="233">
+          <caret line="94" column="42" selection-start-line="94" selection-start-column="42" selection-end-line="94" selection-end-column="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#531#532#0" expanded="true" />
           </folding>
         </state>
       </provider>
