@@ -28,13 +28,16 @@ public class SlowIndexWriter {
      * if the directory does not exist, it should be created
      */
     public void slowWrite(String inputFile, String dir) {
+        // create the directory if not exist
+        File directory = new File(dir);
+        if (!directory.exists()) directory.mkdir();
+
         Parser parser = new Parser(inputFile);
         String[] section;
         File reviewsFields = new File(dir, FIELDS_PATH);
 
         TextDict textDict = new TextDict();
         ProductIdDict productIdDict = new ProductIdDict();
-
 
         int reviewId = 1;
 
