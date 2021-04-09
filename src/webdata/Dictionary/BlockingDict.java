@@ -31,7 +31,7 @@ abstract class BlockingDict<T> {
      */
     public void addText(String text, int reviewId) {
         text = text.toLowerCase();
-        for (String token : "[^\\w]".split(text)) {
+        for (String token :  text.split("[^\\w]")) {
             if (!token.isEmpty()) {
                 addToken(token, reviewId);
             }
