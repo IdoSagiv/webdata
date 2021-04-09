@@ -73,8 +73,8 @@ public class IndexReader {
 
 
     /**
-     * Return a series of integers of the form id-1, totalFreq-1, id-2, totalFreq-2, ... such
-     * that id-n is the n-th review containing the given token and totalFreq-n is the
+     * Return a series of integers of the form id-1, tokenFreq-1, id-2, tokenFreq-2, ... such
+     * that id-n is the n-th review containing the given token and tokenFreq-n is the
      * number of times that the token appears in review id-n
      * Only return ids of reviews that include the token
      * Note that the integers should be sorted by id

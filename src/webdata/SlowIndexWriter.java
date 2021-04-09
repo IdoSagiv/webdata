@@ -1,5 +1,7 @@
 package webdata;
 
+import webdata.Dictionary.ProductIdDict;
+import webdata.Dictionary.TextDict;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -8,8 +10,13 @@ import java.nio.file.Paths;
 
 public class SlowIndexWriter {
     private final String TEXT_DICT_PATH = "textDictFile.bin";
-    private final String CONC_STR_PATH = "concatenatedString.txt";
-    private final String INV_IDX_PATH = "invertedIndex.bin";
+    private final String TEXT_CONC_STR_PATH = "textConcatenatedString.txt";
+    private final String TEXT_INV_IDX_PATH = "textInvertedIndex.bin";
+
+    private final String PRODUCT_ID_DICT_PATH = "productIdDictFile.bin";
+    private final String PRODUCT_ID_CONC_STR_PATH = "productIdConcatenatedString.txt";
+    private final String PRODUCT_ID_INV_IDX_PATH = "productIdInvertedIndex.bin";
+
     private final String FIELDS_PATH = "reviewsFields.bin";
 
     /**
@@ -21,20 +28,30 @@ public class SlowIndexWriter {
     public void slowWrite(String inputFile, String dir) {
         Parser parser = new Parser(inputFile);
         String[] section;
-        TextDict textDict = new TextDict();
         File reviewsFields = new File(dir, FIELDS_PATH);
+
+        TextDict textDict = new TextDict();
+        ProductIdDict productIdDict = new ProductIdDict();
+
+
         int reviewId = 1;
 
         while ((section = parser.nextSection()) != null) {
             // add text to dictionary
             textDict.addText(section[3], reviewId);
+            productIdDict.addText(section[0], reviewId);
 
             reviewId++;
         }
-        File textCsvFile = new File(dir, TEXT_DICT_PATH);
-        File concatenatedStrFile = new File(dir, CONC_STR_PATH);
-        File invertedIdxFile = new File(dir, INV_IDX_PATH);
-        textDict.saveToDisk(textCsvFile, concatenatedStrFile, invertedIdxFile);
+        File textDictFile = new File(dir, TEXT_DICT_PATH);
+        File textConcatenatedStrFile = new File(dir, TEXT_CONC_STR_PATH);
+        File textInvertedIdxFile = new File(dir, TEXT_INV_IDX_PATH);
+        File productIdDictFile = new File(dir, PRODUCT_ID_DICT_PATH);
+        File productIdConcatenatedStrFile = new File(dir, PRODUCT_ID_CONC_STR_PATH);
+        File productIdInvertedIdxFile = new File(dir, PRODUCT_ID_INV_IDX_PATH);
+
+        textDict.saveToDisk(textDictFile, textConcatenatedStrFile, textInvertedIdxFile);
+        productIdDict.saveToDisk(productIdDictFile, productIdConcatenatedStrFile, productIdInvertedIdxFile);
     }
 
     private void writeReviewFields(int reviewId, String[] fields) {
@@ -46,19 +63,19 @@ public class SlowIndexWriter {
      * Delete all index files by removing the given directory
      */
     public void removeIndex(String dir) {
-        String dirPath = Paths.get(dir).toAbsolutePath().toString();
-        Path textCsvFile = Paths.get(dirPath, TEXT_DICT_PATH);
-        Path concatenatedStrFile = Paths.get(dirPath, CONC_STR_PATH);
-        Path invertedIdxFile = Paths.get(dirPath, INV_IDX_PATH);
-        Path reviewsFields = Paths.get(dirPath, FIELDS_PATH);
+        String[] indexFiles = {TEXT_DICT_PATH, TEXT_CONC_STR_PATH, TEXT_INV_IDX_PATH, PRODUCT_ID_DICT_PATH,
+                PRODUCT_ID_CONC_STR_PATH, PRODUCT_ID_INV_IDX_PATH, FIELDS_PATH};
 
-        try {
-            Files.deleteIfExists(textCsvFile);
-            Files.deleteIfExists(concatenatedStrFile);
-            Files.deleteIfExists(invertedIdxFile);
-            Files.deleteIfExists(reviewsFields);
-        } catch (IOException e) {
-            e.printStackTrace();
+        String dirPath = Paths.get(dir).toAbsolutePath().toString();
+        for (String file : indexFiles) {
+            Path path = Paths.get(dirPath, file);
+            File f = new File(path.toAbsolutePath().toString());
+            if (f.delete()) {
+                System.out.println("Deleting " + file);
+
+            }
+//                Files.deleteIfExists(path);
         }
+
     }
 }

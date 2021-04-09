@@ -11,11 +11,9 @@ public class main {
     public static void main(String[] args) throws IOException {
         SlowIndexWriter writer = new SlowIndexWriter();
         System.out.println("start");
-        writer.slowWrite("C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\webdata\\datasets\\100.txt",
-                "indexFiles");
-        System.out.println("ddddddd");
+        writer.slowWrite("datasets\\100.txt", "indexFiles");
 
-//        writer.removeIndex("C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\webdata");
+//        writer.removeIndex("indexFiles");
 
 //        File concatenatedStrFile = new File("C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\webdata", "concatenatedString.txt");
 //        concatenatedStrFile.createNewFile();
