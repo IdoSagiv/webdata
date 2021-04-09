@@ -79,5 +79,16 @@ public class SlowIndexWriter {
             }
         }
 
+        // ToDo: make sure we need to delete the whole directory!
+//        File directory = new File(dir);
+//        for (File file : directory.listFiles()) {
+//            if (file.delete()) {
+//                System.out.println("Deleting " + file.getName());
+//            }
+//        }
+//        if (directory.delete()) {
+//            System.out.println("Deleting directory " + directory.getName());
+//        }
+
     }
 }
