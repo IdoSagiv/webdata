@@ -1,3 +1,4 @@
+import webdata.IndexReader;
 import webdata.SlowIndexWriter;
 
 import java.io.BufferedWriter;
@@ -7,12 +8,17 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+
 public class main {
 
     public static void main(String[] args) throws IOException {
         SlowIndexWriter writer = new SlowIndexWriter();
         System.out.println("start");
-        writer.slowWrite("datasets\\100.txt", "indexFiles");
+//        writer.slowWrite("datasets\\1000.txt", "indexFiles");
+        IndexReader reader = new IndexReader("indexFiles");
+        System.out.println(reader.getReviewHelpfulnessNumerator(1000));
+        System.out.println(reader.getReviewHelpfulnessDenominator(1000));
+        System.out.println(reader.getReviewScore(1000));
 //        writer.removeIndex("indexFiles");
 
 //        File concatenatedStrFile = new File("C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\webdata", "concatenatedString.txt");

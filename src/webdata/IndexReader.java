@@ -1,15 +1,37 @@
 package webdata;
 
+import java.io.*;
 import java.util.Enumeration;
 
 public class IndexReader {
 
     private final String dir;
+    private final File textDictFile;
+    private final File textConcatenatedStrFile;
+    private final File textInvertedIdxFile;
+    private final File productIdDictFile;
+    private final File productIdConcatenatedStrFile;
+    private final File productIdInvertedIdxFile;
+    private final File reviewFieldsFile;
+
+    int reviewsNum;
 
     /**
      * Creates an IndexReader which will read from the given directory
      */
     public IndexReader(String dir) {
+        textDictFile = new File(dir, WebDataUtils.TEXT_DICT_PATH);
+        textConcatenatedStrFile = new File(dir, WebDataUtils.TEXT_CONC_STR_PATH);
+        textInvertedIdxFile = new File(dir, WebDataUtils.TEXT_INV_IDX_PATH);
+        productIdDictFile = new File(dir, WebDataUtils.PRODUCT_ID_DICT_PATH);
+        productIdConcatenatedStrFile = new File(dir, WebDataUtils.PRODUCT_ID_CONC_STR_PATH);
+        productIdInvertedIdxFile = new File(dir, WebDataUtils.PRODUCT_ID_INV_IDX_PATH);
+        reviewFieldsFile = new File(dir, WebDataUtils.FIELDS_PATH);
+        try(DataInputStream reviewsNumReader = new DataInputStream(new FileInputStream(new File(dir,WebDataUtils.REVIEWS_NUM_PATH)))){
+            reviewsNum = reviewsNumReader.readInt();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.dir = dir;
     }
 
@@ -26,7 +48,22 @@ public class IndexReader {
      * Returns -1 if there is no review with the given identifier
      */
     public int getReviewScore(int reviewId) {
-        return 0;
+        return getReviewfield(reviewId, 2);
+    }
+
+    private int getReviewfield(int reviewId, int offset){
+        if (reviewId < 1 || reviewId > reviewsNum){
+            return -1;
+        }
+        long startingPos = (reviewId -1) * WebDataUtils.FIELDS_BLOCK + offset;
+        try(FileInputStream reviewsFieldsReader = new FileInputStream(reviewFieldsFile)){
+            reviewsFieldsReader.skip(startingPos);
+            return reviewsFieldsReader.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return -1;
+        }
+
     }
 
     /**
@@ -34,7 +71,7 @@ public class IndexReader {
      * Returns -1 if there is no review with the given identifier
      */
     public int getReviewHelpfulnessNumerator(int reviewId) {
-        return 0;
+        return getReviewfield(reviewId, 0);
     }
 
     /**
@@ -42,7 +79,7 @@ public class IndexReader {
      * Returns -1 if there is no review with the given identifier
      */
     public int getReviewHelpfulnessDenominator(int reviewId) {
-        return 0;
+        return getReviewfield(reviewId, 1);
     }
 
     /**
@@ -89,7 +126,8 @@ public class IndexReader {
      * Return the number of product reviews available in the system
      */
     public int getNumberOfReviews() {
-        return 0;
+
+        return reviewsNum;
     }
 
     /**
