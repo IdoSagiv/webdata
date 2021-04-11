@@ -19,9 +19,9 @@ public class WebDataUtils {
     //  the rest of the product fields files
     static final String FIELDS_PATH = "reviewsFields.bin";
 
-    static final String REVIEWS_NUM_PATH = "reviewsNum.bin";
+    static final String STATISTICS_PATH = "statistics.bin";
 
-    static final int FIELDS_BLOCK = 3;
+
 
 
     /**

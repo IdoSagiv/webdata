@@ -6,9 +6,15 @@ import webdata.Dictionary.TextDict;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
 public class SlowIndexWriter {
+    static final int FIELDS_BLOCK = 14;
+    static final int NUMERATOR_OFFSET = 0;
+    static final int DENOMINATOR_OFFSET = 1;
+    static final int SCORE_OFFSET = 2;
+    static final int TOKEN_COUNTER_OFFSET = 3;
+    static final int PRODUCT_ID_OFFSET = 4;
+    static final int PRODUCT_ID_LENGTH = 10;
 
 
     /**
@@ -27,19 +33,20 @@ public class SlowIndexWriter {
         TextDict textDict = new TextDict();
         ProductIdDict productIdDict = new ProductIdDict();
         try (FileOutputStream reviewFieldsWriter = new FileOutputStream(new File(dir, WebDataUtils.FIELDS_PATH));
-             DataOutputStream reviewsNumWriter = new DataOutputStream(new FileOutputStream(new File(dir, WebDataUtils.REVIEWS_NUM_PATH)))) {
-
+             DataOutputStream statisticsWriter = new DataOutputStream(new FileOutputStream(new File(dir, WebDataUtils.STATISTICS_PATH)))) {
+            int tokenCounter = 0;
             int reviewId = 1;
 
             while ((section = parser.nextSection()) != null) {
                 // add text to dictionaries
-                textDict.addText(section[Parser.TEXT_IDX], reviewId);
+                int reviewTokenCounter = textDict.addText(section[Parser.TEXT_IDX], reviewId);
                 productIdDict.addText(section[Parser.PRODUCT_ID_IDX], reviewId);
-                writeReviewFields(reviewFieldsWriter, section[Parser.HELPFULNESS_IDX], section[Parser.SCORE_IDX]);
-
+                writeReviewFields(reviewFieldsWriter, section[Parser.HELPFULNESS_IDX], section[Parser.SCORE_IDX], reviewTokenCounter, section[Parser.PRODUCT_ID_IDX]);
+                tokenCounter += reviewTokenCounter;
                 reviewId++;
             }
-            reviewsNumWriter.writeInt(reviewId - 1);
+            statisticsWriter.writeInt(reviewId - 1);
+            statisticsWriter.writeInt(tokenCounter);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,13 +63,16 @@ public class SlowIndexWriter {
         productIdDict.saveToDisk(productIdDictFile, productIdConcatenatedStrFile, productIdInvertedIdxFile);
     }
 
-    private void writeReviewFields(OutputStream outStream, String helpfulness, String score) throws IOException {
+    private void writeReviewFields(OutputStream outStream, String helpfulness, String score,
+                                   int tokenCounter, String productId) throws IOException {
         int scoreAsInt = Math.round(Float.parseFloat(score));
         String[] helpfulnessArray = helpfulness.split("/");
         int numerator = Integer.parseInt(helpfulnessArray[0]);
         int denominator = Integer.parseInt(helpfulnessArray[1]);
-        byte[] bytesToWrite = {(byte) (numerator), (byte) (denominator), (byte) (scoreAsInt)};
+        //TODO: token counter needs to be int? if we change this, update the offset constants
+        byte[] bytesToWrite = {(byte) (numerator), (byte) (denominator), (byte) (scoreAsInt), (byte) tokenCounter};
         outStream.write(bytesToWrite);
+        outStream.write(productId.getBytes());
     }
 
     /**
@@ -71,7 +81,8 @@ public class SlowIndexWriter {
     public void removeIndex(String dir) {
         String[] indexFiles = {WebDataUtils.TEXT_DICT_PATH, WebDataUtils.TEXT_CONC_STR_PATH,
                 WebDataUtils.TEXT_INV_IDX_PATH, WebDataUtils.PRODUCT_ID_DICT_PATH,
-                WebDataUtils.PRODUCT_ID_CONC_STR_PATH, WebDataUtils.PRODUCT_ID_INV_IDX_PATH, WebDataUtils.FIELDS_PATH};
+                WebDataUtils.PRODUCT_ID_CONC_STR_PATH, WebDataUtils.PRODUCT_ID_INV_IDX_PATH,
+                WebDataUtils.FIELDS_PATH, WebDataUtils.STATISTICS_PATH};
 
         String dirPath = Paths.get(dir).toAbsolutePath().toString();
         for (String fileName : indexFiles) {

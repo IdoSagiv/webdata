@@ -32,13 +32,16 @@ abstract class kFrontDict<T> {
      * @param text     text to tokenize and add to the dictionary.
      * @param reviewId the review id the text came from.
      */
-    public void addText(String text, int reviewId) {
+    public int addText(String text, int reviewId) {
+        int counter = 0;
         text = text.toLowerCase();
         for (String token : text.split("[^\\w]")) {
             if (!token.isEmpty()) {
                 addToken(token, reviewId);
+                counter ++;
             }
         }
+        return counter;
     }
 
     /**

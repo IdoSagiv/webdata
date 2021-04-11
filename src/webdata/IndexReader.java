@@ -14,7 +14,8 @@ public class IndexReader {
     private final File productIdInvertedIdxFile;
     private final File reviewFieldsFile;
 
-    int reviewsNum;
+    private int reviewsNum;
+    private int tokenCounter;
 
     /**
      * Creates an IndexReader which will read from the given directory
@@ -27,8 +28,9 @@ public class IndexReader {
         productIdConcatenatedStrFile = new File(dir, WebDataUtils.PRODUCT_ID_CONC_STR_PATH);
         productIdInvertedIdxFile = new File(dir, WebDataUtils.PRODUCT_ID_INV_IDX_PATH);
         reviewFieldsFile = new File(dir, WebDataUtils.FIELDS_PATH);
-        try(DataInputStream reviewsNumReader = new DataInputStream(new FileInputStream(new File(dir,WebDataUtils.REVIEWS_NUM_PATH)))){
-            reviewsNum = reviewsNumReader.readInt();
+        try (DataInputStream statisticsReader = new DataInputStream(new FileInputStream(new File(dir, WebDataUtils.STATISTICS_PATH)))) {
+            reviewsNum = statisticsReader.readInt();
+            tokenCounter = statisticsReader.readInt();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -40,7 +42,21 @@ public class IndexReader {
      * Returns null if there is no review with the given identifier
      */
     public String getProductId(int reviewId) {
-        return "";
+        if (reviewId < 1 || reviewId > reviewsNum) {
+            return null;
+        }
+        long startingPos = (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK + SlowIndexWriter.PRODUCT_ID_OFFSET;
+        try (FileInputStream reviewsFieldsReader = new FileInputStream(reviewFieldsFile)) {
+            String productId = "";
+            reviewsFieldsReader.skip(startingPos);
+            for (int i = 0; i < SlowIndexWriter.PRODUCT_ID_LENGTH; i++) {
+                productId = productId.concat((String.valueOf((char)reviewsFieldsReader.read())));
+            }
+            return productId;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -48,15 +64,15 @@ public class IndexReader {
      * Returns -1 if there is no review with the given identifier
      */
     public int getReviewScore(int reviewId) {
-        return getReviewfield(reviewId, 2);
+        return getReviewField(reviewId, SlowIndexWriter.SCORE_OFFSET);
     }
 
-    private int getReviewfield(int reviewId, int offset){
-        if (reviewId < 1 || reviewId > reviewsNum){
+    private int getReviewField(int reviewId, int offset) {
+        if (reviewId < 1 || reviewId > reviewsNum) {
             return -1;
         }
-        long startingPos = (reviewId -1) * WebDataUtils.FIELDS_BLOCK + offset;
-        try(FileInputStream reviewsFieldsReader = new FileInputStream(reviewFieldsFile)){
+        long startingPos = (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK + offset;
+        try (FileInputStream reviewsFieldsReader = new FileInputStream(reviewFieldsFile)) {
             reviewsFieldsReader.skip(startingPos);
             return reviewsFieldsReader.read();
         } catch (IOException e) {
@@ -71,7 +87,7 @@ public class IndexReader {
      * Returns -1 if there is no review with the given identifier
      */
     public int getReviewHelpfulnessNumerator(int reviewId) {
-        return getReviewfield(reviewId, 0);
+        return getReviewField(reviewId, SlowIndexWriter.NUMERATOR_OFFSET);
     }
 
     /**
@@ -79,7 +95,7 @@ public class IndexReader {
      * Returns -1 if there is no review with the given identifier
      */
     public int getReviewHelpfulnessDenominator(int reviewId) {
-        return getReviewfield(reviewId, 1);
+        return getReviewField(reviewId, SlowIndexWriter.DENOMINATOR_OFFSET);
     }
 
     /**
@@ -87,7 +103,7 @@ public class IndexReader {
      * Returns -1 if there is no review with the given identifier
      */
     public int getReviewLength(int reviewId) {
-        return 0;
+        return getReviewField(reviewId, SlowIndexWriter.TOKEN_COUNTER_OFFSET);
     }
 
     /**
@@ -95,7 +111,7 @@ public class IndexReader {
      * Returns 0 if there are no reviews containing this token
      */
     public int getTokenFrequency(String token) {
-//        the length of the posting list
+        // the length of the posting list
         return 0;
     }
 
@@ -105,6 +121,7 @@ public class IndexReader {
      * Returns 0 if there are no reviews containing this token
      */
     public int getTokenCollectionFrequency(String token) {
+        // the freq field in the dictionary
         return 0;
     }
 
@@ -126,16 +143,15 @@ public class IndexReader {
      * Return the number of product reviews available in the system
      */
     public int getNumberOfReviews() {
-
         return reviewsNum;
     }
 
     /**
-     * Return the number of number of tokens in the system
+     * Return the number of tokens in the system
      * (Tokens should be counted as many times as they appear)
      */
     public int getTokenSizeOfReviews() {
-        return 0;
+        return tokenCounter;
     }
 
     /**
