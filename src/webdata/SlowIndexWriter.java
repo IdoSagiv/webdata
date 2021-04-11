@@ -6,6 +6,7 @@ import webdata.Dictionary.TextDict;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class SlowIndexWriter {
     // the text index filed
@@ -34,20 +35,24 @@ public class SlowIndexWriter {
 
         Parser parser = new Parser(inputFile);
         String[] section;
-        File reviewsFields = new File(dir, FIELDS_PATH);
-
         TextDict textDict = new TextDict();
         ProductIdDict productIdDict = new ProductIdDict();
+        try (FileOutputStream reviewFieldsWriter = new FileOutputStream(new File(dir, FIELDS_PATH))) {
 
-        int reviewId = 1;
+            int reviewId = 1;
 
-        while ((section = parser.nextSection()) != null) {
-            // add text to dictionaries
-            textDict.addText(section[Parser.TEXT_IDX], reviewId);
-            productIdDict.addText(section[Parser.PRODUCT_ID_IDX], reviewId);
+            while ((section = parser.nextSection()) != null) {
+                // add text to dictionaries
+                textDict.addText(section[Parser.TEXT_IDX], reviewId);
+                productIdDict.addText(section[Parser.PRODUCT_ID_IDX], reviewId);
+                writeReviewFields(reviewFieldsWriter, section[Parser.HELPFULNESS_IDX], section[Parser.SCORE_IDX]);
 
-            reviewId++;
+                reviewId++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
         File textDictFile = new File(dir, TEXT_DICT_PATH);
         File textConcatenatedStrFile = new File(dir, TEXT_CONC_STR_PATH);
         File textInvertedIdxFile = new File(dir, TEXT_INV_IDX_PATH);
@@ -59,9 +64,18 @@ public class SlowIndexWriter {
         productIdDict.saveToDisk(productIdDictFile, productIdConcatenatedStrFile, productIdInvertedIdxFile);
     }
 
-    private void writeReviewFields(int reviewId, String[] fields) {
-//        byte[]
+    private void writeReviewFields(OutputStream outStream, String helpfullnes, String score) throws IOException {
+        int scoreAsInt = Math.round(Float.parseFloat(score));
+        String[] helpfulnessArray = helpfullnes.split("/");
+        int numerator = Integer.parseInt(helpfulnessArray[0]);
+        int denominator = Integer.parseInt(helpfulnessArray[1]);
 
+        ArrayList<Byte> bytesToWrite = new ArrayList<Byte>() {{
+            addAll(WebDataUtils.encode(numerator));
+            addAll(WebDataUtils.encode(denominator));
+            addAll(WebDataUtils.encode(scoreAsInt));
+        }};
+        WebDataUtils.writeBytes(outStream, bytesToWrite);
     }
 
     /**
