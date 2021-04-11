@@ -6,20 +6,23 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import static webdata.WebDataUtils.encode;
+import static webdata.WebDataUtils.writeBytes;
+
 /**
- * class representing a blocking dictionary as learned in class,
+ * class representing a k-1 out of k prefix front coding dictionary as learned in class,
  * with inverted index compressed with Length Precoded Varint code.
  *
  * @param <T> the type the review saved in.
  */
-abstract class BlockingDict<T> {
+abstract class kFrontDict<T> {
     private final static int BLOCK_SIZE = 4;
     HashMap<String, Entries.DictEntry<T>> dict;
 
     /**
      * Constructor
      */
-    BlockingDict() {
+    kFrontDict() {
         dict = new HashMap<>();
     }
 
@@ -53,7 +56,7 @@ abstract class BlockingDict<T> {
         int invertedPtr = 0;
         try (FileOutputStream dictWriter = new FileOutputStream(dictFile);
              BufferedWriter conStrWriter = new BufferedWriter(new FileWriter(concatenatedStrFile));
-             OutputStream invertedIdxWriter = new FileOutputStream(invertedIdxFile)) {
+             FileOutputStream invertedIdxWriter = new FileOutputStream(invertedIdxFile)) {
             String prevWord = "";
             for (int i = 0; i < keys.size(); i++) {
                 String word = keys.get(i);
@@ -128,48 +131,9 @@ abstract class BlockingDict<T> {
         writeBytes(dictWriter, bytesToWrite);
     }
 
-    /**
-     * writes the given bytes array to the given OutputStream
-     *
-     * @param outStream  output stream
-     * @param bytesArray bytes to write
-     * @return the number of bytes written to the file.
-     * @throws IOException
-     */
-    static int writeBytes(OutputStream outStream, ArrayList<Byte> bytesArray) throws IOException {
-        for (Byte elem : bytesArray) {
-            outStream.write(elem);
-        }
-        return bytesArray.size();
-    }
 
-    /**
-     * encodes given number with Length Precoded Varint code.
-     *
-     * @param num a number
-     * @return Array of bytes representing the codded number.
-     */
-    static ArrayList<Byte> encode(int num) {
-        ArrayList<Byte> res = new ArrayList<>();
 
-        if (num < 0x3f) {
-            res.add((byte) num);
-        } else if (num < 0x3fff) {
-            res.add((byte) ((num >>> 8) | 0x40));
-            res.add((byte) num);
-        } else if (num < Math.pow(2, 22) - 1) {
-            res.add((byte) ((num >>> 16) | 0x80));
-            res.add((byte) (num >>> 8));
-            res.add((byte) num);
-        } else if (num < 0x3fffff) {
-            res.add((byte) ((num >>> 24) | 0x80 + 0x40));
-            res.add((byte) (num >>> 16));
-            res.add((byte) (num >>> 8));
-            res.add((byte) num);
-        }
 
-        return res;
-    }
 
     /**
      * adds the given token to the dictionary.

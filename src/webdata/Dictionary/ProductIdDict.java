@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-public class ProductIdDict extends BlockingDict<Integer> {
+import static webdata.WebDataUtils.encode;
+import static webdata.WebDataUtils.writeBytes;
+
+public class ProductIdDict extends kFrontDict<Integer> {
 
     /**
      * adds the given token to the dictionary.

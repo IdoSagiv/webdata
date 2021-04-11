@@ -3,7 +3,10 @@ package webdata.Dictionary;
 import java.io.*;
 import java.util.*;
 
-public class TextDict extends BlockingDict<TokenReview> {
+import static webdata.WebDataUtils.encode;
+import static webdata.WebDataUtils.writeBytes;
+
+public class TextDict extends kFrontDict<TokenReview> {
 
     /**
      * adds the given token to the dictionary.
