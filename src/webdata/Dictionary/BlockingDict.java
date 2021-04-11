@@ -31,7 +31,7 @@ abstract class BlockingDict<T> {
      */
     public void addText(String text, int reviewId) {
         text = text.toLowerCase();
-        for (String token :  text.split("[^\\w]")) {
+        for (String token : text.split("[^\\w]")) {
             if (!token.isEmpty()) {
                 addToken(token, reviewId);
             }
@@ -54,11 +54,22 @@ abstract class BlockingDict<T> {
         try (FileOutputStream dictWriter = new FileOutputStream(dictFile);
              BufferedWriter conStrWriter = new BufferedWriter(new FileWriter(concatenatedStrFile));
              OutputStream invertedIdxWriter = new FileOutputStream(invertedIdxFile)) {
+            String prevWord = "";
             for (int i = 0; i < keys.size(); i++) {
                 String word = keys.get(i);
-                writeWordToDictionary(word, i, invertedPtr, stringPtr, dictWriter);
-                conStrWriter.write(word);
-                stringPtr += word.length();
+                String token = word;
+                int prefixSize = 0;
+                if (i % BLOCK_SIZE != 0) {
+                    prefixSize = commonPrefixSize(word, prevWord);
+                    token = word.substring(prefixSize);
+                }
+                prevWord = word;
+                if (i % BLOCK_SIZE == BLOCK_SIZE - 1) {
+                    prevWord = "";
+                }
+                writeWordToDictionary(word, i, invertedPtr, stringPtr, prefixSize, dictWriter);
+                conStrWriter.write(token);
+                stringPtr += token.length();
 
                 invertedPtr += writeInvertedIndexEntry(invertedIdxWriter, word);
             }
@@ -67,30 +78,52 @@ abstract class BlockingDict<T> {
         }
     }
 
+    private int commonPrefixSize(String str1, String str2) {
+        int prefixSize = 0;
+        for (int i = 0; i < Math.min(str1.length(), str2.length()); i++) {
+            if (str1.charAt(i) == str2.charAt(i)) {
+                prefixSize++;
+            } else {
+                break;
+            }
+        }
+        return prefixSize;
+    }
+
     /**
      * writes the given data to the dictionary file.
      *
-     * @param token       the token to write
-     * @param tokenIdx    the tokens serial index (in order to determine its position in the block)
+     * @param word        the token to write
+     * @param wordIdx     the tokens serial index (in order to determine its position in the block)
      * @param invertedPtr pointer to the tokens posting list in the inverted index
      * @param stringPtr   pointer to the tokens start in the concatenated string
      * @param dictWriter  the dictionary output file
      * @throws IOException
      */
-    private void writeWordToDictionary(String token, int tokenIdx, int invertedPtr, int stringPtr, FileOutputStream dictWriter) throws IOException {
+    private void writeWordToDictionary(String word, int wordIdx, int invertedPtr, int stringPtr, int prefixSize, FileOutputStream dictWriter) throws IOException {
         ArrayList<Byte> bytesToWrite = new ArrayList<Byte>() {{
-            addAll(encode(dict.get(token).tokenFreq));
+            addAll(encode(dict.get(word).tokenFreq));
             addAll(encode(invertedPtr));
         }};
 
-        if (tokenIdx % BLOCK_SIZE != BLOCK_SIZE - 1) {
-            // not the last in the block
-            bytesToWrite.addAll(encode(token.length()));
-            if (tokenIdx % BLOCK_SIZE == 0) {
-                // the first token in the block
-                bytesToWrite.addAll(encode(stringPtr));
-            }
+        if (wordIdx % BLOCK_SIZE == 0) {
+            bytesToWrite.addAll(encode(word.length()));
+            bytesToWrite.addAll(encode(stringPtr));
+        } else if (wordIdx % BLOCK_SIZE == BLOCK_SIZE - 1) {
+            bytesToWrite.addAll(encode(prefixSize));
+        } else {
+            bytesToWrite.addAll(encode(word.length()));
+            bytesToWrite.addAll(encode(prefixSize));
         }
+
+//        if (wordIdx % BLOCK_SIZE != BLOCK_SIZE - 1) {
+//            // not the last in the block
+//            bytesToWrite.addAll(encode(word.length()));
+//            if (wordIdx % BLOCK_SIZE == 0) {
+//                // the first token in the block
+//                bytesToWrite.addAll(encode(stringPtr));
+//            }
+//        }
 
         writeBytes(dictWriter, bytesToWrite);
     }

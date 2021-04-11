@@ -8,11 +8,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class main {
+
     public static void main(String[] args) throws IOException {
         SlowIndexWriter writer = new SlowIndexWriter();
         System.out.println("start");
         writer.slowWrite("datasets\\100.txt", "indexFiles");
-
 //        writer.removeIndex("indexFiles");
 
 //        File concatenatedStrFile = new File("C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\webdata", "concatenatedString.txt");
@@ -31,6 +31,7 @@ public class main {
 //            System.out.println(Integer.toBinaryString(b & 255 | 256).substring(1));
 //        System.out.println(Paths.get("C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Post PC\\projects").toAbsolutePath().toString());
 //        }
+
     }
 
 
