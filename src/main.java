@@ -14,7 +14,7 @@ public class main {
     public static void main(String[] args) throws IOException {
         SlowIndexWriter writer = new SlowIndexWriter();
         System.out.println("start");
-        writer.slowWrite("datasets\\1000.txt", "indexFiles");
+        writer.slowWrite("datasets\\test.txt", "indexFiles");
         IndexReader reader = new IndexReader("indexFiles");
         int reviewId = 1;
         System.out.println("helpfulness: " + reader.getReviewHelpfulnessNumerator(reviewId) + " / " + reader.getReviewHelpfulnessDenominator(reviewId));
@@ -24,6 +24,8 @@ public class main {
 
         System.out.println("total num of tokens: " + reader.getTokenSizeOfReviews());
         System.out.println("total num of reviews: " + reader.getNumberOfReviews());
+        System.out.println(" " + reader.searchInBlock(1,"helllo"));
+
 
 
 //        writer.removeIndex("indexFiles");
