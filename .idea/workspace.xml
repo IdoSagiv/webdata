@@ -2,29 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/productIdConcatenatedString.txt" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/productIdConcatenatedString.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/productIdDictFile.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/productIdDictFile.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/productIdInvertedIndex.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/productIdInvertedIndex.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/reviewsFields.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/reviewsFields.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/statistics.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/statistics.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/textConcatenatedString.txt" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/textConcatenatedString.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/textDictFile.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/textDictFile.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/textInvertedIndex.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/textInvertedIndex.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/ProductIdDict.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/ProductIdDict.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextDict.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextDict.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/kFrontDict.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/kFrontDict.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/IndexReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/IndexReader.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Parser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/ProductIdDict.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/ProductIdDict.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/TextDict.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/TextDict.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/kFrontDict.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/KFrontDict.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webdata/IndexReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/IndexReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/SlowIndexWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/SlowIndexWriter.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,8 +16,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
+            <state relative-caret-position="408">
+              <caret line="47" column="39" selection-start-line="47" selection-end-line="48" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -47,11 +25,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/webdata/IndexReader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="36" column="33" selection-start-line="36" selection-start-column="33" selection-end-line="36" selection-end-column="33" />
+            <state relative-caret-position="78">
+              <caret line="255" column="12" lean-forward="true" selection-start-line="255" selection-start-column="12" selection-end-line="257" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#4884#4885#0" expanded="true" />
@@ -63,7 +41,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/webdata/SlowIndexWriter.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-27">
@@ -134,6 +112,8 @@
       <find>token</find>
       <find>removing</find>
       <find>encode</find>
+      <find>first</find>
+      <find>word</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -164,11 +144,11 @@
         <option value="$PROJECT_DIR$/src/webdata/WebDataUtils.java" />
         <option value="$PROJECT_DIR$/src/webdata/Dictionary/kFrontDict.java" />
         <option value="$PROJECT_DIR$/src/webdata/Parser.java" />
-        <option value="$PROJECT_DIR$/src/main.java" />
-        <option value="$PROJECT_DIR$/src/webdata/IndexReader.java" />
         <option value="$PROJECT_DIR$/src/webdata/Dictionary/TextDict.java" />
         <option value="$PROJECT_DIR$/src/webdata/Dictionary/KFrontDict.java" />
         <option value="$PROJECT_DIR$/src/webdata/SlowIndexWriter.java" />
+        <option value="$PROJECT_DIR$/src/main.java" />
+        <option value="$PROJECT_DIR$/src/webdata/IndexReader.java" />
       </list>
     </option>
   </component>
@@ -222,7 +202,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1618245006755" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1618248579894" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -276,7 +256,7 @@
       <window_info id="Capture Tool" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Image Layers" order="4" />
-      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.110341154" />
+      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.110341154" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="0" sideWeight="0.49946696" weight="0.15926327" />
       <window_info anchor="bottom" id="Event Log" order="1" sideWeight="0.50053304" side_tool="true" weight="0.24593717" />
@@ -284,7 +264,7 @@
       <window_info anchor="bottom" id="Version Control" order="3" />
       <window_info anchor="bottom" id="Message" order="4" />
       <window_info anchor="bottom" id="Find" order="5" weight="0.32936078" />
-      <window_info anchor="bottom" id="Run" order="6" visible="true" weight="0.38678223" />
+      <window_info anchor="bottom" id="Run" order="6" weight="0.2426869" />
       <window_info anchor="bottom" id="Debug" order="7" weight="0.14842904" />
       <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
@@ -341,18 +321,6 @@
           <line>41</line>
           <properties />
           <option name="timeStamp" value="39" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/webdata/IndexReader.java</url>
-          <line>158</line>
-          <properties />
-          <option name="timeStamp" value="43" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/webdata/IndexReader.java</url>
-          <line>163</line>
-          <properties />
-          <option name="timeStamp" value="44" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -507,30 +475,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/webdata/IndexReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="36" column="33" selection-start-line="36" selection-start-column="33" selection-end-line="36" selection-end-column="33" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4884#4885#0" expanded="true" />
-            <element signature="e#5040#5041#0" expanded="true" />
-            <element signature="e#5250#5251#0" expanded="true" />
-            <element signature="e#5582#5583#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/webdata/Dictionary/TextDict.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="364">
@@ -560,6 +504,30 @@
           <caret line="41" selection-start-line="41" selection-end-line="41" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="47" column="39" selection-start-line="47" selection-end-line="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webdata/IndexReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="255" column="12" lean-forward="true" selection-start-line="255" selection-start-column="12" selection-end-line="257" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4884#4885#0" expanded="true" />
+            <element signature="e#5040#5041#0" expanded="true" />
+            <element signature="e#5250#5251#0" expanded="true" />
+            <element signature="e#5582#5583#0" expanded="true" />
           </folding>
         </state>
       </provider>

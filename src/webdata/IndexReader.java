@@ -226,16 +226,84 @@ public class IndexReader {
         }
     }
 
+    /**
+     * @param blockNum
+     * @param token
+     * @return a pointer to the token's position in the dictionary or -1 if the token is not in the block
+     */
+    private int searchInBlock(int blockNum, String token) {
+        //TODO: what happens in the last block
 
-//    findToken(String token) ->
-//    pointer to
-//    the tokens
-//    start in
-//    the dict
+
+        int wordPtr = (blockNum * KFrontDict.BLOCK_LENGTH);
+        String curWord = readFirstToken(blockNum);
+        // if it's the first word in the block
+        if (curWord.equals(token)) {
+            return wordPtr;
+        }
+        int tokenId = blockNum * KFrontDict.TOKENS_IN_BLOCK + 1;
+
+        wordPtr = wordPtr + KFrontDict.TOKEN_FREQ_LENGTH + KFrontDict.INVERTED_PTR_LENGTH + KFrontDict.TOKEN_LENGTH_LENGTH
+                + KFrontDict.CONC_STR_PTR_LENGTH;
+        int concStrPtr = randomAccessReadInt(textDictFile,
+                wordPtr + KFrontDict.TOKEN_FREQ_LENGTH + KFrontDict.INVERTED_PTR_LENGTH + KFrontDict.TOKEN_LENGTH_LENGTH, KFrontDict.CONC_STR_PTR_LENGTH);
+
+        concStrPtr += curWord.length();
+        String prevWord;
+        long curLength;
+        int curPrefSize;
+
+        // 2nd and third words in block
+        for (int i = 1; i < KFrontDict.TOKENS_IN_BLOCK - 1 && tokenId < differentTokenCounter; i++) {
+
+            prevWord = curWord;
+            curLength = randomAccessReadInt(textDictFile,
+                    wordPtr + KFrontDict.TOKEN_FREQ_LENGTH + KFrontDict.INVERTED_PTR_LENGTH, KFrontDict.TOKEN_LENGTH_LENGTH);
+            curPrefSize = randomAccessReadInt(textDictFile,
+                    wordPtr + KFrontDict.TOKEN_FREQ_LENGTH + KFrontDict.INVERTED_PTR_LENGTH + KFrontDict.TOKEN_LENGTH_LENGTH,
+                    KFrontDict.PREFIX_SIZE_LENGTH);
+            String suffix = randomAccessReadStr(textConcatenatedStrFile, concStrPtr, (int) curLength - curPrefSize);
+            concStrPtr += suffix.length();
+            curWord = prevWord.substring(0, curPrefSize) + suffix;
+
+            if (curWord.equals(token)) {
+                return wordPtr;
+            }
+            wordPtr += KFrontDict.TOKEN_FREQ_LENGTH + KFrontDict.INVERTED_PTR_LENGTH + KFrontDict.TOKEN_LENGTH_LENGTH
+                    + KFrontDict.CONC_STR_PTR_LENGTH;
+            tokenId++;
+        }
+
+
+        if (tokenId >= differentTokenCounter) {
+            // there is no more tokens
+            return -1;
+        } else if (tokenId == differentTokenCounter - 1) {
+            // this is the last token
+            curLength = textConcatenatedStrFile.length() - concStrPtr;
+        } else {
+            // there is at least one more block
+            curLength = randomAccessReadInt(textDictFile,
+                    wordPtr + 2 * KFrontDict.TOKEN_FREQ_LENGTH + 2 * KFrontDict.INVERTED_PTR_LENGTH +
+                            KFrontDict.PREFIX_SIZE_LENGTH + KFrontDict.TOKEN_LENGTH_LENGTH, KFrontDict.CONC_STR_PTR_LENGTH) - concStrPtr;
+        }
+
+        prevWord = curWord;
+        //TODO: what happens if it's the last block?
+
+        curPrefSize = randomAccessReadInt(textDictFile,
+                wordPtr + KFrontDict.TOKEN_FREQ_LENGTH + KFrontDict.INVERTED_PTR_LENGTH, KFrontDict.PREFIX_SIZE_LENGTH);
+        String suffix = randomAccessReadStr(textConcatenatedStrFile, concStrPtr, (int) curLength - curPrefSize);
+        curWord = prevWord.substring(0, curPrefSize) + suffix;
+
+        if (curWord.equals(token)) {
+            return wordPtr;
+        }
+        return -1;
+    }
+
+
 //
-//    binarySearch()->
-//    pointer to
-//    the block
 //
 //    searchInBlock(blockNum, token)->
 //    pointer to
