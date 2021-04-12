@@ -156,12 +156,20 @@ public class IndexReader {
         return null;
     }
 
-
+    /**
+     * @param token token to search.
+     * @return the relevant block index to search the given token in.
+     */
     private int findTokensBlock(String token) {
         return dictBinarySearch(0, (int) Math.ceil((double) differentTokenCounter / KFrontDict.TOKENS_IN_BLOCK) - 1, token);
     }
 
-
+    /**
+     * @param left  lower bound on the blocks to search in.
+     * @param right upper bound on the blocks to search in.
+     * @param token token to search for.
+     * @return the relevant block index to search the given token in.
+     */
     private int dictBinarySearch(int left, int right, String token) {
         if (right == left) {
             return right;
@@ -175,6 +183,10 @@ public class IndexReader {
         }
     }
 
+    /**
+     * @param blockNum block index.
+     * @return the first token in the given block.
+     */
     private String readFirstToken(int blockNum) {
         int pos = (blockNum * KFrontDict.BLOCK_LENGTH) + KFrontDict.TOKEN_FREQ_LENGTH + KFrontDict.INVERTED_PTR_LENGTH;
         int tokenLength = randomAccessReadInt(textDictFile, pos, KFrontDict.TOKEN_LENGTH_LENGTH);
@@ -200,7 +212,14 @@ public class IndexReader {
 //        }
 //    }
 
+    /**
+     * @param file  file to read from.
+     * @param start starting byte number.
+     * @param n     number of bytes to read.
+     * @return integer containing the read bytes, or -1 if exception occurred.
+     */
     private int randomAccessReadInt(File file, long start, int n) {
+        assert (start + n < file.length() && n > 0 && n <= 4);
         try (RandomAccessFile reader = new RandomAccessFile(file, "r")) {
             reader.seek(start);
             int res = 0;
@@ -214,7 +233,14 @@ public class IndexReader {
         }
     }
 
+    /**
+     * @param file  file to read from.
+     * @param start starting byte number.
+     * @param n     number of bytes to read.
+     * @return String containing the read bytes, or null if exception occurred.
+     */
     private String randomAccessReadStr(File file, long start, int n) {
+        assert (start + n < file.length());
         try (RandomAccessFile reader = new RandomAccessFile(file, "r")) {
             reader.seek(start);
             String res = "";
@@ -229,9 +255,9 @@ public class IndexReader {
     }
 
     /**
-     * @param blockNum
-     * @param token
-     * @return a pointer to the token's position in the dictionary or -1 if the token is not in the block
+     * @param blockNum block to search in.
+     * @param token    token to search for.
+     * @return a pointer to the token's position in the dictionary or -1 if the token is not in the block.
      */
     public int searchInBlock(int blockNum, String token) {
         int wordPtr = (blockNum * KFrontDict.BLOCK_LENGTH);
