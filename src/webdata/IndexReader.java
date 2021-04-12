@@ -50,7 +50,7 @@ public class IndexReader {
             String productId = "";
             reviewsFieldsReader.skip(startingPos);
             for (int i = 0; i < SlowIndexWriter.PRODUCT_ID_LENGTH; i++) {
-                productId = productId.concat((String.valueOf((char)reviewsFieldsReader.read())));
+                productId = productId.concat((String.valueOf((char) reviewsFieldsReader.read())));
             }
             return productId;
         } catch (IOException e) {
@@ -64,17 +64,21 @@ public class IndexReader {
      * Returns -1 if there is no review with the given identifier
      */
     public int getReviewScore(int reviewId) {
-        return getReviewField(reviewId, SlowIndexWriter.SCORE_OFFSET);
+        return getReviewField(reviewId, SlowIndexWriter.SCORE_OFFSET, SlowIndexWriter.SCORE_LENGTH);
     }
 
-    private int getReviewField(int reviewId, int offset) {
+    private int getReviewField(int reviewId, int offset, int length) {
         if (reviewId < 1 || reviewId > reviewsNum) {
             return -1;
         }
         long startingPos = (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK + offset;
         try (FileInputStream reviewsFieldsReader = new FileInputStream(reviewFieldsFile)) {
             reviewsFieldsReader.skip(startingPos);
-            return reviewsFieldsReader.read();
+            int res = 0;
+            for (int i = 0; i < length; i++) {
+                res = (res << 8) | reviewsFieldsReader.read();
+            }
+            return res;
         } catch (IOException e) {
             e.printStackTrace();
             return -1;
@@ -87,7 +91,7 @@ public class IndexReader {
      * Returns -1 if there is no review with the given identifier
      */
     public int getReviewHelpfulnessNumerator(int reviewId) {
-        return getReviewField(reviewId, SlowIndexWriter.NUMERATOR_OFFSET);
+        return getReviewField(reviewId, SlowIndexWriter.NUMERATOR_OFFSET, SlowIndexWriter.NUMERATOR_LENGTH);
     }
 
     /**
@@ -95,7 +99,7 @@ public class IndexReader {
      * Returns -1 if there is no review with the given identifier
      */
     public int getReviewHelpfulnessDenominator(int reviewId) {
-        return getReviewField(reviewId, SlowIndexWriter.DENOMINATOR_OFFSET);
+        return getReviewField(reviewId, SlowIndexWriter.DENOMINATOR_OFFSET, SlowIndexWriter.DENOMINATOR_LENGTH);
     }
 
     /**
@@ -103,7 +107,7 @@ public class IndexReader {
      * Returns -1 if there is no review with the given identifier
      */
     public int getReviewLength(int reviewId) {
-        return getReviewField(reviewId, SlowIndexWriter.TOKEN_COUNTER_OFFSET);
+        return getReviewField(reviewId, SlowIndexWriter.TOKEN_COUNTER_OFFSET, SlowIndexWriter.TOKEN_COUNTER_LENGTH);
     }
 
     /**

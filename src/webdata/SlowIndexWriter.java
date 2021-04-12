@@ -8,12 +8,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class SlowIndexWriter {
-    static final int FIELDS_BLOCK = 14;
+    static final int FIELDS_BLOCK = 15;
     static final int NUMERATOR_OFFSET = 0;
+    static final int NUMERATOR_LENGTH = 1;
     static final int DENOMINATOR_OFFSET = 1;
+    static final int DENOMINATOR_LENGTH = 1;
     static final int SCORE_OFFSET = 2;
+    static final int SCORE_LENGTH = 1;
     static final int TOKEN_COUNTER_OFFSET = 3;
-    static final int PRODUCT_ID_OFFSET = 4;
+    static final int TOKEN_COUNTER_LENGTH = 2;
+    static final int PRODUCT_ID_OFFSET = 5;
     static final int PRODUCT_ID_LENGTH = 10;
 
 
@@ -69,8 +73,9 @@ public class SlowIndexWriter {
         String[] helpfulnessArray = helpfulness.split("/");
         int numerator = Integer.parseInt(helpfulnessArray[0]);
         int denominator = Integer.parseInt(helpfulnessArray[1]);
-        //TODO: token counter needs to be int? if we change this, update the offset constants
-        byte[] bytesToWrite = {(byte) (numerator), (byte) (denominator), (byte) (scoreAsInt), (byte) tokenCounter};
+
+        byte[] bytesToWrite = {(byte) (numerator), (byte) (denominator), (byte) (scoreAsInt),
+                (byte) (tokenCounter >>> 8), (byte) tokenCounter};
         outStream.write(bytesToWrite);
         outStream.write(productId.getBytes());
     }

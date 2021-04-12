@@ -1,13 +1,13 @@
 package webdata.Dictionary;
 
+import webdata.WebDataUtils;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import static webdata.WebDataUtils.encode;
-import static webdata.WebDataUtils.writeBytes;
 
 /**
  * class representing a k-1 out of k prefix front coding dictionary as learned in class,
@@ -38,7 +38,7 @@ abstract class kFrontDict<T> {
         for (String token : text.split("[^\\w]")) {
             if (!token.isEmpty()) {
                 addToken(token, reviewId);
-                counter ++;
+                counter++;
             }
         }
         return counter;
@@ -57,7 +57,7 @@ abstract class kFrontDict<T> {
 
         int stringPtr = 0;
         int invertedPtr = 0;
-        try (FileOutputStream dictWriter = new FileOutputStream(dictFile);
+        try (DataOutputStream dictWriter = new DataOutputStream(new FileOutputStream(dictFile));
              BufferedWriter conStrWriter = new BufferedWriter(new FileWriter(concatenatedStrFile));
              FileOutputStream invertedIdxWriter = new FileOutputStream(invertedIdxFile)) {
             String prevWord = "";
@@ -106,36 +106,23 @@ abstract class kFrontDict<T> {
      * @param dictWriter  the dictionary output file
      * @throws IOException
      */
-    private void writeWordToDictionary(String word, int wordIdx, int invertedPtr, int stringPtr, int prefixSize, FileOutputStream dictWriter) throws IOException {
-        ArrayList<Byte> bytesToWrite = new ArrayList<Byte>() {{
-            addAll(encode(dict.get(word).tokenFreq));
-            addAll(encode(invertedPtr));
-        }};
+    private void writeWordToDictionary(String word, int wordIdx, int invertedPtr, int stringPtr, int prefixSize, DataOutputStream dictWriter) throws IOException {
+        dictWriter.writeInt(dict.get(word).tokenFreq);
+        dictWriter.writeInt(invertedPtr);
 
         if (wordIdx % BLOCK_SIZE == 0) {
-            bytesToWrite.addAll(encode(word.length()));
-            bytesToWrite.addAll(encode(stringPtr));
+            // the first in the block
+            dictWriter.write((byte)word.length());
+            dictWriter.writeInt(stringPtr);
         } else if (wordIdx % BLOCK_SIZE == BLOCK_SIZE - 1) {
-            bytesToWrite.addAll(encode(prefixSize));
+            // the last in the block
+            dictWriter.write((byte)prefixSize);
         } else {
-            bytesToWrite.addAll(encode(word.length()));
-            bytesToWrite.addAll(encode(prefixSize));
+            // the rest of the block
+            dictWriter.write((byte)word.length());
+            dictWriter.write((byte)prefixSize);
         }
-
-//        if (wordIdx % BLOCK_SIZE != BLOCK_SIZE - 1) {
-//            // not the last in the block
-//            bytesToWrite.addAll(encode(word.length()));
-//            if (wordIdx % BLOCK_SIZE == 0) {
-//                // the first token in the block
-//                bytesToWrite.addAll(encode(stringPtr));
-//            }
-//        }
-
-        writeBytes(dictWriter, bytesToWrite);
     }
-
-
-
 
 
     /**

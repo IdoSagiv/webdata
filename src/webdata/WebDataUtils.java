@@ -23,7 +23,6 @@ public class WebDataUtils {
 
 
 
-
     /**
      * encodes given number with Length Precoded Varint code.
      *
@@ -38,11 +37,11 @@ public class WebDataUtils {
         } else if (num < 0x3fff) {
             res.add((byte) ((num >>> 8) | 0x40));
             res.add((byte) num);
-        } else if (num < Math.pow(2, 22) - 1) {
+        } else if (num < 0x3fffff) {
             res.add((byte) ((num >>> 16) | 0x80));
             res.add((byte) (num >>> 8));
             res.add((byte) num);
-        } else if (num < 0x3fffff) {
+        } else if (num < 0x3fffffff) {
             res.add((byte) ((num >>> 24) | 0x80 + 0x40));
             res.add((byte) (num >>> 16));
             res.add((byte) (num >>> 8));
