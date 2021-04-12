@@ -1,7 +1,5 @@
 package webdata.Dictionary;
 
-import webdata.WebDataUtils;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,14 +13,21 @@ import java.util.List;
  *
  * @param <T> the type the review saved in.
  */
-abstract class kFrontDict<T> {
-    private final static int BLOCK_SIZE = 4;
+public abstract class KFrontDict<T> {
+    public final static int TOKENS_IN_BLOCK = 4;
+    public final static int TOKEN_FREQ_LENGTH = 4;
+    public final static int INVERTED_PTR_LENGTH = 4;
+    public final static int TOKEN_LENGTH_LENGTH = 1;
+    public final static int PREFIX_SIZE_LENGTH = 1;
+    public final static int CONC_STR_PTR_LENGTH = 4;
+    public final static int BLOCK_LENGTH = TOKENS_IN_BLOCK * (TOKEN_FREQ_LENGTH + INVERTED_PTR_LENGTH)
+            + (TOKENS_IN_BLOCK - 1) * (TOKEN_LENGTH_LENGTH + PREFIX_SIZE_LENGTH) + CONC_STR_PTR_LENGTH;
     HashMap<String, Entries.DictEntry<T>> dict;
 
     /**
      * Constructor
      */
-    kFrontDict() {
+    KFrontDict() {
         dict = new HashMap<>();
     }
 
@@ -65,12 +70,12 @@ abstract class kFrontDict<T> {
                 String word = keys.get(i);
                 String token = word;
                 int prefixSize = 0;
-                if (i % BLOCK_SIZE != 0) {
+                if (i % TOKENS_IN_BLOCK != 0) {
                     prefixSize = commonPrefixSize(word, prevWord);
                     token = word.substring(prefixSize);
                 }
                 prevWord = word;
-                if (i % BLOCK_SIZE == BLOCK_SIZE - 1) {
+                if (i % TOKENS_IN_BLOCK == TOKENS_IN_BLOCK - 1) {
                     prevWord = "";
                 }
                 writeWordToDictionary(word, i, invertedPtr, stringPtr, prefixSize, dictWriter);
@@ -110,18 +115,22 @@ abstract class kFrontDict<T> {
         dictWriter.writeInt(dict.get(word).tokenFreq);
         dictWriter.writeInt(invertedPtr);
 
-        if (wordIdx % BLOCK_SIZE == 0) {
+        if (wordIdx % TOKENS_IN_BLOCK == 0) {
             // the first in the block
-            dictWriter.write((byte)word.length());
+            dictWriter.write((byte) word.length());
             dictWriter.writeInt(stringPtr);
-        } else if (wordIdx % BLOCK_SIZE == BLOCK_SIZE - 1) {
+        } else if (wordIdx % TOKENS_IN_BLOCK == TOKENS_IN_BLOCK - 1) {
             // the last in the block
-            dictWriter.write((byte)prefixSize);
+            dictWriter.write((byte) prefixSize);
         } else {
             // the rest of the block
-            dictWriter.write((byte)word.length());
-            dictWriter.write((byte)prefixSize);
+            dictWriter.write((byte) word.length());
+            dictWriter.write((byte) prefixSize);
         }
+    }
+
+    public int getNumOfTokens() {
+        return dict.size();
     }
 
 

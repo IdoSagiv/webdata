@@ -27,20 +27,29 @@ class Parser {
         String line;
         String[] section = new String[4];
         try {
+            int status = 0;
             while ((line = reader.readLine()) != null) {
                 if (line.isEmpty()) {
-                    return section;
+                    break;
                 }
                 String subsection = line.substring(line.indexOf(':') + 2);
                 if (line.startsWith("product/productId")) {
+                    status = status | 1;
                     section[PRODUCT_ID_IDX] = subsection;
                 } else if (line.startsWith("review/helpfulness")) {
+                    status = status | 2;
                     section[HELPFULNESS_IDX] = subsection;
                 } else if (line.startsWith("review/score")) {
+                    status = status | 4;
                     section[SCORE_IDX] = subsection;
                 } else if (line.startsWith("review/text")) {
+                    status = status | 8;
                     section[TEXT_IDX] = subsection;
                 }
+            }
+            if (status == 15) {
+                // all fields detected
+                return section;
             }
             return null;
         } catch (IOException e) {

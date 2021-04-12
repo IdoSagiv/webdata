@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import static webdata.WebDataUtils.encode;
 import static webdata.WebDataUtils.writeBytes;
 
-public class ProductIdDict extends kFrontDict<Integer> {
+public class ProductIdDict extends KFrontDict<Integer> {
 
     /**
      * adds the given token to the dictionary.

@@ -38,7 +38,7 @@ public class SlowIndexWriter {
         ProductIdDict productIdDict = new ProductIdDict();
         try (FileOutputStream reviewFieldsWriter = new FileOutputStream(new File(dir, WebDataUtils.FIELDS_PATH));
              DataOutputStream statisticsWriter = new DataOutputStream(new FileOutputStream(new File(dir, WebDataUtils.STATISTICS_PATH)))) {
-            int tokenCounter = 0;
+            int totalTokenCounter = 0;
             int reviewId = 1;
 
             while ((section = parser.nextSection()) != null) {
@@ -46,11 +46,12 @@ public class SlowIndexWriter {
                 int reviewTokenCounter = textDict.addText(section[Parser.TEXT_IDX], reviewId);
                 productIdDict.addText(section[Parser.PRODUCT_ID_IDX], reviewId);
                 writeReviewFields(reviewFieldsWriter, section[Parser.HELPFULNESS_IDX], section[Parser.SCORE_IDX], reviewTokenCounter, section[Parser.PRODUCT_ID_IDX]);
-                tokenCounter += reviewTokenCounter;
+                totalTokenCounter += reviewTokenCounter;
                 reviewId++;
             }
             statisticsWriter.writeInt(reviewId - 1);
-            statisticsWriter.writeInt(tokenCounter);
+            statisticsWriter.writeInt(totalTokenCounter);
+            statisticsWriter.writeInt(textDict.getNumOfTokens());
         } catch (IOException e) {
             e.printStackTrace();
         }

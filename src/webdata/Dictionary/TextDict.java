@@ -6,7 +6,7 @@ import java.util.*;
 import static webdata.WebDataUtils.encode;
 import static webdata.WebDataUtils.writeBytes;
 
-public class TextDict extends kFrontDict<TokenReview> {
+public class TextDict extends KFrontDict<TokenReview> {
 
     /**
      * adds the given token to the dictionary.
@@ -54,6 +54,5 @@ public class TextDict extends kFrontDict<TokenReview> {
         }
         return bytesWritten;
     }
-
 
 }

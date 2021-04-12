@@ -1,5 +1,7 @@
 package webdata;
 
+import webdata.Dictionary.KFrontDict;
+
 import java.io.*;
 import java.util.Enumeration;
 
@@ -15,7 +17,8 @@ public class IndexReader {
     private final File reviewFieldsFile;
 
     private int reviewsNum;
-    private int tokenCounter;
+    private int totalTokenCounter;
+    private int differentTokenCounter;
 
     /**
      * Creates an IndexReader which will read from the given directory
@@ -30,7 +33,8 @@ public class IndexReader {
         reviewFieldsFile = new File(dir, WebDataUtils.FIELDS_PATH);
         try (DataInputStream statisticsReader = new DataInputStream(new FileInputStream(new File(dir, WebDataUtils.STATISTICS_PATH)))) {
             reviewsNum = statisticsReader.readInt();
-            tokenCounter = statisticsReader.readInt();
+            totalTokenCounter = statisticsReader.readInt();
+            differentTokenCounter = statisticsReader.readInt();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,17 +50,7 @@ public class IndexReader {
             return null;
         }
         long startingPos = (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK + SlowIndexWriter.PRODUCT_ID_OFFSET;
-        try (FileInputStream reviewsFieldsReader = new FileInputStream(reviewFieldsFile)) {
-            String productId = "";
-            reviewsFieldsReader.skip(startingPos);
-            for (int i = 0; i < SlowIndexWriter.PRODUCT_ID_LENGTH; i++) {
-                productId = productId.concat((String.valueOf((char) reviewsFieldsReader.read())));
-            }
-            return productId;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return randomAccessReadStr(reviewFieldsFile, startingPos, SlowIndexWriter.PRODUCT_ID_LENGTH);
     }
 
     /**
@@ -67,23 +61,13 @@ public class IndexReader {
         return getReviewField(reviewId, SlowIndexWriter.SCORE_OFFSET, SlowIndexWriter.SCORE_LENGTH);
     }
 
+
     private int getReviewField(int reviewId, int offset, int length) {
         if (reviewId < 1 || reviewId > reviewsNum) {
             return -1;
         }
         long startingPos = (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK + offset;
-        try (FileInputStream reviewsFieldsReader = new FileInputStream(reviewFieldsFile)) {
-            reviewsFieldsReader.skip(startingPos);
-            int res = 0;
-            for (int i = 0; i < length; i++) {
-                res = (res << 8) | reviewsFieldsReader.read();
-            }
-            return res;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return -1;
-        }
-
+        return randomAccessReadInt(reviewFieldsFile, startingPos, length);
     }
 
     /**
@@ -115,6 +99,8 @@ public class IndexReader {
      * Returns 0 if there are no reviews containing this token
      */
     public int getTokenFrequency(String token) {
+
+
         // the length of the posting list
         return 0;
     }
@@ -155,7 +141,7 @@ public class IndexReader {
      * (Tokens should be counted as many times as they appear)
      */
     public int getTokenSizeOfReviews() {
-        return tokenCounter;
+        return totalTokenCounter;
     }
 
     /**
@@ -167,4 +153,106 @@ public class IndexReader {
     public Enumeration<Integer> getProductReviews(String productId) {
         return null;
     }
+
+
+    private int findTokensBlock(String token) {
+        return dictBinarySearch(0, (int) Math.ceil((double) differentTokenCounter / KFrontDict.TOKENS_IN_BLOCK) - 1, token);
+    }
+
+
+    private int dictBinarySearch(int left, int right, String token) {
+        if (right == left) {
+            return right;
+        }
+        int mid = left + (int) Math.ceil((double) (right - left) / 2);
+
+        if (readFirstToken(mid).compareTo(token) > 0) {
+            return dictBinarySearch(left, mid - 1, token);
+        } else {
+            return dictBinarySearch(mid, right, token);
+        }
+    }
+
+    private String readFirstToken(int blockNum) {
+        int pos = (blockNum * KFrontDict.BLOCK_LENGTH) + KFrontDict.TOKEN_FREQ_LENGTH + KFrontDict.INVERTED_PTR_LENGTH;
+        int tokenLength = randomAccessReadInt(textDictFile, pos, KFrontDict.TOKEN_LENGTH_LENGTH);
+        pos += KFrontDict.TOKEN_LENGTH_LENGTH;
+        int strPtr = randomAccessReadInt(textDictFile, pos, KFrontDict.CONC_STR_PTR_LENGTH);
+        return randomAccessReadStr(textConcatenatedStrFile, strPtr, tokenLength);
+    }
+
+//    private String getToken(int blockNum, int blockOffset, RandomAccessFile dict, RandomAccessFile concStr) {
+//
+//
+//        try {
+//            int pos = blockNum * KFrontDict.BLOCK_LENGTH + KFrontDict.TOKEN_FREQ_LENGTH + KFrontDict.INVERTED_PTR_LENGTH;
+//            int tokenLength = randomAccessReadInt(dict, pos, KFrontDict.TOKEN_LENGTH_LENGTH);
+//            pos += KFrontDict.TOKEN_LENGTH_LENGTH;
+//            int strPtr = randomAccessReadInt(dict, pos, KFrontDict.CONC_STR_PTR_LENGTH);
+//            pos += KFrontDict.CONC_STR_PTR_LENGTH;
+//            String currWord = randomAccessReadStr(concStr, strPtr, tokenLength);
+//            return currWord;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
+
+    private int randomAccessReadInt(File file, long start, int n) {
+        try (RandomAccessFile reader = new RandomAccessFile(file, "r")) {
+            reader.seek(start);
+            int res = 0;
+            for (int i = 0; i < n; i++) {
+                res = (res << 8) | reader.read();
+            }
+            return res;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    private String randomAccessReadStr(File file, long start, int n) {
+        try (RandomAccessFile reader = new RandomAccessFile(file, "r")) {
+            reader.seek(start);
+            String res = "";
+            for (int i = 0; i < n; i++) {
+                res = res.concat((String.valueOf((char) reader.read())));
+            }
+            return res;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+//    findToken(String token) ->
+//    pointer to
+//    the tokens
+//    start in
+//    the dict
+//
+//    binarySearch()->
+//    pointer to
+//    the block
+//
+//    searchInBlock(blockNum, token)->
+//    pointer to
+//    the tokens
+//    start in
+//    the dict
+//
+//    getToken(blockNum, offset)->
+//    token as
+//    str
+//
+//
+//
+//
+//    for i=0to 4:
+//            if token ==
+//
+//    getToken():
+//            if i
 }
