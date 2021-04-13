@@ -24,14 +24,14 @@ public class IndexReader {
      * Creates an IndexReader which will read from the given directory
      */
     public IndexReader(String dir) {
-        textDictFile = new File(dir, WebDataUtils.TEXT_DICT_PATH);
-        textConcatenatedStrFile = new File(dir, WebDataUtils.TEXT_CONC_STR_PATH);
-        textInvertedIdxFile = new File(dir, WebDataUtils.TEXT_INV_IDX_PATH);
-        productIdDictFile = new File(dir, WebDataUtils.PRODUCT_ID_DICT_PATH);
-        productIdConcatenatedStrFile = new File(dir, WebDataUtils.PRODUCT_ID_CONC_STR_PATH);
-        productIdInvertedIdxFile = new File(dir, WebDataUtils.PRODUCT_ID_INV_IDX_PATH);
-        reviewFieldsFile = new File(dir, WebDataUtils.FIELDS_PATH);
-        try (DataInputStream statisticsReader = new DataInputStream(new FileInputStream(new File(dir, WebDataUtils.STATISTICS_PATH)))) {
+        textDictFile = new File(dir, SlowIndexWriter.TEXT_DICT_PATH);
+        textConcatenatedStrFile = new File(dir, SlowIndexWriter.TEXT_CONC_STR_PATH);
+        textInvertedIdxFile = new File(dir, SlowIndexWriter.TEXT_INV_IDX_PATH);
+        productIdDictFile = new File(dir, SlowIndexWriter.PRODUCT_ID_DICT_PATH);
+        productIdConcatenatedStrFile = new File(dir, SlowIndexWriter.PRODUCT_ID_CONC_STR_PATH);
+        productIdInvertedIdxFile = new File(dir, SlowIndexWriter.PRODUCT_ID_INV_IDX_PATH);
+        reviewFieldsFile = new File(dir, SlowIndexWriter.FIELDS_PATH);
+        try (DataInputStream statisticsReader = new DataInputStream(new FileInputStream(new File(dir, SlowIndexWriter.STATISTICS_PATH)))) {
             reviewsNum = statisticsReader.readInt();
             totalTokenCounter = statisticsReader.readInt();
             differentTokenCounter = statisticsReader.readInt();
@@ -49,7 +49,7 @@ public class IndexReader {
         if (reviewId < 1 || reviewId > reviewsNum) {
             return null;
         }
-        long startingPos = (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK + SlowIndexWriter.PRODUCT_ID_OFFSET;
+        long startingPos = (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK_LENGTH + SlowIndexWriter.PRODUCT_ID_OFFSET;
         return randomAccessReadStr(reviewFieldsFile, startingPos, SlowIndexWriter.PRODUCT_ID_LENGTH);
     }
 
@@ -66,7 +66,7 @@ public class IndexReader {
         if (reviewId < 1 || reviewId > reviewsNum) {
             return -1;
         }
-        long startingPos = (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK + offset;
+        long startingPos = (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK_LENGTH + offset;
         return randomAccessReadInt(reviewFieldsFile, startingPos, length);
     }
 
@@ -161,14 +161,15 @@ public class IndexReader {
      * @return the relevant block index to search the given token in.
      */
     private int findTokensBlock(String token) {
-        return dictBinarySearch(0, (int) Math.ceil((double) differentTokenCounter / KFrontDict.TOKENS_IN_BLOCK) - 1, token);
+        int lastBlock = (int) Math.ceil((double) differentTokenCounter / KFrontDict.TOKENS_IN_BLOCK) - 1;
+        return dictBinarySearch(0, lastBlock, token);
     }
 
     /**
      * @param left  lower bound on the blocks to search in.
      * @param right upper bound on the blocks to search in.
      * @param token token to search for.
-     * @return the relevant block index to search the given token in.
+     * @return the relevant block index to search the given token in (the token is not necessary in this block).
      */
     private int dictBinarySearch(int left, int right, String token) {
         if (right == left) {

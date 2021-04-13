@@ -8,7 +8,23 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class SlowIndexWriter {
-    static final int FIELDS_BLOCK = 15;
+    // the text index filed
+    static final String TEXT_DICT_PATH = "textDictFile.bin";
+    static final String TEXT_CONC_STR_PATH = "textConcatenatedString.txt";
+    static final String TEXT_INV_IDX_PATH = "textInvertedIndex.bin";
+
+    // the product id index filed
+    static final String PRODUCT_ID_DICT_PATH = "productIdDictFile.bin";
+    static final String PRODUCT_ID_CONC_STR_PATH = "productIdConcatenatedString.txt";
+    static final String PRODUCT_ID_INV_IDX_PATH = "productIdInvertedIndex.bin";
+
+    //  the rest of the product fields files
+    static final String FIELDS_PATH = "reviewsFields.bin";
+
+    // statistics file
+    static final String STATISTICS_PATH = "statistics.bin";
+
+    // review fields file constants
     static final int NUMERATOR_OFFSET = 0;
     static final int NUMERATOR_LENGTH = 1;
     static final int DENOMINATOR_OFFSET = 1;
@@ -19,6 +35,8 @@ public class SlowIndexWriter {
     static final int TOKEN_COUNTER_LENGTH = 2;
     static final int PRODUCT_ID_OFFSET = 5;
     static final int PRODUCT_ID_LENGTH = 10;
+    static final int FIELDS_BLOCK_LENGTH = NUMERATOR_LENGTH + DENOMINATOR_LENGTH + SCORE_LENGTH +
+            TOKEN_COUNTER_LENGTH + PRODUCT_ID_LENGTH;
 
 
     /**
@@ -36,8 +54,8 @@ public class SlowIndexWriter {
         String[] section;
         TextDict textDict = new TextDict();
         ProductIdDict productIdDict = new ProductIdDict();
-        try (FileOutputStream reviewFieldsWriter = new FileOutputStream(new File(dir, WebDataUtils.FIELDS_PATH));
-             DataOutputStream statisticsWriter = new DataOutputStream(new FileOutputStream(new File(dir, WebDataUtils.STATISTICS_PATH)))) {
+        try (FileOutputStream reviewFieldsWriter = new FileOutputStream(new File(dir, FIELDS_PATH));
+             DataOutputStream statisticsWriter = new DataOutputStream(new FileOutputStream(new File(dir, STATISTICS_PATH)))) {
             int totalTokenCounter = 0;
             int reviewId = 1;
 
@@ -56,12 +74,12 @@ public class SlowIndexWriter {
             e.printStackTrace();
         }
 
-        File textDictFile = new File(dir, WebDataUtils.TEXT_DICT_PATH);
-        File textConcatenatedStrFile = new File(dir, WebDataUtils.TEXT_CONC_STR_PATH);
-        File textInvertedIdxFile = new File(dir, WebDataUtils.TEXT_INV_IDX_PATH);
-        File productIdDictFile = new File(dir, WebDataUtils.PRODUCT_ID_DICT_PATH);
-        File productIdConcatenatedStrFile = new File(dir, WebDataUtils.PRODUCT_ID_CONC_STR_PATH);
-        File productIdInvertedIdxFile = new File(dir, WebDataUtils.PRODUCT_ID_INV_IDX_PATH);
+        File textDictFile = new File(dir, TEXT_DICT_PATH);
+        File textConcatenatedStrFile = new File(dir, TEXT_CONC_STR_PATH);
+        File textInvertedIdxFile = new File(dir, TEXT_INV_IDX_PATH);
+        File productIdDictFile = new File(dir, PRODUCT_ID_DICT_PATH);
+        File productIdConcatenatedStrFile = new File(dir, PRODUCT_ID_CONC_STR_PATH);
+        File productIdInvertedIdxFile = new File(dir, PRODUCT_ID_INV_IDX_PATH);
 
 
         textDict.saveToDisk(textDictFile, textConcatenatedStrFile, textInvertedIdxFile);
@@ -85,10 +103,8 @@ public class SlowIndexWriter {
      * Delete all index files by removing the given directory
      */
     public void removeIndex(String dir) {
-        String[] indexFiles = {WebDataUtils.TEXT_DICT_PATH, WebDataUtils.TEXT_CONC_STR_PATH,
-                WebDataUtils.TEXT_INV_IDX_PATH, WebDataUtils.PRODUCT_ID_DICT_PATH,
-                WebDataUtils.PRODUCT_ID_CONC_STR_PATH, WebDataUtils.PRODUCT_ID_INV_IDX_PATH,
-                WebDataUtils.FIELDS_PATH, WebDataUtils.STATISTICS_PATH};
+        String[] indexFiles = {TEXT_DICT_PATH, TEXT_CONC_STR_PATH, TEXT_INV_IDX_PATH, PRODUCT_ID_DICT_PATH,
+                PRODUCT_ID_CONC_STR_PATH, PRODUCT_ID_INV_IDX_PATH, FIELDS_PATH, STATISTICS_PATH};
 
         String dirPath = Paths.get(dir).toAbsolutePath().toString();
         for (String fileName : indexFiles) {

@@ -24,6 +24,7 @@ class Parser {
      * @return the parsed section ro null if it can not be parsed correctly.
      */
     String[] nextSection() {
+        final int OK_FLAG = 15; // binary representation of four ones (1111)
         String line;
         String[] section = new String[4];
         try {
@@ -47,11 +48,8 @@ class Parser {
                     section[TEXT_IDX] = subsection;
                 }
             }
-            if (status == 15) {
-                // all fields detected
-                return section;
-            }
-            return null;
+            // if all four subsections detected return the section, else return null.
+            return status == OK_FLAG ? section : null;
         } catch (IOException e) {
             return null;
         }
