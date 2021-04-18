@@ -3,10 +3,11 @@ package webdata;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class WebDataUtils {
-        /**
-     * encodes given number with Length Precoded Varint code.
+    /**
+     * encodes given number with Length Pre-Coded Varint code.
      *
      * @param num a number
      * @return Array of bytes representing the codded number.
@@ -46,5 +47,9 @@ public class WebDataUtils {
             outStream.write(elem);
         }
         return bytesArray.size();
+    }
+
+    public static String preProcessText(String text) {
+        return text.toLowerCase();
     }
 }

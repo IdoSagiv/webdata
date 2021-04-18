@@ -1,5 +1,7 @@
 package webdata.Dictionary;
 
+import webdata.WebDataUtils;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,13 +17,54 @@ import java.util.List;
  */
 public abstract class KFrontDict<T> {
     public final static int TOKENS_IN_BLOCK = 4;
-    public final static int TOKEN_FREQ_LENGTH = 4;
-    public final static int INVERTED_PTR_LENGTH = 4;
-    public final static int TOKEN_LENGTH_LENGTH = 1;
-    public final static int PREFIX_SIZE_LENGTH = 1;
-    public final static int CONC_STR_PTR_LENGTH = 4;
-    public final static int BLOCK_LENGTH = TOKENS_IN_BLOCK * (TOKEN_FREQ_LENGTH + INVERTED_PTR_LENGTH)
-            + (TOKENS_IN_BLOCK - 1) * (TOKEN_LENGTH_LENGTH + PREFIX_SIZE_LENGTH) + CONC_STR_PTR_LENGTH;
+    public final static int BLOCK_LENGTH = TOKENS_IN_BLOCK * (TokenParam.FREQ.length + TokenParam.INVERTED_PTR.length)
+            + (TOKENS_IN_BLOCK - 1) * (TokenParam.LENGTH.length + TokenParam.PREFIX_SIZE.length) + TokenParam.CONCATENATED_STR_PTR.length;
+
+    public enum TokenParam {
+        FREQ(4),
+        INVERTED_PTR(4),
+        LENGTH(1),
+        PREFIX_SIZE(1),
+        CONCATENATED_STR_PTR(4);
+
+        public final int length;
+
+        TokenParam(int length) {
+            this.length = length;
+        }
+
+
+        public int getOffset(int positionInBlock) {
+            switch (this) {
+                case FREQ:
+                    return 0;
+                case INVERTED_PTR:
+                    return FREQ.length;
+                case LENGTH:
+                    if (positionInBlock == TOKENS_IN_BLOCK - 1) {
+                        throw new IllegalArgumentException("the last element in the block doesn't has a length param");
+                    }
+                    return FREQ.length + INVERTED_PTR.length;
+                case PREFIX_SIZE:
+                    switch (positionInBlock) {
+                        case 0:
+                            throw new IllegalArgumentException("the first element in the block doesn't has a prefix size param");
+                        case TOKENS_IN_BLOCK - 1:
+                            return FREQ.length + INVERTED_PTR.length;
+                        default:
+                            return FREQ.length + INVERTED_PTR.length + LENGTH.length;
+                    }
+                case CONCATENATED_STR_PTR:
+                    if (positionInBlock == 0) {
+                        return FREQ.length + INVERTED_PTR.length + LENGTH.length;
+                    }
+                    throw new IllegalArgumentException("only the first element in the block has pointer to the concatenated string");
+                default:
+                    throw new IllegalArgumentException("Invalid input.");
+            }
+        }
+    }
+
     HashMap<String, Entries.DictEntry<T>> dict;
 
     /**
@@ -29,6 +72,22 @@ public abstract class KFrontDict<T> {
      */
     KFrontDict() {
         dict = new HashMap<>();
+    }
+
+    public static int getRowLength(int positionInBlock) {
+        int length = TokenParam.FREQ.length + TokenParam.INVERTED_PTR.length;
+        switch (positionInBlock) {
+            case 0:
+                length += TokenParam.LENGTH.length + TokenParam.CONCATENATED_STR_PTR.length;
+                break;
+            case TOKENS_IN_BLOCK - 1:
+                length += TokenParam.PREFIX_SIZE.length;
+                break;
+            default:
+                length += TokenParam.LENGTH.length + TokenParam.PREFIX_SIZE.length;
+                break;
+        }
+        return length;
     }
 
     /**
@@ -39,7 +98,7 @@ public abstract class KFrontDict<T> {
      */
     public int addText(String text, int reviewId) {
         int counter = 0;
-        text = text.toLowerCase();
+        text = WebDataUtils.preProcessText(text);
         for (String token : text.split("[^\\w]")) {
             if (!token.isEmpty()) {
                 addToken(token, reviewId);
