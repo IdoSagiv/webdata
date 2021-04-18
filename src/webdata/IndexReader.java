@@ -254,7 +254,7 @@ public class IndexReader {
      * @return integer containing the read bytes, or -1 if exception occurred.
      */
     private int randomAccessReadInt(File file, long start, int n) {
-        assert (start + n < file.length() && n > 0 && n <= 4);
+        assert (start + n <= file.length() && n > 0 && n <= 4);
         int res = 0;
         for (byte b : randomAccessReadBytes(file, start, n)) {
             res = (res << 8) | Byte.toUnsignedInt(b);
@@ -270,7 +270,7 @@ public class IndexReader {
      * @return String containing the read bytes, or null if exception occurred.
      */
     private String randomAccessReadStr(File file, long start, int n) {
-        assert (start + n < file.length());
+        assert (start + n <= file.length());
         return new String(randomAccessReadBytes(file, start, n), StandardCharsets.UTF_8);
     }
 
