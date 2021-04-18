@@ -108,14 +108,14 @@ public class IndexReader {
         //TODO: maybe to save another field in the dictionary in order to make it faster
         int counter = 0;
         Enumeration<Integer> posList = getReviewsWithToken(token);
-        while(posList.hasMoreElements()){
+        while (posList.hasMoreElements()) {
             posList.nextElement();
-            counter ++;
+            counter++;
         }
         return counter / 2;
     }
 
-    private long[] getPostLstBounds(int dictPos, int tokenId){
+    private long[] getPostLstBounds(int dictPos, int tokenId) {
         long start = readWordParam(dictPos, TokenParam.INVERTED_PTR, tokenId % KFrontDict.TOKENS_IN_BLOCK);
         long stop;
         if (tokenId == differentTokenCounter - 1) {
@@ -176,7 +176,7 @@ public class IndexReader {
         if (pos == null) {
             return new TextPostIterator();
         }
-        long [] startAndStop = getPostLstBounds(pos.getKey(), pos.getValue());
+        long[] startAndStop = getPostLstBounds(pos.getKey(), pos.getValue());
         return new TextPostIterator(textInvertedIdxFile, startAndStop[0], startAndStop[1]);
     }
 
@@ -257,8 +257,9 @@ public class IndexReader {
         assert (start + n < file.length() && n > 0 && n <= 4);
         int res = 0;
         for (byte b : randomAccessReadBytes(file, start, n)) {
-            res = (res << 8) | b;
+            res = (res << 8) | Byte.toUnsignedInt(b);
         }
+
         return res;
     }
 
