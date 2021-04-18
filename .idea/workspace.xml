@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/google-java-format.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/WebDataUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/WebDataUtils.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/TokenReview.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/TokenReview.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webdata/IndexReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/IndexReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/WebDataUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/WebDataUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webdata.iml" beforeDir="false" afterPath="$PROJECT_DIR$/webdata.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/PosListIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/PosListIterator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

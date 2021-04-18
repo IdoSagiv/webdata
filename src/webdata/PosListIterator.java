@@ -8,15 +8,14 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
-public class PosListIterator implements Enumeration<Integer> {
+public abstract class PosListIterator implements Enumeration<Integer> {
 
-    File file;
-    long curPos;
-    long endPos;
-    boolean isReviewId;
-    int prevReviewId;
+    private File file;
+    private long curPos;
+    private long endPos;
+    protected int prevReviewId;
 
-    PosListIterator(){
+    PosListIterator() {
         this(null, 0, 0);
     }
 
@@ -24,9 +23,7 @@ public class PosListIterator implements Enumeration<Integer> {
         this.file = file;
         this.curPos = start;
         this.endPos = stop;
-        this.isReviewId = true;
         this.prevReviewId = 0;
-
     }
 
     @Override
@@ -38,7 +35,7 @@ public class PosListIterator implements Enumeration<Integer> {
     @Override
     public Integer nextElement() {
         //TODO check what happens where there are no more elements
-        if (!hasMoreElements()){
+        if (!hasMoreElements()) {
             return null;
         }
         int res = 0;
@@ -51,17 +48,15 @@ public class PosListIterator implements Enumeration<Integer> {
             for (int j = 0; j < additionalBytes; j++) {
                 asBytes[asBytes.length - j - 1] = reader.readByte();
             }
-            curPos += additionalBytes +1;
+            curPos += additionalBytes + 1;
             res = ByteBuffer.wrap(asBytes).getInt();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (isReviewId){
-            res += prevReviewId;
-            prevReviewId = res;
-        }
 
-        isReviewId = !isReviewId;
-        return res;
+        return updateElement(res);
     }
+
+    abstract int updateElement(int elem);
 }
+

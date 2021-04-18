@@ -1,5 +1,6 @@
 package webdata;
 
+import javafx.geometry.Pos;
 import javafx.util.Pair;
 import webdata.Dictionary.KFrontDict;
 import webdata.Dictionary.KFrontDict.TokenParam;
@@ -105,13 +106,13 @@ public class IndexReader {
      */
     public int getTokenFrequency(String token) {
         //TODO: maybe to save another field in the dictionary in order to make it faster
-        token = WebDataUtils.preProcessText(token);
-        Pair<Integer, Integer> pos = searchInBlock(findTokensBlock(token), token);
-        if (pos == null) {
-            return 0;
+        int counter = 0;
+        Enumeration<Integer> posList = getReviewsWithToken(token);
+        while(posList.hasMoreElements()){
+            posList.nextElement();
+            counter ++;
         }
-        ArrayList<TokenReview> posLst = getPostingLst(pos.getKey(), pos.getValue());
-        return posLst.size();
+        return counter / 2;
     }
 
     private long[] getPostLstBounds(int dictPos, int tokenId){
@@ -127,22 +128,22 @@ public class IndexReader {
         return new long[]{start, stop};
     }
 
-    private ArrayList<TokenReview> getPostingLst(int pos, int tokenId) {
-        long [] startAndStop = getPostLstBounds(pos, tokenId);
-        long start = startAndStop[0];
-        long stop = startAndStop[1];
-        ArrayList<TokenReview> res = new ArrayList<>();
-        byte[] bytes = randomAccessReadBytes(textInvertedIdxFile, start, (int) (stop-start));
-        ArrayList<Integer> posListAsInt = WebDataUtils.decode(bytes);
-        int prevReviewId = 0;
-        for (int i = 0; i < posListAsInt.size(); i+=2) {
-            int reviewId = posListAsInt.get(i) + prevReviewId;
-            int freq = posListAsInt.get(i + 1);
-            res.add(new TokenReview(reviewId,freq));
-            prevReviewId = reviewId;
-        }
-        return res;
-    }
+//    private ArrayList<TokenReview> getPostingLst(int pos, int tokenId) {
+//        long [] startAndStop = getPostLstBounds(pos, tokenId);
+//        long start = startAndStop[0];
+//        long stop = startAndStop[1];
+//        ArrayList<TokenReview> res = new ArrayList<>();
+//        byte[] bytes = randomAccessReadBytes(textInvertedIdxFile, start, (int) (stop-start));
+//        ArrayList<Integer> posListAsInt = WebDataUtils.decode(bytes);
+//        int prevReviewId = 0;
+//        for (int i = 0; i < posListAsInt.size(); i+=2) {
+//            int reviewId = posListAsInt.get(i) + prevReviewId;
+//            int freq = posListAsInt.get(i + 1);
+//            res.add(new TokenReview(reviewId,freq));
+//            prevReviewId = reviewId;
+//        }
+//        return res;
+//    }
 
 
     /**
@@ -173,10 +174,10 @@ public class IndexReader {
         token = WebDataUtils.preProcessText(token);
         Pair<Integer, Integer> pos = searchInBlock(findTokensBlock(token), token);
         if (pos == null) {
-            return new PosListIterator();
+            return new TextPostIterator();
         }
         long [] startAndStop = getPostLstBounds(pos.getKey(), pos.getValue());
-        return new PosListIterator(textInvertedIdxFile, startAndStop[0], startAndStop[1]);
+        return new TextPostIterator(textInvertedIdxFile, startAndStop[0], startAndStop[1]);
     }
 
     /**
@@ -201,6 +202,7 @@ public class IndexReader {
      * Returns an empty Enumeration if there are no reviews for this product
      */
     public Enumeration<Integer> getProductReviews(String productId) {
+        //TODO to implement
         return null;
     }
 

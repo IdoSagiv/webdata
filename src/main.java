@@ -32,7 +32,7 @@ public class main {
 //        for (int n:WebDataUtils.decode(WebDataUtils.encode(15000))){
 //            System.out.println(n);
 //        }
-//        System.out.println(reader.getTokenFrequency("GrEat"));
+        System.out.println(reader.getTokenFrequency("zz"));
         Enumeration<Integer> PosList = reader.getReviewsWithToken("hb");
         while(PosList.hasMoreElements()){
             System.out.println(PosList.nextElement());
