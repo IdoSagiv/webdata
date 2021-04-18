@@ -3,12 +3,11 @@ package webdata;
 import javafx.util.Pair;
 import webdata.Dictionary.KFrontDict;
 import webdata.Dictionary.KFrontDict.TokenParam;
+import webdata.Dictionary.TokenReview;
 
 import java.io.*;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
 
 public class IndexReader {
@@ -105,42 +104,46 @@ public class IndexReader {
      * Returns 0 if there are no reviews containing this token
      */
     public int getTokenFrequency(String token) {
+        //TODO: maybe to save another field in the dictionary in order to make it faster
         token = WebDataUtils.preProcessText(token);
         Pair<Integer, Integer> pos = searchInBlock(findTokensBlock(token), token);
         if (pos == null) {
             return 0;
         }
-//        int pos = searchInBlock(findTokensBlock(token), token);
-
-//        getPostingLst(pos.getKey(), pos.getValue());
-
-        // the length of the posting list
-        return 0;
+        ArrayList<TokenReview> posLst = getPostingLst(pos.getKey(), pos.getValue());
+        return posLst.size();
     }
 
-    private int[] getPostingLst(int pos, int tokenId) {
-        long start = readWordParam(pos, TokenParam.INVERTED_PTR, tokenId % KFrontDict.TOKENS_IN_BLOCK);
+    private long[] getPostLstBounds(int dictPos, int tokenId){
+        long start = readWordParam(dictPos, TokenParam.INVERTED_PTR, tokenId % KFrontDict.TOKENS_IN_BLOCK);
         long stop;
         if (tokenId == differentTokenCounter - 1) {
             stop = textInvertedIdxFile.length();
         } else {
             int posInBlock = tokenId % KFrontDict.TOKENS_IN_BLOCK;
-            int nextRow = pos + KFrontDict.getRowLength(posInBlock);
+            int nextRow = dictPos + KFrontDict.getRowLength(posInBlock);
             stop = readWordParam(nextRow, TokenParam.INVERTED_PTR, (posInBlock + 1) % KFrontDict.TOKENS_IN_BLOCK);
         }
-
-        throw  new RuntimeException();
+        return new long[]{start, stop};
     }
 
-    private ArrayList<Pair<Integer, Integer>> readPosLst(long start, int n) {
-        byte[] bytes = randomAccessReadBytes(textInvertedIdxFile, start, n);
-        for (int i = 0; i<bytes.length; i++){
-            byte b = bytes[i];
-
+    private ArrayList<TokenReview> getPostingLst(int pos, int tokenId) {
+        long [] startAndStop = getPostLstBounds(pos, tokenId);
+        long start = startAndStop[0];
+        long stop = startAndStop[1];
+        ArrayList<TokenReview> res = new ArrayList<>();
+        byte[] bytes = randomAccessReadBytes(textInvertedIdxFile, start, (int) (stop-start));
+        ArrayList<Integer> posListAsInt = WebDataUtils.decode(bytes);
+        int prevReviewId = 0;
+        for (int i = 0; i < posListAsInt.size(); i+=2) {
+            int reviewId = posListAsInt.get(i) + prevReviewId;
+            int freq = posListAsInt.get(i + 1);
+            res.add(new TokenReview(reviewId,freq));
+            prevReviewId = reviewId;
         }
-
-        throw  new RuntimeException();
+        return res;
     }
+
 
     /**
      * Return the number of times that a given token (i.e., word) appears in
@@ -167,8 +170,13 @@ public class IndexReader {
      * Returns an empty Enumeration if there are no reviews containing this token
      */
     public Enumeration<Integer> getReviewsWithToken(String token) {
-        // ToDo: change token to lower
-        return null;
+        token = WebDataUtils.preProcessText(token);
+        Pair<Integer, Integer> pos = searchInBlock(findTokensBlock(token), token);
+        if (pos == null) {
+            return new PosListIterator();
+        }
+        long [] startAndStop = getPostLstBounds(pos.getKey(), pos.getValue());
+        return new PosListIterator(textInvertedIdxFile, startAndStop[0], startAndStop[1]);
     }
 
     /**
@@ -201,6 +209,7 @@ public class IndexReader {
      * @return the relevant block index to search the given token in.
      */
     private int findTokensBlock(String token) {
+        token = WebDataUtils.preProcessText(token);
         int lastBlock = (int) Math.ceil((double) differentTokenCounter / KFrontDict.TOKENS_IN_BLOCK) - 1;
         return dictBinarySearch(0, lastBlock, token);
     }

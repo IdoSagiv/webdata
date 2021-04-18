@@ -1,11 +1,16 @@
 package webdata.Dictionary;
 
-class TokenReview {
+public class TokenReview {
     final int reviewId;
     int freqInReview;
 
-    TokenReview(int reviewId) {
+    public TokenReview(int reviewId) {
         this.reviewId = reviewId;
-        freqInReview = 1;
+        this.freqInReview = 1;
+    }
+
+    public TokenReview(int reviewId, int freqInReview) {
+        this.reviewId = reviewId;
+        this.freqInReview = freqInReview;
     }
 }

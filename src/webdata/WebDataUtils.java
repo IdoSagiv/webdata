@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Locale;
 
 public class WebDataUtils {
@@ -37,16 +38,18 @@ public class WebDataUtils {
     }
 
 
-    public static ArrayList<Integer> decode(ArrayList<Byte> bytes) {
+
+
+    public static ArrayList<Integer> decode(byte [] bytes) {
         ArrayList<Integer> res = new ArrayList<>();
         int i = 0;
-        while (i < bytes.size()) {
-            Byte b = bytes.get(i);
+        while (i < bytes.length) {
+            byte b = bytes[i];
             byte[] asBytes = new byte[4];
-            asBytes[asBytes.length - 1] = (byte) (b & (int) (Math.pow(2, 6) - 1));
             int numOfBytes = b >>> 6;
+            asBytes[asBytes.length -1 - numOfBytes] = (byte) (b & (int) (Math.pow(2, 6) - 1));
             for (int j = 0; j < numOfBytes; j++) {
-                asBytes[asBytes.length - j - 2] = bytes.get(i + j + 1);
+                asBytes[asBytes.length - j - 1] = bytes[i + j + 1];
             }
             i += numOfBytes + 1;
             res.add(ByteBuffer.wrap(asBytes).getInt());
@@ -72,4 +75,6 @@ public class WebDataUtils {
     public static String preProcessText(String text) {
         return text.toLowerCase();
     }
+
+
 }

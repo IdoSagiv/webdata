@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Enumeration;
 
 
 public class main {
@@ -26,12 +27,16 @@ public class main {
         System.out.println("total num of tokens: " + reader.getTokenSizeOfReviews());
         System.out.println("total num of reviews: " + reader.getNumberOfReviews());
 //        System.out.println(" " + reader.searchInBlock(1,"zzz"));
-        System.out.println(reader.getTokenCollectionFrequency("this"));
+//        System.out.println(reader.getTokenCollectionFrequency("this"));
 
-        for (int n:WebDataUtils.decode(WebDataUtils.encode(511))){
-            System.out.println(n);
+//        for (int n:WebDataUtils.decode(WebDataUtils.encode(15000))){
+//            System.out.println(n);
+//        }
+//        System.out.println(reader.getTokenFrequency("GrEat"));
+        Enumeration<Integer> PosList = reader.getReviewsWithToken("hb");
+        while(PosList.hasMoreElements()){
+            System.out.println(PosList.nextElement());
         }
-
 
 
 //        writer.removeIndex("indexFiles");
