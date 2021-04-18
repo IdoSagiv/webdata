@@ -17,6 +17,7 @@ public class main {
         SlowIndexWriter writer = new SlowIndexWriter();
         System.out.println("start");
 //        writer.slowWrite("datasets\\test.txt", "indexFiles");
+//        writer.slowWrite("datasets\\1000.txt", "C:\\IndexDirectory");
         IndexReader reader = new IndexReader("indexFiles");
         int reviewId = 1;
         System.out.println("helpfulness: " + reader.getReviewHelpfulnessNumerator(reviewId) + " / " + reader.getReviewHelpfulnessDenominator(reviewId));
@@ -34,7 +35,7 @@ public class main {
 //        }
         System.out.println(reader.getTokenFrequency("zz"));
         Enumeration<Integer> PosList = reader.getReviewsWithToken("hb");
-        while(PosList.hasMoreElements()){
+        while (PosList.hasMoreElements()) {
             System.out.println(PosList.nextElement());
         }
 

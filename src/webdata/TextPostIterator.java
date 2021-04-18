@@ -5,13 +5,14 @@ import java.io.File;
 public class TextPostIterator extends PosListIterator {
     private boolean isReviewId;
 
-    public TextPostIterator(File file, long start, long stop){
-        super(file,start,stop);
-        isReviewId=true;
+    public TextPostIterator(File file, long start, long stop) {
+        super(file, start, stop);
+        isReviewId = true;
     }
-    public TextPostIterator(){
+
+    public TextPostIterator() {
         super();
-        isReviewId=false;
+        isReviewId = false;
     }
 
     @Override

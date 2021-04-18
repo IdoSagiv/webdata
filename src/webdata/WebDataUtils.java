@@ -38,16 +38,14 @@ public class WebDataUtils {
     }
 
 
-
-
-    public static ArrayList<Integer> decode(byte [] bytes) {
+    public static ArrayList<Integer> decode(byte[] bytes) {
         ArrayList<Integer> res = new ArrayList<>();
         int i = 0;
         while (i < bytes.length) {
             byte b = bytes[i];
             byte[] asBytes = new byte[4];
             int numOfBytes = b >>> 6;
-            asBytes[asBytes.length -1 - numOfBytes] = (byte) (b & (int) (Math.pow(2, 6) - 1));
+            asBytes[asBytes.length - 1 - numOfBytes] = (byte) (b & (int) (Math.pow(2, 6) - 1));
             for (int j = 0; j < numOfBytes; j++) {
                 asBytes[asBytes.length - j - 1] = bytes[i + j + 1];
             }
