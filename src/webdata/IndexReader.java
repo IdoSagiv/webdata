@@ -1,10 +1,14 @@
 package webdata;
 
-import jdk.nashorn.internal.parser.Token;
+import javafx.util.Pair;
 import webdata.Dictionary.KFrontDict;
 import webdata.Dictionary.KFrontDict.TokenParam;
 
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 
 public class IndexReader {
@@ -51,7 +55,7 @@ public class IndexReader {
         if (reviewId < 1 || reviewId > reviewsNum) {
             return null;
         }
-        long startingPos = (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK_LENGTH + SlowIndexWriter.PRODUCT_ID_OFFSET;
+        long startingPos = (long) (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK_LENGTH + SlowIndexWriter.PRODUCT_ID_OFFSET;
         return randomAccessReadStr(reviewFieldsFile, startingPos, SlowIndexWriter.PRODUCT_ID_LENGTH);
     }
 
@@ -68,7 +72,7 @@ public class IndexReader {
         if (reviewId < 1 || reviewId > reviewsNum) {
             return -1;
         }
-        long startingPos = (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK_LENGTH + offset;
+        long startingPos = (long) (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK_LENGTH + offset;
         return randomAccessReadInt(reviewFieldsFile, startingPos, length);
     }
 
@@ -101,10 +105,41 @@ public class IndexReader {
      * Returns 0 if there are no reviews containing this token
      */
     public int getTokenFrequency(String token) {
+        token = WebDataUtils.preProcessText(token);
+        Pair<Integer, Integer> pos = searchInBlock(findTokensBlock(token), token);
+        if (pos == null) {
+            return 0;
+        }
+//        int pos = searchInBlock(findTokensBlock(token), token);
 
-        // ToDo: change token to lower
+//        getPostingLst(pos.getKey(), pos.getValue());
+
         // the length of the posting list
         return 0;
+    }
+
+    private int[] getPostingLst(int pos, int tokenId) {
+        long start = readWordParam(pos, TokenParam.INVERTED_PTR, tokenId % KFrontDict.TOKENS_IN_BLOCK);
+        long stop;
+        if (tokenId == differentTokenCounter - 1) {
+            stop = textInvertedIdxFile.length();
+        } else {
+            int posInBlock = tokenId % KFrontDict.TOKENS_IN_BLOCK;
+            int nextRow = pos + KFrontDict.getRowLength(posInBlock);
+            stop = readWordParam(nextRow, TokenParam.INVERTED_PTR, (posInBlock + 1) % KFrontDict.TOKENS_IN_BLOCK);
+        }
+
+        throw  new RuntimeException();
+    }
+
+    private ArrayList<Pair<Integer, Integer>> readPosLst(long start, int n) {
+        byte[] bytes = randomAccessReadBytes(textInvertedIdxFile, start, n);
+        for (int i = 0; i<bytes.length; i++){
+            byte b = bytes[i];
+
+        }
+
+        throw  new RuntimeException();
     }
 
     /**
@@ -113,9 +148,12 @@ public class IndexReader {
      * Returns 0 if there are no reviews containing this token
      */
     public int getTokenCollectionFrequency(String token) {
-        // ToDo: change token to lower
-        // the freq field in the dictionary
-        return 0;
+        token = WebDataUtils.preProcessText(token);
+        Pair<Integer, Integer> pos = searchInBlock(findTokensBlock(token), token);
+        if (pos == null) {
+            return 0;
+        }
+        return readWordParam(pos.getKey(), TokenParam.FREQ, pos.getValue() % KFrontDict.TOKENS_IN_BLOCK);
     }
 
 
@@ -197,22 +235,6 @@ public class IndexReader {
         return randomAccessReadStr(textConcatenatedStrFile, strPtr, tokenLength);
     }
 
-//    private String getToken(int blockNum, int blockOffset, RandomAccessFile dict, RandomAccessFile concStr) {
-//
-//
-//        try {
-//            int pos = blockNum * KFrontDict.BLOCK_LENGTH + KFrontDict.TOKEN_FREQ_LENGTH + KFrontDict.INVERTED_PTR_LENGTH;
-//            int tokenLength = randomAccessReadInt(dict, pos, KFrontDict.TOKEN_LENGTH_LENGTH);
-//            pos += KFrontDict.TOKEN_LENGTH_LENGTH;
-//            int strPtr = randomAccessReadInt(dict, pos, KFrontDict.CONC_STR_PTR_LENGTH);
-//            pos += KFrontDict.CONC_STR_PTR_LENGTH;
-//            String currWord = randomAccessReadStr(concStr, strPtr, tokenLength);
-//            return currWord;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
 
     /**
      * @param file  file to read from.
@@ -222,17 +244,11 @@ public class IndexReader {
      */
     private int randomAccessReadInt(File file, long start, int n) {
         assert (start + n < file.length() && n > 0 && n <= 4);
-        try (RandomAccessFile reader = new RandomAccessFile(file, "r")) {
-            reader.seek(start);
-            int res = 0;
-            for (int i = 0; i < n; i++) {
-                res = (res << 8) | reader.read();
-            }
-            return res;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return -1;
+        int res = 0;
+        for (byte b : randomAccessReadBytes(file, start, n)) {
+            res = (res << 8) | b;
         }
+        return res;
     }
 
     /**
@@ -243,17 +259,18 @@ public class IndexReader {
      */
     private String randomAccessReadStr(File file, long start, int n) {
         assert (start + n < file.length());
+        return new String(randomAccessReadBytes(file, start, n), StandardCharsets.UTF_8);
+    }
+
+    private byte[] randomAccessReadBytes(File file, long start, int n) {
+        byte[] bytesArray = new byte[n];
         try (RandomAccessFile reader = new RandomAccessFile(file, "r")) {
             reader.seek(start);
-            String res = "";
-            for (int i = 0; i < n; i++) {
-                res = res.concat((String.valueOf((char) reader.read())));
-            }
-            return res;
+            reader.read(bytesArray, 0, n);
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
+        return bytesArray;
     }
 
     /**
@@ -261,18 +278,19 @@ public class IndexReader {
      * @param token    token to search for.
      * @return a pointer to the token's position in the dictionary or -1 if the token is not in the block.
      */
-    public int searchInBlock(int blockNum, String token) {
+    private Pair<Integer, Integer> searchInBlock(int blockNum, String token) {
         int wordPtr = (blockNum * KFrontDict.BLOCK_LENGTH);
         String curWord = readFirstToken(blockNum);
 
+        int tokenId = blockNum * KFrontDict.TOKENS_IN_BLOCK;
         if (curWord.equals(token)) {
             // if it's the first word in the block
-            return wordPtr;
+            return new Pair<>(wordPtr, tokenId);
         } else if (token.compareTo(curWord) < 0) {
             // the token supposed to be in a former block.
-            return -1;
+            return null;
         }
-        int tokenId = blockNum * KFrontDict.TOKENS_IN_BLOCK + 1;
+        tokenId++;
         int concStrPtr = readWordParam(wordPtr, TokenParam.CONCATENATED_STR_PTR, 0);
         wordPtr += KFrontDict.getRowLength(0);
 
@@ -306,13 +324,13 @@ public class IndexReader {
             curWord = prevWord.substring(0, curPrefSize) + suffix;
 
             if (curWord.equals(token)) {
-                return wordPtr;
+                return new Pair<>(wordPtr, tokenId);
             }
             wordPtr += KFrontDict.getRowLength(i);
             tokenId++;
         }
 
-        return -1;
+        return null;
     }
 
     /**
@@ -326,25 +344,4 @@ public class IndexReader {
         return randomAccessReadInt(textDictFile, wordPtr + offset, param.length);
     }
 
-
-//
-//
-//    searchInBlock(blockNum, token)->
-//    pointer to
-//    the tokens
-//    start in
-//    the dict
-//
-//    getToken(blockNum, offset)->
-//    token as
-//    str
-//
-//
-//
-//
-//    for i=0to 4:
-//            if token ==
-//
-//    getToken():
-//            if i
 }

@@ -2,6 +2,8 @@ package webdata;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -31,6 +33,24 @@ public class WebDataUtils {
             res.add((byte) num);
         }
 
+        return res;
+    }
+
+
+    public static ArrayList<Integer> decode(ArrayList<Byte> bytes) {
+        ArrayList<Integer> res = new ArrayList<>();
+        int i = 0;
+        while (i < bytes.size()) {
+            Byte b = bytes.get(i);
+            byte[] asBytes = new byte[4];
+            asBytes[asBytes.length - 1] = (byte) (b & (int) (Math.pow(2, 6) - 1));
+            int numOfBytes = b >>> 6;
+            for (int j = 0; j < numOfBytes; j++) {
+                asBytes[asBytes.length - j - 2] = bytes.get(i + j + 1);
+            }
+            i += numOfBytes + 1;
+            res.add(ByteBuffer.wrap(asBytes).getInt());
+        }
         return res;
     }
 

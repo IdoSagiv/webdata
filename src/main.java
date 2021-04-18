@@ -1,5 +1,6 @@
 import webdata.IndexReader;
 import webdata.SlowIndexWriter;
+import webdata.WebDataUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -24,7 +25,12 @@ public class main {
 
         System.out.println("total num of tokens: " + reader.getTokenSizeOfReviews());
         System.out.println("total num of reviews: " + reader.getNumberOfReviews());
-        System.out.println(" " + reader.searchInBlock(1,"zzz"));
+//        System.out.println(" " + reader.searchInBlock(1,"zzz"));
+        System.out.println(reader.getTokenCollectionFrequency("this"));
+
+        for (int n:WebDataUtils.decode(WebDataUtils.encode(511))){
+            System.out.println(n);
+        }
 
 
 
