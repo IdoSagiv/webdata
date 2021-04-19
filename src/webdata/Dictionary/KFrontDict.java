@@ -188,7 +188,7 @@ public abstract class KFrontDict<T> {
         }
     }
 
-    public int getNumOfTokens() {
+    public int getSize() {
         return dict.size();
     }
 

@@ -69,7 +69,8 @@ public class SlowIndexWriter {
             }
             statisticsWriter.writeInt(reviewId - 1);
             statisticsWriter.writeInt(totalTokenCounter);
-            statisticsWriter.writeInt(textDict.getNumOfTokens());
+            statisticsWriter.writeInt(textDict.getSize());
+            statisticsWriter.writeInt(productIdDict.getSize());
         } catch (IOException e) {
             e.printStackTrace();
         }

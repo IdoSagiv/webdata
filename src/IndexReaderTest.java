@@ -6,14 +6,17 @@ import java.io.IOException;
 import java.util.*;
 
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.Assert;
 import webdata.IndexReader;
+import webdata.SlowIndexWriter;
 
 
 public class IndexReaderTest {
 
-    final String DictionaryPath = "C:\\IndexDirectory";
+    final static String DictionaryPath = "indexFiles";
+    final static String DataSetPath = "datasets\\1000.txt";
 
     @Test
     public void getProductReviewsfShouldReturnEmpty() throws IOException {
@@ -66,7 +69,6 @@ public class IndexReaderTest {
             List<Integer> expected = map.get(text);
             Assert.assertTrue(GetErrorMSG(text, expected, actual), expected.equals(actual));
         }
-
     }
 
     @Test
@@ -287,7 +289,11 @@ public class IndexReaderTest {
             String actual = ir.getProductId(id);
             Assert.assertTrue(id + " product id should be " + map.get(id) + " and not " + actual, actual.equals(map.get(id)));
         }
-
     }
 
+    @BeforeClass
+    public static void prep() {
+        SlowIndexWriter writer = new SlowIndexWriter();
+//        writer.slowWrite(DataSetPath, DictionaryPath);
+    }
 }

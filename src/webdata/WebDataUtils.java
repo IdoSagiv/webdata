@@ -1,9 +1,12 @@
 package webdata;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Locale;
@@ -72,6 +75,44 @@ public class WebDataUtils {
 
     public static String preProcessText(String text) {
         return text.toLowerCase();
+    }
+
+    /**
+     * @param file  file to read from.
+     * @param start starting byte number.
+     * @param n     number of bytes to read.
+     * @return integer containing the read bytes, or -1 if exception occurred.
+     */
+    public static int randomAccessReadInt(File file, long start, int n) {
+        assert (start + n <= file.length() && n > 0 && n <= 4);
+        int res = 0;
+        for (byte b : randomAccessReadBytes(file, start, n)) {
+            res = (res << 8) | Byte.toUnsignedInt(b);
+        }
+
+        return res;
+    }
+
+    /**
+     * @param file  file to read from.
+     * @param start starting byte number.
+     * @param n     number of bytes to read.
+     * @return String containing the read bytes, or null if exception occurred.
+     */
+    public static String randomAccessReadStr(File file, long start, int n) {
+        assert (start + n <= file.length());
+        return new String(randomAccessReadBytes(file, start, n), StandardCharsets.UTF_8);
+    }
+
+    public static byte[] randomAccessReadBytes(File file, long start, int n) {
+        byte[] bytesArray = new byte[n];
+        try (RandomAccessFile reader = new RandomAccessFile(file, "r")) {
+            reader.seek(start);
+            reader.read(bytesArray, 0, n);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bytesArray;
     }
 
 
