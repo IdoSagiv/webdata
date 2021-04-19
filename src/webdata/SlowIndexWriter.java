@@ -18,6 +18,8 @@ public class SlowIndexWriter {
     static final String PRODUCT_ID_CONC_STR_PATH = "productIdConcatenatedString.txt";
     static final String PRODUCT_ID_INV_IDX_PATH = "productIdInvertedIndex.bin";
 
+    static final String TOKEN_FREQ_PATH = "tokenFreq.bin";
+
     //  the rest of the product fields files
     static final String FIELDS_PATH = "reviewsFields.bin";
 
@@ -48,12 +50,20 @@ public class SlowIndexWriter {
     public void slowWrite(String inputFile, String dir) {
         // create the directory if not exist
         File directory = new File(dir);
+        File textDictFile = new File(dir, TEXT_DICT_PATH);
+        File textConcatenatedStrFile = new File(dir, TEXT_CONC_STR_PATH);
+        File textInvertedIdxFile = new File(dir, TEXT_INV_IDX_PATH);
+        File productIdDictFile = new File(dir, PRODUCT_ID_DICT_PATH);
+        File productIdConcatenatedStrFile = new File(dir, PRODUCT_ID_CONC_STR_PATH);
+        File productIdInvertedIdxFile = new File(dir, PRODUCT_ID_INV_IDX_PATH);
+        File tokensFreqFile = new File(dir, TOKEN_FREQ_PATH);
+
         if (!directory.exists()) directory.mkdir();
 
         Parser parser = new Parser(inputFile);
         String[] section;
-        TextDict textDict = new TextDict();
-        ProductIdDict productIdDict = new ProductIdDict();
+        TextDict textDict = new TextDict(textDictFile, textConcatenatedStrFile, textInvertedIdxFile,tokensFreqFile);
+        ProductIdDict productIdDict = new ProductIdDict(productIdDictFile, productIdConcatenatedStrFile, productIdInvertedIdxFile);
         try (FileOutputStream reviewFieldsWriter = new FileOutputStream(new File(dir, FIELDS_PATH));
              DataOutputStream statisticsWriter = new DataOutputStream(new FileOutputStream(new File(dir, STATISTICS_PATH)))) {
             int totalTokenCounter = 0;
@@ -75,16 +85,8 @@ public class SlowIndexWriter {
             e.printStackTrace();
         }
 
-        File textDictFile = new File(dir, TEXT_DICT_PATH);
-        File textConcatenatedStrFile = new File(dir, TEXT_CONC_STR_PATH);
-        File textInvertedIdxFile = new File(dir, TEXT_INV_IDX_PATH);
-        File productIdDictFile = new File(dir, PRODUCT_ID_DICT_PATH);
-        File productIdConcatenatedStrFile = new File(dir, PRODUCT_ID_CONC_STR_PATH);
-        File productIdInvertedIdxFile = new File(dir, PRODUCT_ID_INV_IDX_PATH);
-
-
-        textDict.saveToDisk(textDictFile, textConcatenatedStrFile, textInvertedIdxFile);
-        productIdDict.saveToDisk(productIdDictFile, productIdConcatenatedStrFile, productIdInvertedIdxFile);
+        textDict.saveToDisk();
+        productIdDict.saveToDisk();
     }
 
     private void writeReviewFields(OutputStream outStream, String helpfulness, String score,

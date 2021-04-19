@@ -7,6 +7,12 @@ import static webdata.WebDataUtils.encode;
 import static webdata.WebDataUtils.writeBytes;
 
 public class TextDict extends KFrontDict<TokenReview> {
+    private final File tokensFreqFile;
+
+    public TextDict(File dictFile, File concatenatedStrFile, File invertedIdxFile, File tokensFreqFile) {
+        super(dictFile, concatenatedStrFile, invertedIdxFile);
+        this.tokensFreqFile = tokensFreqFile;
+    }
 
     /**
      * adds the given token to the dictionary.
@@ -55,4 +61,13 @@ public class TextDict extends KFrontDict<TokenReview> {
         return bytesWritten;
     }
 
+    @Override
+    void additionalWritings(String token) {
+        try (RandomAccessFile writer = new RandomAccessFile(tokensFreqFile,"rw")) {
+            writer.seek(tokensFreqFile.length());
+            writer.writeInt(dict.get(token).tokenReviews.size());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

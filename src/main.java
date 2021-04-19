@@ -16,7 +16,7 @@ public class main {
     public static void main(String[] args) throws IOException {
         SlowIndexWriter writer = new SlowIndexWriter();
         System.out.println("start");
-//        writer.slowWrite("datasets\\test.txt", "indexFiles");
+        writer.slowWrite("datasets\\test.txt", "indexFiles");
 //        writer.slowWrite("datasets\\1000.txt", "C:\\IndexDirectory");
         IndexReader reader = new IndexReader("indexFiles");
         int reviewId = 1;

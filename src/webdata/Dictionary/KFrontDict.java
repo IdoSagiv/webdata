@@ -66,12 +66,22 @@ public abstract class KFrontDict<T> {
     }
 
     HashMap<String, Entries.DictEntry<T>> dict;
+    private final File dictFile;
+    private final File concatenatedStrFile;
+    private final File invertedIdxFile;
 
     /**
      * Constructor
+     *
+     * @param dictFile            the dictionary file.
+     * @param concatenatedStrFile the concatenated string file.
+     * @param invertedIdxFile     the inverted index file.
      */
-    KFrontDict() {
+    KFrontDict(File dictFile, File concatenatedStrFile, File invertedIdxFile) {
         dict = new HashMap<>();
+        this.dictFile = dictFile;
+        this.concatenatedStrFile = concatenatedStrFile;
+        this.invertedIdxFile = invertedIdxFile;
     }
 
     public static int getRowLength(int positionInBlock) {
@@ -110,12 +120,8 @@ public abstract class KFrontDict<T> {
 
     /**
      * compress and writes the dictionary to the disk.
-     *
-     * @param dictFile            the dictionary file.
-     * @param concatenatedStrFile the concatenated string file.
-     * @param invertedIdxFile     the inverted index file.
      */
-    public void saveToDisk(File dictFile, File concatenatedStrFile, File invertedIdxFile) {
+    public void saveToDisk() {
         List<String> keys = new ArrayList<>(dict.keySet());
         Collections.sort(keys);
 
@@ -142,6 +148,7 @@ public abstract class KFrontDict<T> {
                 stringPtr += token.length();
 
                 invertedPtr += writeInvertedIndexEntry(invertedIdxWriter, word);
+                additionalWritings(word);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -210,4 +217,7 @@ public abstract class KFrontDict<T> {
      * @throws IOException
      */
     abstract int writeInvertedIndexEntry(OutputStream outStream, String token) throws IOException;
+
+
+    abstract void additionalWritings(String token);
 }

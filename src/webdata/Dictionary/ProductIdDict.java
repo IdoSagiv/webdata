@@ -1,5 +1,6 @@
 package webdata.Dictionary;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -8,6 +9,11 @@ import static webdata.WebDataUtils.encode;
 import static webdata.WebDataUtils.writeBytes;
 
 public class ProductIdDict extends KFrontDict<Integer> {
+
+
+    public ProductIdDict(File dictFile, File concatenatedStrFile, File invertedIdxFile) {
+        super(dictFile, concatenatedStrFile, invertedIdxFile);
+    }
 
     /**
      * adds the given token to the dictionary.
@@ -51,5 +57,10 @@ public class ProductIdDict extends KFrontDict<Integer> {
         }
         return bytesWritten;
     }
+
+    @Override
+    void additionalWritings(String token) {
+    }
+
 
 }
