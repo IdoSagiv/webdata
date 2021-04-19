@@ -8,6 +8,7 @@ import static webdata.WebDataUtils.writeBytes;
 
 public class TextDict extends KFrontDict<TokenReview> {
     private final File tokensFreqFile;
+    private DataOutputStream tokensFreqWriter;
 
     public TextDict(File dictFile, File concatenatedStrFile, File invertedIdxFile, File tokensFreqFile) {
         super(dictFile, concatenatedStrFile, invertedIdxFile);
@@ -63,11 +64,30 @@ public class TextDict extends KFrontDict<TokenReview> {
 
     @Override
     void additionalWritings(String token) {
-        try (RandomAccessFile writer = new RandomAccessFile(tokensFreqFile,"rw")) {
-            writer.seek(tokensFreqFile.length());
-            writer.writeInt(dict.get(token).tokenReviews.size());
+        try {
+            tokensFreqWriter.writeInt(dict.get(token).tokenReviews.size());
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    void additionalAllocations() {
+        super.additionalAllocations();
+        try {
+            tokensFreqWriter = new DataOutputStream(new FileOutputStream(tokensFreqFile));
+        } catch (FileNotFoundException e) {
+
+        }
+    }
+
+    @Override
+    void additionalDeAllocations() {
+        super.additionalDeAllocations();
+        try {
+            tokensFreqWriter.close();
+        } catch (IOException e) {
+
         }
     }
 }

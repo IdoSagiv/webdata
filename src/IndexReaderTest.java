@@ -2,6 +2,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.Console;
 import java.io.IOException;
 import java.util.*;
 
@@ -294,6 +295,9 @@ public class IndexReaderTest {
     @BeforeClass
     public static void prep() {
         SlowIndexWriter writer = new SlowIndexWriter();
-//        writer.slowWrite(DataSetPath, DictionaryPath);
+        long startTime = System.currentTimeMillis();
+        writer.slowWrite(DataSetPath, DictionaryPath);
+        long estimatedTime = System.currentTimeMillis() - startTime;
+        System.out.println("creating index in: "+ estimatedTime + " ms");
     }
 }

@@ -14,12 +14,11 @@ public class IndexReader {
 
     private final String dir;
     private final File reviewFieldsFile;
+    private final File tokensFreqFile;
     private DictReader textDict;
     private DictReader productIdDict;
-    private int numOfDiffProducts;
     private int numOfReviews;
     private int numOfTokens;
-    private int numOfDiffTokens;
 
 
     /**
@@ -32,19 +31,19 @@ public class IndexReader {
         File productIdDictFile = new File(dir, SlowIndexWriter.PRODUCT_ID_DICT_PATH);
         File productIdConcatenatedStrFile = new File(dir, SlowIndexWriter.PRODUCT_ID_CONC_STR_PATH);
         File productIdInvertedIdxFile = new File(dir, SlowIndexWriter.PRODUCT_ID_INV_IDX_PATH);
+        tokensFreqFile = new File(dir, SlowIndexWriter.TOKEN_FREQ_PATH);
         reviewFieldsFile = new File(dir, SlowIndexWriter.FIELDS_PATH);
 
-
-        try (DataInputStream statisticsReader = new DataInputStream(new FileInputStream(new File(dir, SlowIndexWriter.STATISTICS_PATH)))) {
+        try (RandomAccessFile statisticsReader = new RandomAccessFile(new File(dir, SlowIndexWriter.STATISTICS_PATH), "r")) {
             numOfReviews = statisticsReader.readInt();
             numOfTokens = statisticsReader.readInt();
-            numOfDiffTokens = statisticsReader.readInt();
-            numOfDiffProducts = statisticsReader.readInt();
+            int numOfDiffTokens = statisticsReader.readInt();
+            int numOfDiffProducts = statisticsReader.readInt();
+            textDict = new DictReader(textDictFile, textInvertedIdxFile, textConcatenatedStrFile, numOfDiffTokens);
+            productIdDict = new DictReader(productIdDictFile, productIdInvertedIdxFile, productIdConcatenatedStrFile, numOfDiffProducts);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        textDict = new DictReader(textDictFile, textInvertedIdxFile, textConcatenatedStrFile, numOfDiffTokens);
-        productIdDict = new DictReader(productIdDictFile, productIdInvertedIdxFile, productIdConcatenatedStrFile, numOfDiffProducts);
         this.dir = dir;
     }
 
@@ -106,33 +105,22 @@ public class IndexReader {
      * Returns 0 if there are no reviews containing this token
      */
     public int getTokenFrequency(String token) {
-        //TODO: maybe to save another field in the dictionary in order to make it faster
-        int counter = 0;
-        Enumeration<Integer> posList = getReviewsWithToken(token);
-        while (posList.hasMoreElements()) {
-            posList.nextElement();
-            counter++;
+        Pair<Integer, Integer> tokenPos = textDict.findToken(token);
+        if (tokenPos == null) {
+            return 0;
         }
-        return counter / 2;
+        int tokenId = tokenPos.getValue();
+        // every token takes 4 bytes (int)
+        long startingPos = (long) tokenId * 4;
+
+        try (RandomAccessFile reader = new RandomAccessFile(tokensFreqFile, "r")) {
+            reader.seek(startingPos);
+            return reader.readInt();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
-
-
-//    private ArrayList<TokenReview> getPostingLst(int pos, int tokenId) {
-//        long [] startAndStop = getPostLstBounds(pos, tokenId);
-//        long start = startAndStop[0];
-//        long stop = startAndStop[1];
-//        ArrayList<TokenReview> res = new ArrayList<>();
-//        byte[] bytes = randomAccessReadBytes(textInvertedIdxFile, start, (int) (stop-start));
-//        ArrayList<Integer> posListAsInt = WebDataUtils.decode(bytes);
-//        int prevReviewId = 0;
-//        for (int i = 0; i < posListAsInt.size(); i+=2) {
-//            int reviewId = posListAsInt.get(i) + prevReviewId;
-//            int freq = posListAsInt.get(i + 1);
-//            res.add(new TokenReview(reviewId,freq));
-//            prevReviewId = reviewId;
-//        }
-//        return res;
-//    }
 
 
     /**

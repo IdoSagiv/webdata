@@ -4,8 +4,6 @@ import webdata.Dictionary.ProductIdDict;
 import webdata.Dictionary.TextDict;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class SlowIndexWriter {
     // the text index filed
@@ -62,7 +60,7 @@ public class SlowIndexWriter {
 
         Parser parser = new Parser(inputFile);
         String[] section;
-        TextDict textDict = new TextDict(textDictFile, textConcatenatedStrFile, textInvertedIdxFile,tokensFreqFile);
+        TextDict textDict = new TextDict(textDictFile, textConcatenatedStrFile, textInvertedIdxFile, tokensFreqFile);
         ProductIdDict productIdDict = new ProductIdDict(productIdDictFile, productIdConcatenatedStrFile, productIdInvertedIdxFile);
         try (FileOutputStream reviewFieldsWriter = new FileOutputStream(new File(dir, FIELDS_PATH));
              DataOutputStream statisticsWriter = new DataOutputStream(new FileOutputStream(new File(dir, STATISTICS_PATH)))) {
@@ -106,27 +104,17 @@ public class SlowIndexWriter {
      * Delete all index files by removing the given directory
      */
     public void removeIndex(String dir) {
-        String[] indexFiles = {TEXT_DICT_PATH, TEXT_CONC_STR_PATH, TEXT_INV_IDX_PATH, PRODUCT_ID_DICT_PATH,
-                PRODUCT_ID_CONC_STR_PATH, PRODUCT_ID_INV_IDX_PATH, FIELDS_PATH, STATISTICS_PATH};
-
-        String dirPath = Paths.get(dir).toAbsolutePath().toString();
-        for (String fileName : indexFiles) {
-            Path path = Paths.get(dirPath, fileName);
-            if (new File(path.toAbsolutePath().toString()).delete()) {
-                System.out.println("Deleting " + fileName);
+        File directory = new File(dir);
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.delete()) {
+                    System.out.println("Deleting " + file.getName());
+                }
             }
         }
-
-        // ToDo: make sure we need to delete the whole directory!
-//        File directory = new File(dir);
-//        for (File file : directory.listFiles()) {
-//            if (file.delete()) {
-//                System.out.println("Deleting " + file.getName());
-//            }
-//        }
-//        if (directory.delete()) {
-//            System.out.println("Deleting directory " + directory.getName());
-//        }
-
+        if (directory.delete()) {
+            System.out.println("Deleting directory " + directory.getName());
+        }
     }
 }

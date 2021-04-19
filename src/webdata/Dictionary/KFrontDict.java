@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+//ToDo: before writing, delete all files?
 
 /**
  * class representing a k-1 out of k prefix front coding dictionary as learned in class,
@@ -66,9 +67,9 @@ public abstract class KFrontDict<T> {
     }
 
     HashMap<String, Entries.DictEntry<T>> dict;
-    private final File dictFile;
-    private final File concatenatedStrFile;
-    private final File invertedIdxFile;
+    private  File dictFile;
+    private  File concatenatedStrFile;
+    private  File invertedIdxFile;
 
     /**
      * Constructor
@@ -118,12 +119,19 @@ public abstract class KFrontDict<T> {
         return counter;
     }
 
+    void additionalAllocations(){
+    }
+    void additionalDeAllocations(){
+    }
+
     /**
      * compress and writes the dictionary to the disk.
      */
     public void saveToDisk() {
         List<String> keys = new ArrayList<>(dict.keySet());
         Collections.sort(keys);
+
+        additionalAllocations();
 
         int stringPtr = 0;
         int invertedPtr = 0;
@@ -150,8 +158,12 @@ public abstract class KFrontDict<T> {
                 invertedPtr += writeInvertedIndexEntry(invertedIdxWriter, word);
                 additionalWritings(word);
             }
+
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        finally {
+            additionalDeAllocations();
         }
     }
 

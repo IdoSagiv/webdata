@@ -11,11 +11,12 @@
       <change beforePath="$PROJECT_DIR$/indexFiles/textConcatenatedString.txt" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/textConcatenatedString.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/indexFiles/textDictFile.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/textDictFile.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/indexFiles/textInvertedIndex.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/textInvertedIndex.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indexFiles/tokenFreq.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/tokenFreq.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IndexReaderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IndexReaderTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/KFrontDict.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/KFrontDict.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/ProductIdDict.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/ProductIdDict.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/TextDict.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/TextDict.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/IndexReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/IndexReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webdata/SlowIndexWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/SlowIndexWriter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -156,7 +157,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
   </component>
-  <component name="RunManager" selected="Application.main">
+  <component name="RunManager" selected="JUnit.IndexReaderTest">
     <configuration name="main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main" />
       <module name="webdata" />
@@ -205,8 +206,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.main" />
         <item itemvalue="JUnit.IndexReaderTest" />
+        <item itemvalue="Application.main" />
         <item itemvalue="JUnit.IndexReaderTest.getProductID" />
         <item itemvalue="JUnit.IndexReaderTest.ProductIDShouldBeNULL" />
         <item itemvalue="JUnit.IndexReaderTest.getReviewScoreNumerator" />
@@ -306,12 +307,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main.java</url>
-          <line>62</line>
+          <line>63</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/IndexReaderTest.java</url>
-          <line>67</line>
+          <line>68</line>
           <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
