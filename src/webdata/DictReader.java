@@ -10,6 +10,9 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
+/**
+ * this class is used for preforming all readings from the dictionary files
+ */
 public class DictReader {
 
     final File invertedIdxFile;
@@ -18,6 +21,12 @@ public class DictReader {
     private final String concStr;
     private byte[] dict;
 
+    /**
+     * @param dictFile        the dictionary file.
+     * @param concStrFile     the concatenated string file.
+     * @param invertedIdxFile the inverted index file.
+     * @param size            the number of different tokens in the dictionary
+     */
     public DictReader(File dictFile, File invertedIdxFile, File concStrFile, int size) {
         this.invertedIdxFile = invertedIdxFile;
         this.size = size;
@@ -32,34 +41,44 @@ public class DictReader {
         }
         this.concStr = consStrBuilder.toString();
     }
-//
-//
-//    Public methods
-//
-//
+    /*
+
+    Public methods
+
+     */
+
+
+    /**
+     * @param token
+     * @return a pair of the pointer to the token's first byte in the dictionary and the tokenId
+     */
     public Pair<Integer, Integer> findToken(String token) {
         token = WebDataUtils.preProcessText(token);
         return searchInBlock(findTokensBlock(token), token);
     }
 
-    public long[] getPostLstBounds(int dictPos, int tokenId) {
-        long start = readWordParam(dictPos, KFrontDict.TokenParam.INVERTED_PTR, tokenId % KFrontDict.TOKENS_IN_BLOCK);
+    /**
+     * @param tokenPos the pointer to the token's first byte in the dictionary
+     * @param tokenId
+     * @return the given token's posting list bounds
+     */
+    public long[] getPostLstBounds(int tokenPos, int tokenId) {
+        long start = readWordParam(tokenPos, KFrontDict.TokenParam.INVERTED_PTR, tokenId % KFrontDict.TOKENS_IN_BLOCK);
         long stop;
         if (tokenId == size - 1) {
             stop = invertedIdxFile.length();
         } else {
             int posInBlock = tokenId % KFrontDict.TOKENS_IN_BLOCK;
-            int nextRow = dictPos + KFrontDict.getRowLength(posInBlock);
+            int nextRow = tokenPos + KFrontDict.getRowLength(posInBlock);
             stop = readWordParam(nextRow, KFrontDict.TokenParam.INVERTED_PTR, (posInBlock + 1) % KFrontDict.TOKENS_IN_BLOCK);
         }
         return new long[]{start, stop};
     }
 
-//
-//
-//    Private methods
-//
-//
+    /*
+    Private methods
+     */
+
 
     /**
      * @param token token to search.

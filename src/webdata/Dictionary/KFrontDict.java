@@ -1,5 +1,6 @@
 package webdata.Dictionary;
 
+import webdata.Dictionary.DictEntries.DictEntry;
 import webdata.WebDataUtils;
 
 import java.io.*;
@@ -8,8 +9,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-//ToDo: before writing, delete all files?
-
 /**
  * class representing a k-1 out of k prefix front coding dictionary as learned in class,
  * with inverted index compressed with Length Precoded Varint code.
@@ -17,10 +16,10 @@ import java.util.List;
  * @param <T> the type the review saved in.
  */
 public abstract class KFrontDict<T> {
-    public final static int TOKENS_IN_BLOCK = 4;
-    public final static int BLOCK_LENGTH = TOKENS_IN_BLOCK * (TokenParam.FREQ.length + TokenParam.INVERTED_PTR.length)
-            + (TOKENS_IN_BLOCK - 1) * (TokenParam.LENGTH.length + TokenParam.PREFIX_SIZE.length) + TokenParam.CONCATENATED_STR_PTR.length;
 
+    /**
+     * TokenParam enum represents token's parameters and their properties
+     */
     public enum TokenParam {
         FREQ(4),
         INVERTED_PTR(4),
@@ -34,8 +33,12 @@ public abstract class KFrontDict<T> {
             this.length = length;
         }
 
-
+        /**
+         * @param positionInBlock the token relational position inside the block
+         * @return the relational offset in the token's row of the given param
+         */
         public int getOffset(int positionInBlock) {
+            assert (positionInBlock >= 0 && positionInBlock < TOKENS_IN_BLOCK);
             switch (this) {
                 case FREQ:
                     return 0;
@@ -66,10 +69,15 @@ public abstract class KFrontDict<T> {
         }
     }
 
-    HashMap<String, Entries.DictEntry<T>> dict;
-    private  File dictFile;
-    private  File concatenatedStrFile;
-    private  File invertedIdxFile;
+
+    public final static int TOKENS_IN_BLOCK = 4;
+    public final static int BLOCK_LENGTH = TOKENS_IN_BLOCK * (TokenParam.FREQ.length + TokenParam.INVERTED_PTR.length)
+            + (TOKENS_IN_BLOCK - 1) * (TokenParam.LENGTH.length + TokenParam.PREFIX_SIZE.length) +
+            TokenParam.CONCATENATED_STR_PTR.length;
+    HashMap<String, DictEntry<T>> dict;
+    private final File dictFile;
+    private final File concatenatedStrFile;
+    private final File invertedIdxFile;
 
     /**
      * Constructor
@@ -85,6 +93,10 @@ public abstract class KFrontDict<T> {
         this.invertedIdxFile = invertedIdxFile;
     }
 
+    /**
+     * @param positionInBlock the token relational position inside the block
+     * @return the row's length of the given token
+     */
     public static int getRowLength(int positionInBlock) {
         int length = TokenParam.FREQ.length + TokenParam.INVERTED_PTR.length;
         switch (positionInBlock) {
@@ -119,10 +131,6 @@ public abstract class KFrontDict<T> {
         return counter;
     }
 
-    void additionalAllocations(){
-    }
-    void additionalDeAllocations(){
-    }
 
     /**
      * compress and writes the dictionary to the disk.
@@ -161,12 +169,16 @@ public abstract class KFrontDict<T> {
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             additionalDeAllocations();
         }
     }
 
+    /**
+     * @param str1 the first String
+     * @param str2 the second String
+     * @return commonPrefixSize of the two strings
+     */
     private int commonPrefixSize(String str1, String str2) {
         int prefixSize = 0;
         for (int i = 0; i < Math.min(str1.length(), str2.length()); i++) {
@@ -189,7 +201,8 @@ public abstract class KFrontDict<T> {
      * @param dictWriter  the dictionary output file
      * @throws IOException
      */
-    private void writeWordToDictionary(String word, int wordIdx, int invertedPtr, int stringPtr, int prefixSize, DataOutputStream dictWriter) throws IOException {
+    private void writeWordToDictionary(String word, int wordIdx, int invertedPtr, int stringPtr, int prefixSize,
+                                       DataOutputStream dictWriter) throws IOException {
         dictWriter.writeInt(dict.get(word).tokenFreq);
         dictWriter.writeInt(invertedPtr);
 
@@ -207,6 +220,9 @@ public abstract class KFrontDict<T> {
         }
     }
 
+    /**
+     * @return the number of the different tokens in the dictionary
+     */
     public int getSize() {
         return dict.size();
     }
@@ -230,6 +246,18 @@ public abstract class KFrontDict<T> {
      */
     abstract int writeInvertedIndexEntry(OutputStream outStream, String token) throws IOException;
 
-
+    /**
+     * the function is used for additional writings needed to write all files to the disk
+     */
     abstract void additionalWritings(String token);
+
+    /**
+     * the function is used for additional allocations needed to write all files to the disk
+     */
+    abstract void additionalAllocations();
+
+    /**
+     * the function is used for de allocate the additional allocations needed to write all files to the disk
+     */
+    abstract void additionalDeAllocations();
 }

@@ -5,13 +5,20 @@ import webdata.Dictionary.KFrontDict;
 import webdata.Dictionary.KFrontDict.TokenParam;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Enumeration;
 
+/**
+ * Index Reader class
+ */
 public class IndexReader {
 
-    private final String dir;
-    private final File reviewFieldsFile;
-    private final File tokensFreqFile;
+    private byte[] tokensFreqBytes;
+    private byte[] reviewFieldsBytes;
+
     private DictReader textDict;
     private DictReader productIdDict;
     private int numOfReviews;
@@ -28,20 +35,20 @@ public class IndexReader {
         File productIdDictFile = new File(dir, SlowIndexWriter.PRODUCT_ID_DICT_PATH);
         File productIdConcatenatedStrFile = new File(dir, SlowIndexWriter.PRODUCT_ID_CONC_STR_PATH);
         File productIdInvertedIdxFile = new File(dir, SlowIndexWriter.PRODUCT_ID_INV_IDX_PATH);
-        tokensFreqFile = new File(dir, SlowIndexWriter.TOKEN_FREQ_PATH);
-        reviewFieldsFile = new File(dir, SlowIndexWriter.FIELDS_PATH);
 
         try (RandomAccessFile statisticsReader = new RandomAccessFile(new File(dir, SlowIndexWriter.STATISTICS_PATH), "r")) {
+            tokensFreqBytes = Files.readAllBytes(Paths.get(dir, SlowIndexWriter.TOKEN_FREQ_PATH));
+            reviewFieldsBytes = Files.readAllBytes(Paths.get(dir, SlowIndexWriter.FIELDS_PATH));
             numOfReviews = statisticsReader.readInt();
             numOfTokens = statisticsReader.readInt();
             int numOfDiffTokens = statisticsReader.readInt();
             int numOfDiffProducts = statisticsReader.readInt();
             textDict = new DictReader(textDictFile, textInvertedIdxFile, textConcatenatedStrFile, numOfDiffTokens);
-            productIdDict = new DictReader(productIdDictFile, productIdInvertedIdxFile, productIdConcatenatedStrFile, numOfDiffProducts);
+            productIdDict = new DictReader(productIdDictFile, productIdInvertedIdxFile, productIdConcatenatedStrFile,
+                    numOfDiffProducts);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.dir = dir;
     }
 
     /**
@@ -52,8 +59,9 @@ public class IndexReader {
         if (reviewId < 1 || reviewId > numOfReviews) {
             return null;
         }
-        long startingPos = (long) (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK_LENGTH + SlowIndexWriter.PRODUCT_ID_OFFSET;
-        return WebDataUtils.randomAccessReadStr(reviewFieldsFile, startingPos, SlowIndexWriter.PRODUCT_ID_LENGTH);
+        int startingPos = (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK_LENGTH + SlowIndexWriter.PRODUCT_ID_OFFSET;
+        byte[] asBytes = Arrays.copyOfRange(reviewFieldsBytes, startingPos, startingPos + SlowIndexWriter.PRODUCT_ID_LENGTH);
+        return new String(asBytes, StandardCharsets.UTF_8);
     }
 
     /**
@@ -64,14 +72,6 @@ public class IndexReader {
         return getReviewField(reviewId, SlowIndexWriter.SCORE_OFFSET, SlowIndexWriter.SCORE_LENGTH);
     }
 
-
-    private int getReviewField(int reviewId, int offset, int length) {
-        if (reviewId < 1 || reviewId > numOfReviews) {
-            return -1;
-        }
-        long startingPos = (long) (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK_LENGTH + offset;
-        return WebDataUtils.randomAccessReadInt(reviewFieldsFile, startingPos, length);
-    }
 
     /**
      * Returns the numerator for the helpfulness of a given review
@@ -108,15 +108,8 @@ public class IndexReader {
         }
         int tokenId = tokenPos.getValue();
         // every token takes 4 bytes (int)
-        long startingPos = (long) tokenId * 4;
-
-        try (RandomAccessFile reader = new RandomAccessFile(tokensFreqFile, "r")) {
-            reader.seek(startingPos);
-            return reader.readInt();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return 0;
-        }
+        int startingPos = tokenId * 4;
+        return WebDataUtils.byteArrayToInt(Arrays.copyOfRange(tokensFreqBytes, startingPos, startingPos + 4));
     }
 
 
@@ -180,5 +173,19 @@ public class IndexReader {
         }
         long[] startAndStop = productIdDict.getPostLstBounds(pos.getKey(), pos.getValue());
         return new ProductIdPostIterator(productIdDict.invertedIdxFile, startAndStop[0], startAndStop[1]);
+    }
+
+    /**
+     * @param reviewId
+     * @param offset   the field offset in the row
+     * @param length   the field's length
+     * @return the field of the given reviewId
+     */
+    private int getReviewField(int reviewId, int offset, int length) {
+        if (reviewId < 1 || reviewId > numOfReviews) {
+            return -1;
+        }
+        int startingPos = (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK_LENGTH + offset;
+        return WebDataUtils.byteArrayToInt(Arrays.copyOfRange(reviewFieldsBytes, startingPos, startingPos + length));
     }
 }

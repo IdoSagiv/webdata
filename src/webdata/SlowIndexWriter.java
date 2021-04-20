@@ -5,6 +5,9 @@ import webdata.Dictionary.TextDict;
 
 import java.io.*;
 
+/**
+ * Slow Index Writer class
+ */
 public class SlowIndexWriter {
     // the text index filed
     static final String TEXT_DICT_PATH = "textDictFile.bin";
@@ -55,7 +58,7 @@ public class SlowIndexWriter {
         File productIdConcatenatedStrFile = new File(dir, PRODUCT_ID_CONC_STR_PATH);
         File productIdInvertedIdxFile = new File(dir, PRODUCT_ID_INV_IDX_PATH);
         File tokensFreqFile = new File(dir, TOKEN_FREQ_PATH);
-
+        //creates the directory if not exists
         if (!directory.exists()) directory.mkdir();
 
         Parser parser = new Parser(inputFile);
@@ -71,7 +74,8 @@ public class SlowIndexWriter {
                 // add text to dictionaries
                 int reviewTokenCounter = textDict.addText(section[Parser.TEXT_IDX], reviewId);
                 productIdDict.addText(section[Parser.PRODUCT_ID_IDX], reviewId);
-                writeReviewFields(reviewFieldsWriter, section[Parser.HELPFULNESS_IDX], section[Parser.SCORE_IDX], reviewTokenCounter, section[Parser.PRODUCT_ID_IDX]);
+                writeReviewFields(reviewFieldsWriter, section[Parser.HELPFULNESS_IDX], section[Parser.SCORE_IDX],
+                        reviewTokenCounter, section[Parser.PRODUCT_ID_IDX]);
                 totalTokenCounter += reviewTokenCounter;
                 reviewId++;
             }
@@ -87,18 +91,6 @@ public class SlowIndexWriter {
         productIdDict.saveToDisk();
     }
 
-    private void writeReviewFields(OutputStream outStream, String helpfulness, String score,
-                                   int tokenCounter, String productId) throws IOException {
-        int scoreAsInt = Math.round(Float.parseFloat(score));
-        String[] helpfulnessArray = helpfulness.split("/");
-        int numerator = Integer.parseInt(helpfulnessArray[0]);
-        int denominator = Integer.parseInt(helpfulnessArray[1]);
-
-        byte[] bytesToWrite = {(byte) (numerator), (byte) (denominator), (byte) (scoreAsInt),
-                (byte) (tokenCounter >>> 8), (byte) tokenCounter};
-        outStream.write(bytesToWrite);
-        outStream.write(productId.getBytes());
-    }
 
     /**
      * Delete all index files by removing the given directory
@@ -116,5 +108,27 @@ public class SlowIndexWriter {
         if (directory.delete()) {
             System.out.println("Deleting directory " + directory.getName());
         }
+    }
+
+
+    /**
+     * @param outStream   outputStream
+     * @param helpfulness helpfulness field
+     * @param score       score field
+     * @param tokenId     the token's Id
+     * @param productId   productId field
+     * @throws IOException
+     */
+    private void writeReviewFields(OutputStream outStream, String helpfulness, String score,
+                                   int tokenId, String productId) throws IOException {
+        int scoreAsInt = Math.round(Float.parseFloat(score));
+        String[] helpfulnessArray = helpfulness.split("/");
+        int numerator = Integer.parseInt(helpfulnessArray[0]);
+        int denominator = Integer.parseInt(helpfulnessArray[1]);
+
+        byte[] bytesToWrite = {(byte) (numerator), (byte) (denominator), (byte) (scoreAsInt),
+                (byte) (tokenId >>> 8), (byte) tokenId};
+        outStream.write(bytesToWrite);
+        outStream.write(productId.getBytes());
     }
 }

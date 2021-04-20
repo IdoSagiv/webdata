@@ -1,17 +1,16 @@
 package webdata;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.RandomAccessFile;
-import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Locale;
 
+/**
+ * the class is used to store general methods for the project
+ */
 public class WebDataUtils {
+
+
     /**
      * encodes given number with Length Pre-Coded Varint code.
      *
@@ -40,7 +39,12 @@ public class WebDataUtils {
         return res;
     }
 
-
+    /**
+     * decodes given bytes array according to Length Pre-Coded Varint code.
+     *
+     * @param bytes byte array to decode
+     * @return the decoded value of the array
+     */
     public static ArrayList<Integer> decode(byte[] bytes) {
         ArrayList<Integer> res = new ArrayList<>();
         int i = 0;
@@ -73,49 +77,20 @@ public class WebDataUtils {
         return bytesArray.size();
     }
 
+    /**
+     * @param text text to be preprocess
+     * @return the preprocessed text
+     */
     public static String preProcessText(String text) {
         return text.toLowerCase();
     }
 
     /**
-     * @param file  file to read from.
-     * @param start starting byte number.
-     * @param n     number of bytes to read.
-     * @return integer containing the read bytes, or -1 if exception occurred.
+     * converts byte array to int
+     *
+     * @param bytes byte array
+     * @return int
      */
-    public static int randomAccessReadInt(File file, long start, int n) {
-        assert (start + n <= file.length() && n > 0 && n <= 4);
-//        int res = 0;
-//        for (byte b : randomAccessReadBytes(file, start, n)) {
-//            res = (res << 8) | Byte.toUnsignedInt(b);
-//        }
-//        return res;
-        // ToDo: show to adi
-        return byteArrayToInt(randomAccessReadBytes(file, start, n));
-    }
-
-    /**
-     * @param file  file to read from.
-     * @param start starting byte number.
-     * @param n     number of bytes to read.
-     * @return String containing the read bytes, or null if exception occurred.
-     */
-    public static String randomAccessReadStr(File file, long start, int n) {
-        assert (start + n <= file.length());
-        return new String(randomAccessReadBytes(file, start, n), StandardCharsets.UTF_8);
-    }
-
-    public static byte[] randomAccessReadBytes(File file, long start, int n) {
-        byte[] bytesArray = new byte[n];
-        try (RandomAccessFile reader = new RandomAccessFile(file, "r")) {
-            reader.seek(start);
-            reader.read(bytesArray, 0, n);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bytesArray;
-    }
-
     public static int byteArrayToInt(byte[] bytes) {
         assert (bytes.length <= 4);
         int res = 0;
@@ -124,15 +99,4 @@ public class WebDataUtils {
         }
         return res;
     }
-
-    public static int byteArrayToStr(byte[] bytes) {
-        assert (bytes.length <= 4);
-        int res = 0;
-        for (byte b : bytes) {
-            res = (res << 8) | Byte.toUnsignedInt(b);
-        }
-        return res;
-    }
-
-
 }

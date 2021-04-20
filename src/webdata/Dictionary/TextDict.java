@@ -1,15 +1,29 @@
 package webdata.Dictionary;
 
+import webdata.Dictionary.DictEntries.DictEntry;
+import webdata.Dictionary.DictEntries.TextEntry;
+
 import java.io.*;
 import java.util.*;
 
 import static webdata.WebDataUtils.encode;
 import static webdata.WebDataUtils.writeBytes;
 
+/**
+ * this class extends KFrontDict class and represents a dictionary for text tokens
+ */
+
 public class TextDict extends KFrontDict<TokenReview> {
     private final File tokensFreqFile;
     private DataOutputStream tokensFreqWriter;
 
+
+    /**
+     * @param dictFile            the dictionary file
+     * @param concatenatedStrFile the concatenated string file
+     * @param invertedIdxFile     the inverted index file
+     * @param tokensFreqFile      the token frequency file
+     */
     public TextDict(File dictFile, File concatenatedStrFile, File invertedIdxFile, File tokensFreqFile) {
         super(dictFile, concatenatedStrFile, invertedIdxFile);
         this.tokensFreqFile = tokensFreqFile;
@@ -24,7 +38,7 @@ public class TextDict extends KFrontDict<TokenReview> {
     @Override
     void addToken(String token, int reviewId) {
         if (dict.containsKey(token)) {
-            Entries.DictEntry<TokenReview> entry = dict.get(token);
+            DictEntry<TokenReview> entry = dict.get(token);
             int lastIdx = entry.tokenReviews.size() - 1;
             if (entry.tokenReviews.get(lastIdx).reviewId != reviewId) {
                 entry.tokenReviews.add(new TokenReview(reviewId));
@@ -33,7 +47,7 @@ public class TextDict extends KFrontDict<TokenReview> {
             }
             entry.tokenFreq++;
         } else {
-            dict.put(token, new Entries.TextEntry(reviewId));
+            dict.put(token, new TextEntry(reviewId));
         }
     }
 
@@ -47,7 +61,7 @@ public class TextDict extends KFrontDict<TokenReview> {
      */
     @Override
     int writeInvertedIndexEntry(OutputStream outStream, String token) throws IOException {
-        Entries.DictEntry<TokenReview> entry = dict.get(token);
+        DictEntry<TokenReview> entry = dict.get(token);
         int prevId = 0;
         int bytesWritten = 0;
 
@@ -62,6 +76,9 @@ public class TextDict extends KFrontDict<TokenReview> {
         return bytesWritten;
     }
 
+    /**
+     * the function is used for additional writings needed to write all files to the disk
+     */
     @Override
     void additionalWritings(String token) {
         try {
@@ -71,23 +88,27 @@ public class TextDict extends KFrontDict<TokenReview> {
         }
     }
 
+    /**
+     * the function is used for additional allocations needed to write all files to the disk
+     */
     @Override
     void additionalAllocations() {
-        super.additionalAllocations();
         try {
             tokensFreqWriter = new DataOutputStream(new FileOutputStream(tokensFreqFile));
         } catch (FileNotFoundException e) {
-
+            e.printStackTrace();
         }
     }
 
+    /**
+     * the function is used for de allocate the additional allocations needed to write all files to the disk
+     */
     @Override
     void additionalDeAllocations() {
-        super.additionalDeAllocations();
         try {
             tokensFreqWriter.close();
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
 }

@@ -2,6 +2,9 @@ package webdata;
 
 import java.io.*;
 
+/**
+ * the class Parser is used on order to parse the reviews file
+ */
 class Parser {
     public final static int PRODUCT_ID_IDX = 0;
     public final static int HELPFULNESS_IDX = 1;
@@ -9,6 +12,9 @@ class Parser {
     public final static int TEXT_IDX = 3;
     private BufferedReader reader;
 
+    /**
+     * @param inputFile the reviews file
+     */
     Parser(String inputFile) {
         File file = new File(inputFile);
         try {
