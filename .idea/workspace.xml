@@ -6,26 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datasets/1000.txt" beforeDir="false" afterPath="$PROJECT_DIR$/datasets/1000.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/reviewsFields.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/reviewsFields.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/statistics.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/statistics.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/indexFiles/textConcatenatedString.txt" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/textConcatenatedString.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/indexFiles/textDictFile.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/textDictFile.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/indexFiles/textInvertedIndex.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/textInvertedIndex.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/indexFiles/tokenFreq.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/tokenFreq.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/DictReaderOld.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextDict.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextDict.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextDictOld.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/kFrontDict.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/kFrontDict.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/IndexReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/IndexReader.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/PosListIterator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/PosListIterator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/WebDataUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/WebDataUtils.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IndexReaderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IndexReaderTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/KFrontDict.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/KFrontDict.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/IndexReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/IndexReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/SlowIndexWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/SlowIndexWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webdata.iml" beforeDir="false" afterPath="$PROJECT_DIR$/webdata.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IndexReaderTest2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IndexReaderTest2.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

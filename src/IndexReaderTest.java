@@ -19,8 +19,6 @@ public class IndexReaderTest {
     final static String DictionaryPath = "indexFiles";
     final static String DataSetPath = "datasets\\1000.txt";
 
-    IndexReader ir;
-
     @BeforeClass
     public static void prep() {
         SlowIndexWriter writer = new SlowIndexWriter();

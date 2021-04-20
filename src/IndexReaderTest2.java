@@ -1,3 +1,5 @@
+import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import webdata.IndexReader;
@@ -8,16 +10,22 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class IndexReaderTest2 {
-    SlowIndexWriter slowIndexWriter;
     IndexReader indexReader;
 
-    final String DictionaryPath = "indexFiles";
+    final static String DictionaryPath = "indexFiles";
+    final static String DataSetPath = "datasets\\1000.txt";
+
+    @BeforeAll
+    public static void prep() {
+        SlowIndexWriter writer = new SlowIndexWriter();
+        long startTime = System.currentTimeMillis();
+        writer.slowWrite(DataSetPath, DictionaryPath);
+        long estimatedTime = System.currentTimeMillis() - startTime;
+        System.out.println("creating index in: " + estimatedTime + " ms");
+    }
 
     @BeforeEach
     void indexReader() {
-
-        this.slowIndexWriter = new SlowIndexWriter();
-        slowIndexWriter.slowWrite("datasets\\1000.txt", DictionaryPath);
         this.indexReader = new IndexReader(DictionaryPath);
     }
 
@@ -88,7 +96,7 @@ class IndexReaderTest2 {
 
     @Test
     void getTokenSizeOfReviews() {
-        assertEquals(75455, this.indexReader.getTokenSizeOfReviews());
+        assertEquals(75447, this.indexReader.getTokenSizeOfReviews());
     }
 
     @Test

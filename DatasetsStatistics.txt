@@ -1,0 +1,19 @@
+Statistics for - 1000.txt:
+num of reviews - 1000
+num of products - 207
+total num of tokens - 75447
+num of different tokens - 5979
+max token len - 18
+max num of tokens in review - 922
+max numerator - 47
+max denominator - 47
+
+Statistics for - 100.txt:
+num of reviews - 100
+num of products - 29
+total num of tokens - 6903
+num of different tokens - 1532
+max token len - 13
+max num of tokens in review - 447
+max numerator - 19
+max denominator - 19
