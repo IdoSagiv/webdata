@@ -1,4 +1,3 @@
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -59,7 +58,6 @@ class IndexReaderTest2 {
         assertEquals(0, this.indexReader.getReviewHelpfulnessDenominator(777));
         assertEquals(5, this.indexReader.getReviewHelpfulnessDenominator(1000));
         assertEquals(-1, this.indexReader.getReviewHelpfulnessNumerator(1001));
-
     }
 
     @Test
@@ -113,7 +111,6 @@ class IndexReaderTest2 {
 
     @Test
     public void getProductReviewsfShouldReturnEmpty() {
-
         Enumeration<Integer> r = this.indexReader.getProductReviews("B009HINRX9");
         assertFalse(r.hasMoreElements(), "no reviews for B009HINRX9 should exist");
     }
@@ -125,12 +122,6 @@ class IndexReaderTest2 {
 
     @Test
     public void ShouldFindCorrectIdiesFromProduct() {
-//        Map<String, List<Integer>> map = Map.of(
-//                "B001E4KFG0", Arrays.asList(1),
-//                "B0009XLVG0", Arrays.asList(12, 13),
-//                "B00813GRG4", Arrays.asList(2),
-//                "B006F2NYI2", Arrays.asList(988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 999, 1000)
-//        );
         HashMap<String, List<Integer>> map = new HashMap<String, List<Integer>>() {{
             put("B001E4KFG0", Arrays.asList(1));
             put("B0009XLVG0", Arrays.asList(12, 13));
@@ -144,21 +135,11 @@ class IndexReaderTest2 {
             List<Integer> expected = map.get(id);
             assertEquals(expected, actual, GetErrorMSG(id, expected, actual));
         }
-
     }
 
 
     @Test
     public void ShouldFindCorrectIdiesFromText() {
-//        Map<String, List<Integer>> map = Map.of(
-//                "endurolyte", Arrays.asList(64, 3),
-//                "Vitality", Arrays.asList(1, 1),
-//                "labeled", Arrays.asList(2, 1, 317, 1),
-//                "Robitussin", Arrays.asList(4, 1),
-//                "Habanero", Arrays.asList(54, 1, 621, 1, 988, 1, 992, 1, 994, 1, 1000, 1),
-//                "finicky", Arrays.asList(1, 1, 124, 2),
-//                "person", Arrays.asList(42, 1, 74, 1, 147, 1, 209, 1, 422, 1, 509, 1, 540, 1, 554, 1, 593, 2, 652, 1, 726, 1, 855, 1)
-//        );
         HashMap<String, List<Integer>> map = new HashMap<String, List<Integer>>() {{
             put("endurolyte", Arrays.asList(64, 3));
             put("Vitality", Arrays.asList(1, 1));
@@ -174,21 +155,10 @@ class IndexReaderTest2 {
             List<Integer> expected = map.get(text);
             assertEquals(expected, actual, GetErrorMSG(text, expected, actual));
         }
-
     }
 
     @Test
     public void ShouldFindCorrectIdiesFromText2() {
-//        Map<String, List<Integer>> map = Map.of(
-//                "0", Arrays.asList(41, 1, 130, 1, 159, 1, 596, 1, 746, 2, 776, 1, 863, 1, 930, 1),
-//                "09", Arrays.asList(966, 1),
-//                "0g", Arrays.asList(746, 1),
-//                "100ml", Arrays.asList(411, 1),
-//                "zip", Arrays.asList(17, 1, 193, 2, 476, 1, 690, 1, 852, 1),
-//                "zippy", Arrays.asList(627, 1),
-//                "zola", Arrays.asList(747, 1),
-//                "zucchini", Arrays.asList(902, 2, 932, 1, 942, 1, 944, 1)
-//        );
         HashMap<String, List<Integer>> map = new HashMap<String, List<Integer>>() {{
             put("0", Arrays.asList(41, 1, 130, 1, 159, 1, 596, 1, 746, 2, 776, 1, 863, 1, 930, 1));
             put("09", Arrays.asList(966, 1));
@@ -205,45 +175,30 @@ class IndexReaderTest2 {
             List<Integer> expected = map.get(text);
             assertEquals(expected, actual, GetErrorMSG(text, expected, actual));
         }
-
     }
 
     @Test
     public void ShouldReturnEmptyForWordNotExisting() {
-
         List<String> map = Arrays.asList("jhskdf", "Vitality11");
 
         for (String text : map) {
             List<Integer> actual = Collections.list(this.indexReader.getReviewsWithToken(text));
             assertTrue(actual.isEmpty(), text + " should return empty enumeration");
         }
-
     }
 
     @Test
     public void WordCountShouldBeZero() {
-
         List<String> map = Arrays.asList("jhskdf", "Vitality11");
 
         for (String text : map) {
             int actual = this.indexReader.getTokenCollectionFrequency(text);
             assertEquals(actual, 0);
         }
-
     }
 
     @Test
     public void GetCountTest() {
-//        Map<String, Integer> map = Map.of(
-//                "endurolyte", 3,
-//                "Vitality", 1,
-//                "labeled", 2,
-//                "Habanero", 6,
-//                "person", 13,
-//                "my", 656,
-//                "the", 3161,
-//                "finicky", 3
-//        );
         HashMap<String, Integer> map = new HashMap<String, Integer>() {{
             put("endurolyte", 3);
             put("Vitality", 1);
@@ -259,21 +214,10 @@ class IndexReaderTest2 {
             int actual = this.indexReader.getTokenCollectionFrequency(text);
             assertEquals(map.get(text), actual, text + " should appear " + map.get(text) + " times and not " + actual);
         }
-
     }
 
     @Test
     public void GetCountTest2() {
-//        Map<String, Integer> map = Map.of(
-//                "0", 9,
-//                "09", 1,
-//                "0g", 1,
-//                "100ml", 1,
-//                "zip", 6,
-//                "zippy", 1,
-//                "zola", 1,
-//                "zucchini", 5
-//        );
         HashMap<String, Integer> map = new HashMap<String, Integer>() {{
             put("0", 9);
             put("09", 1);
@@ -289,31 +233,20 @@ class IndexReaderTest2 {
             int actual = this.indexReader.getTokenCollectionFrequency(text);
             assertEquals(map.get(text), actual, text + " should appear " + map.get(text) + " times and not " + actual);
         }
-
     }
 
     @Test
     public void FrequencyShouldBe0() {
-
         List<String> map = Arrays.asList("jhskdf", "Vitality11");
 
         for (String text : map) {
             int actual = this.indexReader.getTokenFrequency(text);
             assertEquals(actual, 0);
         }
-
     }
 
     @Test
     public void GetFrequencyTest() {
-//        Map<String, Integer> map = Map.of(
-//                "endurolyte", 1,
-//                "Vitality", 1,
-//                "labeled", 2,
-//                "Robitussin", 1,
-//                "Habanero", 6,
-//                "finicky", 2
-//        );
         HashMap<String, Integer> map = new HashMap<String, Integer>() {{
             put("endurolyte", 1);
             put("Vitality", 1);
@@ -327,21 +260,10 @@ class IndexReaderTest2 {
             int actual = this.indexReader.getTokenFrequency(text);
             assertEquals(map.get(text), actual, text + " should appear " + map.get(text) + " times and not " + actual);
         }
-
     }
 
     @Test
     public void GetFrequencyTest2() {
-//        Map<String, Integer> map = Map.of(
-//                "0", 8,
-//                "09", 1,
-//                "0g", 1,
-//                "100ml", 1,
-//                "zip", 5,
-//                "zippy", 1,
-//                "zola", 1,
-//                "zucchini", 4
-//        );
         HashMap<String, Integer> map = new HashMap<String, Integer>() {{
             put("0", 8);
             put("09", 1);
@@ -353,11 +275,9 @@ class IndexReaderTest2 {
             put("zucchini", 4);
         }};
 
-
         for (String text : map.keySet()) {
             int actual = this.indexReader.getTokenFrequency(text);
             assertEquals(map.get(text), actual, text + " should appear " + map.get(text) + " times and not " + actual);
         }
-
     }
 }
