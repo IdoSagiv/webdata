@@ -27,19 +27,42 @@ public class SlowIndexWriter {
     // statistics file
     static final String STATISTICS_PATH = "statistics.bin";
 
-    // review fields file constants
-    static final int NUMERATOR_OFFSET = 0;
-    static final int NUMERATOR_LENGTH = 1;
-    static final int DENOMINATOR_OFFSET = 1;
-    static final int DENOMINATOR_LENGTH = 1;
-    static final int SCORE_OFFSET = 2;
-    static final int SCORE_LENGTH = 1;
-    static final int TOKEN_COUNTER_OFFSET = 3;
-    static final int TOKEN_COUNTER_LENGTH = 2;
-    static final int PRODUCT_ID_OFFSET = 5;
-    static final int PRODUCT_ID_LENGTH = 10;
-    static final int FIELDS_BLOCK_LENGTH = NUMERATOR_LENGTH + DENOMINATOR_LENGTH + SCORE_LENGTH +
-            TOKEN_COUNTER_LENGTH + PRODUCT_ID_LENGTH;
+    /**
+     * TokenParam enum represents token's parameters and their properties
+     */
+    public enum ReviewField {
+        NUMERATOR(1),
+        DENOMINATOR(1),
+        SCORE(1),
+        NUM_OF_TOKENS(2),
+        PRODUCT_ID(10);
+
+        public final int length;
+
+        ReviewField(int length) {
+            this.length = length;
+        }
+
+        public int offset() {
+            switch (this) {
+                case NUMERATOR:
+                    return 0;
+                case DENOMINATOR:
+                    return NUMERATOR.length;
+                case SCORE:
+                    return NUMERATOR.length + DENOMINATOR.length;
+                case NUM_OF_TOKENS:
+                    return NUMERATOR.length + DENOMINATOR.length + SCORE.length;
+                case PRODUCT_ID:
+                    return NUMERATOR.length + DENOMINATOR.length + SCORE.length + NUM_OF_TOKENS.length;
+                default:
+                    return -1;
+            }
+        }
+    }
+
+    static final int FIELDS_BLOCK_LENGTH = ReviewField.NUMERATOR.length + ReviewField.DENOMINATOR.length +
+            ReviewField.SCORE.length + ReviewField.NUM_OF_TOKENS.length + ReviewField.PRODUCT_ID.length;
 
 
     /**
@@ -112,22 +135,22 @@ public class SlowIndexWriter {
 
 
     /**
-     * @param outStream   outputStream
-     * @param helpfulness helpfulness field
-     * @param score       score field
-     * @param tokenId     the token's Id
-     * @param productId   productId field
+     * @param outStream      outputStream
+     * @param helpfulness    helpfulness field
+     * @param score          score field
+     * @param tokensInReview the number of tokens in the review
+     * @param productId      productId field
      * @throws IOException
      */
     private void writeReviewFields(OutputStream outStream, String helpfulness, String score,
-                                   int tokenId, String productId) throws IOException {
+                                   int tokensInReview, String productId) throws IOException {
         int scoreAsInt = Math.round(Float.parseFloat(score));
         String[] helpfulnessArray = helpfulness.split("/");
         int numerator = Integer.parseInt(helpfulnessArray[0]);
         int denominator = Integer.parseInt(helpfulnessArray[1]);
 
         byte[] bytesToWrite = {(byte) (numerator), (byte) (denominator), (byte) (scoreAsInt),
-                (byte) (tokenId >>> 8), (byte) tokenId};
+                (byte) (tokensInReview >>> 8), (byte) tokensInReview};
         outStream.write(bytesToWrite);
         outStream.write(productId.getBytes());
     }
