@@ -19,6 +19,17 @@ public class IndexReaderTest {
     final static String DictionaryPath = "indexFiles";
     final static String DataSetPath = "datasets\\1000.txt";
 
+    IndexReader ir;
+
+    @BeforeClass
+    public static void prep() {
+        SlowIndexWriter writer = new SlowIndexWriter();
+        long startTime = System.currentTimeMillis();
+        writer.slowWrite(DataSetPath, DictionaryPath);
+        long estimatedTime = System.currentTimeMillis() - startTime;
+        System.out.println("creating index in: "+ estimatedTime + " ms");
+    }
+
     @Test
     public void getProductReviewsfShouldReturnEmpty() throws IOException {
         IndexReader ir = new IndexReader(DictionaryPath);
@@ -28,7 +39,7 @@ public class IndexReaderTest {
     }
 
 
-    private final String GetErrorMSG(String productID, List<Integer> expected, List<Integer> actual) {
+    private String GetErrorMSG(String productID, List<Integer> expected, List<Integer> actual) {
         return productID + " should be found at " + expected + " found at " + actual;
     }
 
@@ -292,12 +303,4 @@ public class IndexReaderTest {
         }
     }
 
-    @BeforeClass
-    public static void prep() {
-        SlowIndexWriter writer = new SlowIndexWriter();
-        long startTime = System.currentTimeMillis();
-        writer.slowWrite(DataSetPath, DictionaryPath);
-        long estimatedTime = System.currentTimeMillis() - startTime;
-        System.out.println("creating index in: "+ estimatedTime + " ms");
-    }
 }

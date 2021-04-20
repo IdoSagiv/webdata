@@ -122,7 +122,8 @@ public abstract class KFrontDict<T> {
     public int addText(String text, int reviewId) {
         int counter = 0;
         text = WebDataUtils.preProcessText(text);
-        for (String token : text.split("[^\\w]")) {
+        String regex = "[^a-z0-9]+";
+        for (String token : text.split(regex)) {
             if (!token.isEmpty()) {
                 addToken(token, reviewId);
                 counter++;
