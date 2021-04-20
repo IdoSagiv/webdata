@@ -1,14 +1,9 @@
+import webdata.DictReader;
 import webdata.IndexReader;
 import webdata.SlowIndexWriter;
-import webdata.WebDataUtils;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Enumeration;
 
 
 public class main {
@@ -39,7 +34,7 @@ public class main {
 //        while (PosList.hasMoreElements()) {
 //            System.out.println(PosList.nextElement());
 //        }
-
+        DictReader d = new DictReader(new File("indexFiles\\textDictFile.bin"),new File("indexFiles\\textInvertedIndex.bin"),new File("indexFiles\\textConcatenatedString.txt"),8);
 
 //        writer.removeIndex("indexFiles");
 

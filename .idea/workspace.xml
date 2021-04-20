@@ -3,21 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/productIdConcatenatedString.txt" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/productIdConcatenatedString.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/productIdDictFile.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/productIdDictFile.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/productIdInvertedIndex.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/productIdInvertedIndex.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/reviewsFields.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/reviewsFields.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/statistics.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/statistics.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/textConcatenatedString.txt" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/textConcatenatedString.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/textDictFile.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/textDictFile.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/textInvertedIndex.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/textInvertedIndex.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/tokenFreq.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/tokenFreq.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IndexReaderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IndexReaderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/DictReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/DictReader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/IndexReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/IndexReader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/WebDataUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/WebDataUtils.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/KFrontDict.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/KFrontDict.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/TextDict.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/TextDict.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/DictReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/DictReaderOld.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webdata/IndexReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/IndexReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/SlowIndexWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/SlowIndexWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/WebDataUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/WebDataUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -307,13 +301,18 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main.java</url>
-          <line>63</line>
+          <line>58</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/IndexReaderTest.java</url>
           <line>68</line>
           <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

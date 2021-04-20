@@ -85,12 +85,13 @@ public class WebDataUtils {
      */
     public static int randomAccessReadInt(File file, long start, int n) {
         assert (start + n <= file.length() && n > 0 && n <= 4);
-        int res = 0;
-        for (byte b : randomAccessReadBytes(file, start, n)) {
-            res = (res << 8) | Byte.toUnsignedInt(b);
-        }
-
-        return res;
+//        int res = 0;
+//        for (byte b : randomAccessReadBytes(file, start, n)) {
+//            res = (res << 8) | Byte.toUnsignedInt(b);
+//        }
+//        return res;
+        // ToDo: show to adi
+        return byteArrayToInt(randomAccessReadBytes(file, start, n));
     }
 
     /**
@@ -113,6 +114,24 @@ public class WebDataUtils {
             e.printStackTrace();
         }
         return bytesArray;
+    }
+
+    public static int byteArrayToInt(byte[] bytes) {
+        assert (bytes.length <= 4);
+        int res = 0;
+        for (byte b : bytes) {
+            res = (res << 8) | Byte.toUnsignedInt(b);
+        }
+        return res;
+    }
+
+    public static int byteArrayToStr(byte[] bytes) {
+        assert (bytes.length <= 4);
+        int res = 0;
+        for (byte b : bytes) {
+            res = (res << 8) | Byte.toUnsignedInt(b);
+        }
+        return res;
     }
 
 

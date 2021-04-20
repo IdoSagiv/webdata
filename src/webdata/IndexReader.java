@@ -5,10 +5,7 @@ import webdata.Dictionary.KFrontDict;
 import webdata.Dictionary.KFrontDict.TokenParam;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
-
-import webdata.DictReader;
 
 public class IndexReader {
 
