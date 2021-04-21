@@ -37,7 +37,8 @@ public class IndexReader {
         File productIdConcatenatedStrFile = new File(dir, SlowIndexWriter.PRODUCT_ID_CONC_STR_PATH);
         File productIdInvertedIdxFile = new File(dir, SlowIndexWriter.PRODUCT_ID_INV_IDX_PATH);
 
-        try (RandomAccessFile statisticsReader = new RandomAccessFile(new File(dir, SlowIndexWriter.STATISTICS_PATH), "r")) {
+        try (RandomAccessFile statisticsReader =
+                     new RandomAccessFile(new File(dir, SlowIndexWriter.STATISTICS_PATH), "r")) {
             tokensFreqBytes = Files.readAllBytes(Paths.get(dir, SlowIndexWriter.TOKEN_FREQ_PATH));
             reviewFieldsBytes = Files.readAllBytes(Paths.get(dir, SlowIndexWriter.FIELDS_PATH));
             numOfReviews = statisticsReader.readInt();
@@ -60,8 +61,10 @@ public class IndexReader {
         if (reviewId < 1 || reviewId > numOfReviews) {
             return null;
         }
-        int startingPos = (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK_LENGTH + SlowIndexWriter.ReviewField.PRODUCT_ID.offset();
-        byte[] asBytes = Arrays.copyOfRange(reviewFieldsBytes, startingPos, startingPos + SlowIndexWriter.ReviewField.PRODUCT_ID.length);
+        int startingPos = (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK_LENGTH +
+                SlowIndexWriter.ReviewField.PRODUCT_ID.offset();
+        byte[] asBytes = Arrays.copyOfRange(reviewFieldsBytes, startingPos, startingPos +
+                SlowIndexWriter.ReviewField.PRODUCT_ID.length);
         return new String(asBytes, StandardCharsets.UTF_8);
     }
 
@@ -186,6 +189,7 @@ public class IndexReader {
             return -1;
         }
         int startingPos = (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK_LENGTH + field.offset();
-        return WebDataUtils.byteArrayToInt(Arrays.copyOfRange(reviewFieldsBytes, startingPos, startingPos + field.length));
+        return WebDataUtils.byteArrayToInt(Arrays.copyOfRange(reviewFieldsBytes, startingPos,
+                startingPos + field.length));
     }
 }

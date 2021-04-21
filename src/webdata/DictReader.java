@@ -71,7 +71,8 @@ public class DictReader {
         } else {
             int posInBlock = tokenId % KFrontDict.TOKENS_IN_BLOCK;
             int nextRow = tokenPos + KFrontDict.getRowLength(posInBlock);
-            stop = readWordParam(nextRow, KFrontDict.TokenParam.INVERTED_PTR, (posInBlock + 1) % KFrontDict.TOKENS_IN_BLOCK);
+            stop = readWordParam(nextRow, KFrontDict.TokenParam.INVERTED_PTR, (posInBlock + 1) %
+                    KFrontDict.TOKENS_IN_BLOCK);
         }
         return new long[]{start, stop};
     }
@@ -168,9 +169,11 @@ public class DictReader {
                     curLength = concStr.length() - concStrPtr + curPrefSize;
                 } else {
                     // there is at least one more block - calc the tokens length with the next blocks concStr pointer
-                    int start = wordPtr + KFrontDict.getRowLength(i) + KFrontDict.TokenParam.CONCATENATED_STR_PTR.getOffset(0);
+                    int start = wordPtr + KFrontDict.getRowLength(i) +
+                            KFrontDict.TokenParam.CONCATENATED_STR_PTR.getOffset(0);
                     int size = KFrontDict.TokenParam.CONCATENATED_STR_PTR.length;
-                    curLength = WebDataUtils.byteArrayToInt(Arrays.copyOfRange(dict, start, start + size)) - concStrPtr + curPrefSize;
+                    curLength = WebDataUtils.byteArrayToInt(Arrays.copyOfRange(dict, start, start + size)) -
+                            concStrPtr + curPrefSize;
                 }
             } else {
                 curLength = readWordParam(wordPtr, KFrontDict.TokenParam.LENGTH, i);

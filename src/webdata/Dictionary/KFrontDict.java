@@ -52,7 +52,8 @@ public abstract class KFrontDict<T> {
                 case PREFIX_SIZE:
                     switch (positionInBlock) {
                         case 0:
-                            throw new IllegalArgumentException("the first element in the block doesn't has a prefix size param");
+                            throw new IllegalArgumentException("the first element in the block doesn't has a prefix" +
+                                    " size param");
                         case TOKENS_IN_BLOCK - 1:
                             return FREQ.length + INVERTED_PTR.length;
                         default:
@@ -62,7 +63,8 @@ public abstract class KFrontDict<T> {
                     if (positionInBlock == 0) {
                         return FREQ.length + INVERTED_PTR.length + LENGTH.length;
                     }
-                    throw new IllegalArgumentException("only the first element in the block has pointer to the concatenated string");
+                    throw new IllegalArgumentException("only the first element in the block has pointer to the " +
+                            "concatenated string");
                 default:
                     throw new IllegalArgumentException("Invalid input.");
             }

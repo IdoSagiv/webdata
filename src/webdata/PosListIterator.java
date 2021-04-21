@@ -58,7 +58,7 @@ public abstract class PosListIterator implements Enumeration<Integer> {
             byte curByte = reader.readByte();
             byte[] asBytes = new byte[4];
             int additionalBytes = curByte >>> 6;
-            asBytes[asBytes.length - 1 - additionalBytes] = (byte) (curByte & (int) (Math.pow(2, 6) - 1));
+            asBytes[asBytes.length - 1 - additionalBytes] = (byte) (curByte & 0x3f);
             for (int j = 0; j < additionalBytes; j++) {
                 asBytes[asBytes.length - j - 1] = reader.readByte();
             }

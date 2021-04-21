@@ -88,9 +88,11 @@ public class SlowIndexWriter {
         Parser parser = new Parser(inputFile);
         String[] section;
         TextDict textDict = new TextDict(textDictFile, textConcatenatedStrFile, textInvertedIdxFile, tokensFreqFile);
-        ProductIdDict productIdDict = new ProductIdDict(productIdDictFile, productIdConcatenatedStrFile, productIdInvertedIdxFile);
+        ProductIdDict productIdDict =
+                new ProductIdDict(productIdDictFile, productIdConcatenatedStrFile, productIdInvertedIdxFile);
         try (FileOutputStream reviewFieldsWriter = new FileOutputStream(new File(dir, FIELDS_PATH));
-             DataOutputStream statisticsWriter = new DataOutputStream(new FileOutputStream(new File(dir, STATISTICS_PATH)))) {
+             DataOutputStream statisticsWriter =
+                     new DataOutputStream(new FileOutputStream(new File(dir, STATISTICS_PATH)))) {
             int totalTokenCounter = 0;
             int reviewId = 1;
 

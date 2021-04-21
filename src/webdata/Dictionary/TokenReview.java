@@ -14,5 +14,4 @@ public class TokenReview {
         this.reviewId = reviewId;
         this.freqInReview = 1;
     }
-
 }
