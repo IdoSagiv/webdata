@@ -1,7 +1,7 @@
 package webdata.Dictionary;
 
 import webdata.Dictionary.DictEntries.DictEntry;
-import webdata.WebDataUtils;
+import webdata.Utils.WebDataUtils;
 
 import java.io.*;
 import java.util.ArrayList;

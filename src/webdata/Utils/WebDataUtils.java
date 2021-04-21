@@ -1,4 +1,4 @@
-package webdata;
+package webdata.Utils;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -9,8 +9,6 @@ import java.util.ArrayList;
  * the class is used to store general methods for the project
  */
 public class WebDataUtils {
-
-
     /**
      * encodes given number with Length Pre-Coded Varint code.
      *

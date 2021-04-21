@@ -1,7 +1,8 @@
 package webdata;
 
-import javafx.util.Pair;
 import webdata.Dictionary.KFrontDict;
+import webdata.Utils.GenericPair;
+import webdata.Utils.WebDataUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,7 +53,7 @@ public class DictReader {
      * @param token
      * @return a pair of the pointer to the token's first byte in the dictionary and the tokenId
      */
-    public Pair<Integer, Integer> findToken(String token) {
+    public GenericPair<Integer, Integer> findToken(String token) {
         token = WebDataUtils.preProcessText(token);
         return searchInBlock(findTokensBlock(token), token);
     }
@@ -135,14 +136,14 @@ public class DictReader {
      * @param token    token to search for.
      * @return a pointer to the token's position in the dictionary or -1 if the token is not in the block.
      */
-    private Pair<Integer, Integer> searchInBlock(int blockNum, String token) {
+    private GenericPair<Integer, Integer> searchInBlock(int blockNum, String token) {
         int wordPtr = (blockNum * KFrontDict.BLOCK_LENGTH);
         String curWord = readFirstToken(blockNum);
 
         int tokenId = blockNum * KFrontDict.TOKENS_IN_BLOCK;
         if (curWord.equals(token)) {
             // if it's the first word in the block
-            return new Pair<>(wordPtr, tokenId);
+            return new GenericPair<>(wordPtr, tokenId);
         } else if (token.compareTo(curWord) < 0) {
             // the token supposed to be in a former block.
             return null;
@@ -180,7 +181,7 @@ public class DictReader {
             curWord = prevWord.substring(0, curPrefSize) + suffix;
 
             if (curWord.equals(token)) {
-                return new Pair<>(wordPtr, tokenId);
+                return new GenericPair<>(wordPtr, tokenId);
             }
             wordPtr += KFrontDict.getRowLength(i);
             tokenId++;

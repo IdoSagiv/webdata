@@ -1,8 +1,9 @@
 package webdata;
 
-import javafx.util.Pair;
 import webdata.Dictionary.KFrontDict;
 import webdata.Dictionary.KFrontDict.TokenParam;
+import webdata.Utils.GenericPair;
+import webdata.Utils.WebDataUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -102,11 +103,11 @@ public class IndexReader {
      * Returns 0 if there are no reviews containing this token
      */
     public int getTokenFrequency(String token) {
-        Pair<Integer, Integer> tokenPos = textDict.findToken(token);
+        GenericPair<Integer, Integer> tokenPos = textDict.findToken(token);
         if (tokenPos == null) {
             return 0;
         }
-        int tokenId = tokenPos.getValue();
+        int tokenId = tokenPos.second;
         // every token takes 4 bytes (int)
         int startingPos = tokenId * 4;
         return WebDataUtils.byteArrayToInt(Arrays.copyOfRange(tokensFreqBytes, startingPos, startingPos + 4));
@@ -119,11 +120,11 @@ public class IndexReader {
      * Returns 0 if there are no reviews containing this token
      */
     public int getTokenCollectionFrequency(String token) {
-        Pair<Integer, Integer> pos = textDict.findToken(token);
+        GenericPair<Integer, Integer> pos = textDict.findToken(token);
         if (pos == null) {
             return 0;
         }
-        return textDict.readWordParam(pos.getKey(), TokenParam.FREQ, pos.getValue() % KFrontDict.TOKENS_IN_BLOCK);
+        return textDict.readWordParam(pos.first, TokenParam.FREQ, pos.second % KFrontDict.TOKENS_IN_BLOCK);
     }
 
 
@@ -137,11 +138,11 @@ public class IndexReader {
      * Returns an empty Enumeration if there are no reviews containing this token
      */
     public Enumeration<Integer> getReviewsWithToken(String token) {
-        Pair<Integer, Integer> pos = textDict.findToken(token);
+        GenericPair<Integer, Integer> pos = textDict.findToken(token);
         if (pos == null) {
             return new TextPostIterator();
         }
-        long[] startAndStop = textDict.getPostLstBounds(pos.getKey(), pos.getValue());
+        long[] startAndStop = textDict.getPostLstBounds(pos.first, pos.second);
         return new TextPostIterator(textDict.invertedIdxFile, startAndStop[0], startAndStop[1]);
     }
 
@@ -167,11 +168,11 @@ public class IndexReader {
      * Returns an empty Enumeration if there are no reviews for this product
      */
     public Enumeration<Integer> getProductReviews(String productId) {
-        Pair<Integer, Integer> pos = productIdDict.findToken(productId);
+        GenericPair<Integer, Integer> pos = productIdDict.findToken(productId);
         if (pos == null) {
             return new ProductIdPostIterator();
         }
-        long[] startAndStop = productIdDict.getPostLstBounds(pos.getKey(), pos.getValue());
+        long[] startAndStop = productIdDict.getPostLstBounds(pos.first, pos.second);
         return new ProductIdPostIterator(productIdDict.invertedIdxFile, startAndStop[0], startAndStop[1]);
     }
 

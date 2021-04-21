@@ -6,8 +6,8 @@ import webdata.Dictionary.DictEntries.TextEntry;
 import java.io.*;
 import java.util.*;
 
-import static webdata.WebDataUtils.encode;
-import static webdata.WebDataUtils.writeBytes;
+import static webdata.Utils.WebDataUtils.encode;
+import static webdata.Utils.WebDataUtils.writeBytes;
 
 /**
  * this class extends KFrontDict class and represents a dictionary for text tokens
