@@ -126,14 +126,10 @@ public class SlowIndexWriter {
         File[] files = directory.listFiles();
         if (files != null) {
             for (File file : files) {
-                if (file.delete()) {
-                    System.out.println("Deleting " + file.getName());
-                }
+                file.delete();
             }
         }
-        if (directory.delete()) {
-            System.out.println("Deleting directory " + directory.getName());
-        }
+        directory.delete();
     }
 
 
