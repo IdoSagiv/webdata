@@ -4,7 +4,33 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="" />
+    <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReviewFileAnalyzer.py" beforeDir="false" afterPath="$PROJECT_DIR$/ReviewFileAnalyzer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest$10.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest$11.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest$8.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest$9.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2$6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2$7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IndexReaderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IndexReaderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/SlowIndexWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/SlowIndexWriter.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -150,7 +176,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.import" />
   </component>
-  <component name="RunManager" selected="JUnit.IndexReaderTest2">
+  <component name="RunManager" selected="JUnit.IndexReaderTest">
     <configuration name="main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main" />
       <module name="webdata" />
@@ -170,10 +196,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="IndexReaderTest2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="IndexReaderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="webdata" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="IndexReaderTest2" />
+      <option name="MAIN_CLASS_NAME" value="IndexReaderTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -212,8 +238,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.IndexReaderTest2" />
         <item itemvalue="JUnit.IndexReaderTest" />
+        <item itemvalue="JUnit.IndexReaderTest2" />
         <item itemvalue="Application.main" />
         <item itemvalue="JUnit.IndexReaderTest.getProductID" />
         <item itemvalue="JUnit.IndexReaderTest.ProductIDShouldBeNULL" />
@@ -315,11 +341,6 @@
           <url>file://$PROJECT_DIR$/src/main.java</url>
           <line>58</line>
           <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/IndexReaderTest.java</url>
-          <line>77</line>
-          <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main.java</url>

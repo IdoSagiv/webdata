@@ -30,7 +30,7 @@ class Parser {
      * @return the parsed section ro null if it can not be parsed correctly.
      */
     String[] nextSection() {
-        final int OK_FLAG = 15; // binary representation of four ones (1111)
+        final int OK_FLAG = 0xf; // binary representation of four ones (1111)
         String line;
         String[] section = new String[4];
         try {

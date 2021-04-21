@@ -19,10 +19,11 @@ public class SlowIndexWriter {
     static final String PRODUCT_ID_CONC_STR_PATH = "productIdConcatenatedString.txt";
     static final String PRODUCT_ID_INV_IDX_PATH = "productIdInvertedIndex.bin";
 
-    static final String TOKEN_FREQ_PATH = "tokenFreq.bin";
-
-    //  the rest of the product fields files
+    // the rest of the product fields files
     static final String FIELDS_PATH = "reviewsFields.bin";
+
+    //
+    static final String TOKEN_FREQ_PATH = "tokenFreq.bin";
 
     // statistics file
     static final String STATISTICS_PATH = "statistics.bin";

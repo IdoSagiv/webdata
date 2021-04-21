@@ -97,6 +97,7 @@ class IndexReaderTest {
         assertEquals(75447, this.indexReader.getTokenSizeOfReviews());
     }
 
+
     @Test
     void getProductReviews() {
         int i = 5;
