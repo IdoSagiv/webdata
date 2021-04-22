@@ -1,4 +1,3 @@
-Statistics for - 1000.txt:
 Statistics for - 100.txt:
 num of reviews - 100
 num of products - 29

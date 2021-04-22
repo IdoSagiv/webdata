@@ -1,7 +1,7 @@
 package webdata.Dictionary;
 
 import webdata.Dictionary.DictEntries.DictEntry;
-import webdata.Dictionary.DictEntries.ProductEntry;
+import webdata.Dictionary.DictEntries.ProductEntryOld;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,7 +41,7 @@ public class ProductIdDict extends KFrontDict<Integer> {
             }
             entry.tokenFreq++;
         } else {
-            dict.put(token, new ProductEntry(reviewId));
+            dict.put(token, new ProductEntryOld(reviewId));
         }
     }
 

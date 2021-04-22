@@ -2,6 +2,8 @@ package webdata;
 
 import webdata.Dictionary.KFrontDict;
 import webdata.Dictionary.KFrontDict.TokenParam;
+import webdata.Dictionary.ProductIdDict;
+import webdata.Dictionary.ProductIdReader;
 import webdata.Utils.GenericPair;
 import webdata.Utils.WebDataUtils;
 
@@ -21,7 +23,7 @@ public class IndexReader {
     private byte[] reviewFieldsBytes;
 
     private DictReader textDict;
-    private DictReader productIdDict;
+    private ProductIdReader productIdDict;
     private int numOfReviews;
     private int numOfTokens;
 
@@ -34,8 +36,8 @@ public class IndexReader {
         File textConcatenatedStrFile = new File(dir, SlowIndexWriter.TEXT_CONC_STR_PATH);
         File textInvertedIdxFile = new File(dir, SlowIndexWriter.TEXT_INV_IDX_PATH);
         File productIdDictFile = new File(dir, SlowIndexWriter.PRODUCT_ID_DICT_PATH);
-        File productIdConcatenatedStrFile = new File(dir, SlowIndexWriter.PRODUCT_ID_CONC_STR_PATH);
-        File productIdInvertedIdxFile = new File(dir, SlowIndexWriter.PRODUCT_ID_INV_IDX_PATH);
+//        File productIdConcatenatedStrFile = new File(dir, SlowIndexWriter.PRODUCT_ID_CONC_STR_PATH);
+//        File productIdInvertedIdxFile = new File(dir, SlowIndexWriter.PRODUCT_ID_INV_IDX_PATH);
 
         try (RandomAccessFile statisticsReader =
                      new RandomAccessFile(new File(dir, SlowIndexWriter.STATISTICS_PATH), "r")) {
@@ -46,8 +48,9 @@ public class IndexReader {
             int numOfDiffTokens = statisticsReader.readInt();
             int numOfDiffProducts = statisticsReader.readInt();
             textDict = new DictReader(textDictFile, textInvertedIdxFile, textConcatenatedStrFile, numOfDiffTokens);
-            productIdDict = new DictReader(productIdDictFile, productIdInvertedIdxFile, productIdConcatenatedStrFile,
-                    numOfDiffProducts);
+//            productIdDict = new DictReader(productIdDictFile, productIdInvertedIdxFile, productIdConcatenatedStrFile,
+//                    numOfDiffProducts);
+            productIdDict = new ProductIdReader(productIdDictFile, numOfDiffProducts);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -171,12 +174,14 @@ public class IndexReader {
      * Returns an empty Enumeration if there are no reviews for this product
      */
     public Enumeration<Integer> getProductReviews(String productId) {
-        GenericPair<Integer, Integer> pos = productIdDict.findToken(productId);
-        if (pos == null) {
-            return new ProductIdPostIterator();
-        }
-        long[] startAndStop = productIdDict.getPostLstBounds(pos.first, pos.second);
-        return new ProductIdPostIterator(productIdDict.invertedIdxFile, startAndStop[0], startAndStop[1]);
+        return productIdDict.getPosLstIterator(productId);
+//
+//        GenericPair<Integer, Integer> pos = productIdDict.findToken(productId);
+//        if (pos == null) {
+//            return new ProductIdPostIteratorOld();
+//        }
+//        long[] startAndStop = productIdDict.getPostLstBounds(pos.first, pos.second);
+//        return new ProductIdPostIteratorOld(productIdDict.invertedIdxFile, startAndStop[0], startAndStop[1]);
     }
 
     /**
