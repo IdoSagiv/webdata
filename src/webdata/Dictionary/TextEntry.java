@@ -1,4 +1,4 @@
-package webdata.Dictionary.DictEntries;
+package webdata.Dictionary;
 
 import webdata.Dictionary.TokenReview;
 

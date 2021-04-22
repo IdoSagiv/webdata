@@ -1,10 +1,10 @@
 package webdata.reading;
 
-import webdata.Dictionary.DictEntries.ProductIdEntry;
-import webdata.Dictionary.ProductIdDictWriter;
+import webdata.Dictionary.ProductIdEntry;
+import webdata.writing.ProductIdDictWriter;
 import webdata.Utils.WebDataUtils;
 
-import webdata.Dictionary.ProductIdDictWriter.ProductIdParam;
+import webdata.writing.ProductIdDictWriter.ProductIdParam;
 
 import java.io.File;
 import java.io.IOException;

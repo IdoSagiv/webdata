@@ -1,6 +1,6 @@
-package webdata.Dictionary;
+package webdata.writing;
 
-import webdata.Dictionary.DictEntries.ProductIdEntry;
+import webdata.Dictionary.ProductIdEntry;
 import webdata.Utils.WebDataUtils;
 
 import java.io.*;
@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import static webdata.Dictionary.ProductIdDictWriter.ProductIdParam.*;
+import static webdata.writing.ProductIdDictWriter.ProductIdParam.*;
 
 public class ProductIdDictWriter {
 

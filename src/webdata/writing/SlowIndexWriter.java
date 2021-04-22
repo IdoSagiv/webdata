@@ -1,7 +1,5 @@
 package webdata.writing;
 
-import webdata.Dictionary.ProductIdDictWriter;
-import webdata.Dictionary.TextDictWriter;
 import webdata.Utils.WebDataUtils;
 
 import java.io.*;

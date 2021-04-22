@@ -5,34 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/DictReader.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/DictEntries/DictEntry.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/DictEntries/ProductEntryOld.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/DictEntries/TextEntry.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/DictEntries/TextEntry.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/KFrontDict$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/KFrontDict$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/KFrontDict$TokenParam.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/KFrontDict$TokenParam.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/ProductIdDict.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextDict.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/kFrontDict.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/kFrontDict.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/IndexReader.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Parser.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/ProductIdIterator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/ProductIdPostIteratorOld.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/ProductIdReader.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter$ReviewField.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/TextPostIterator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/TextPostIteratorOld.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/DictEntries/TextEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/DictEntries/TextEntry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/DictEntries/TextEntryOld.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/DictEntries/TextEntryOld.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/KFrontDict.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/KFrontDict.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/ProductIdDictOld.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/ProductIdDictOld.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/TextDictWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/TextDictWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/DictEntries/ProductIdEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/ProductIdEntry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/DictEntries/TextEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/TextEntry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/ProductIdDictWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/ProductIdDictWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/TextDictWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/TextDictWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/TokenReview.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/TokenReview.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webdata/reading/IndexReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/reading/IndexReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/reading/ProductIdDictReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/reading/ProductIdDictReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webdata/reading/TextDictReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/reading/TextDictReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webdata/writing/SlowIndexWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/SlowIndexWriter.java" afterDir="false" />
     </list>

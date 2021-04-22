@@ -1,4 +1,4 @@
-package webdata.Dictionary.DictEntries;
+package webdata.Dictionary;
 
 public class ProductIdEntry {
     public final int firstReview;

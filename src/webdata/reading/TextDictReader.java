@@ -1,6 +1,6 @@
 package webdata.reading;
 
-import webdata.Dictionary.TextDictWriter;
+import webdata.writing.TextDictWriter;
 import webdata.Utils.GenericPair;
 import webdata.Utils.WebDataUtils;
 

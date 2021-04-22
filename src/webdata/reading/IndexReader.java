@@ -1,7 +1,7 @@
 package webdata.reading;
 
-import webdata.Dictionary.TextDictWriter;
-import webdata.Dictionary.TextDictWriter.TokenParam;
+import webdata.writing.TextDictWriter;
+import webdata.writing.TextDictWriter.TokenParam;
 import webdata.Utils.GenericPair;
 import webdata.Utils.WebDataUtils;
 import webdata.writing.SlowIndexWriter;

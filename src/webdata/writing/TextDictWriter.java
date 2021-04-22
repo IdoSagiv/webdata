@@ -1,6 +1,7 @@
-package webdata.Dictionary;
+package webdata.writing;
 
-import webdata.Dictionary.DictEntries.TextEntry;
+import webdata.Dictionary.TextEntry;
+import webdata.Dictionary.TokenReview;
 import webdata.Utils.WebDataUtils;
 
 import java.io.*;
