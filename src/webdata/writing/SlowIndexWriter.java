@@ -1,6 +1,6 @@
 package webdata.writing;
 
-import webdata.Utils.WebDataUtils;
+import webdata.utils.WebDataUtils;
 
 import java.io.*;
 
@@ -8,21 +8,17 @@ import java.io.*;
  * Slow Index Writer class
  */
 public class SlowIndexWriter {
-    // the text index filed
+    // the text index files
     public static final String TEXT_DICT_PATH = "textDictFile.bin";
     public static final String TEXT_CONC_STR_PATH = "textConcatenatedString.txt";
     public static final String TEXT_INV_IDX_PATH = "textInvertedIndex.bin";
-
-    // the product id index filed
-    public static final String PRODUCT_ID_DICT_PATH = "productIdDictFile.bin";
-    public static final String PRODUCT_ID_CONC_STR_PATH = "productIdConcatenatedString.txt";
-    public static final String PRODUCT_ID_INV_IDX_PATH = "productIdInvertedIndex.bin";
-
-    // the rest of the product fields files
-    public static final String FIELDS_PATH = "reviewsFields.bin";
-
-    //
     public static final String TOKEN_FREQ_PATH = "tokenFreq.bin";
+
+    // the product id index file
+    public static final String PRODUCT_ID_DICT_PATH = "productIdDictFile.bin";
+
+    // the rest of the product fields file
+    public static final String REVIEW_FIELDS_PATH = "reviewsFields.bin";
 
     // statistics file
     public static final String STATISTICS_PATH = "statistics.bin";
@@ -87,10 +83,11 @@ public class SlowIndexWriter {
 
         Parser parser = new Parser(inputFile);
         String[] section;
-        TextDictWriter textDict = new TextDictWriter(textDictFile, textConcatenatedStrFile, textInvertedIdxFile, tokensFreqFile);
+        TextDictWriter textDict = new TextDictWriter(textDictFile, textConcatenatedStrFile, textInvertedIdxFile,
+                tokensFreqFile);
         ProductIdDictWriter productIdDict = new ProductIdDictWriter(productIdDictFile);
 
-        try (FileOutputStream reviewFieldsWriter = new FileOutputStream(new File(dir, FIELDS_PATH));
+        try (FileOutputStream reviewFieldsWriter = new FileOutputStream(new File(dir, REVIEW_FIELDS_PATH));
              DataOutputStream statisticsWriter =
                      new DataOutputStream(new FileOutputStream(new File(dir, STATISTICS_PATH)))) {
             int totalTokenCounter = 0;

@@ -1,4 +1,4 @@
-package webdata.Utils;
+package webdata.utils;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -102,6 +102,12 @@ public class WebDataUtils {
         return res;
     }
 
+
+    /**
+     * @param numToCast  int to convert to bytes
+     * @param numOfBytes the number of bytes
+     * @return a byte array of the given int
+     */
     public static byte[] toByteArray(int numToCast, int numOfBytes) {
         assert (numOfBytes >= 0 && numOfBytes <= 4);
         byte[] res = new byte[numOfBytes];
@@ -111,6 +117,11 @@ public class WebDataUtils {
         return res;
     }
 
+    /**
+     * @param str        string to convert to bytes
+     * @param numOfBytes the number of bytes
+     * @return a byte array of the given string
+     */
     public static byte[] toByteArray(String str, int numOfBytes) {
         assert (numOfBytes <= str.length());
         return Arrays.copyOfRange(str.getBytes(StandardCharsets.UTF_8), 0, numOfBytes);

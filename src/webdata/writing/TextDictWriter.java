@@ -1,8 +1,8 @@
 package webdata.writing;
 
-import webdata.Dictionary.TextEntry;
-import webdata.Dictionary.TokenReview;
-import webdata.Utils.WebDataUtils;
+import webdata.dictionary.TextEntry;
+import webdata.dictionary.TextPostListValue;
+import webdata.utils.WebDataUtils;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -10,8 +10,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import static webdata.Utils.WebDataUtils.encode;
-import static webdata.Utils.WebDataUtils.writeBytes;
+import static webdata.utils.WebDataUtils.encode;
+import static webdata.utils.WebDataUtils.writeBytes;
 
 /**
  * class representing a k-1 out of k prefix front coding dictionary as learned in class,
@@ -241,12 +241,12 @@ public class TextDictWriter {
      * @param token    given token to add.
      * @param reviewId the review id the token related to.
      */
-    private void addToken(String token, int reviewId){
+    private void addToken(String token, int reviewId) {
         if (dict.containsKey(token)) {
             TextEntry entry = dict.get(token);
             int lastIdx = entry.tokenReviews.size() - 1;
             if (entry.tokenReviews.get(lastIdx).reviewId != reviewId) {
-                entry.tokenReviews.add(new TokenReview(reviewId));
+                entry.tokenReviews.add(new TextPostListValue(reviewId));
             } else {
                 entry.tokenReviews.get(lastIdx).freqInReview++;
             }
@@ -264,12 +264,12 @@ public class TextDictWriter {
      * @return the number of bytes written to the file.
      * @throws IOException
      */
-    private int writeInvertedIndexEntry(OutputStream outStream, String token) throws IOException{
+    private int writeInvertedIndexEntry(OutputStream outStream, String token) throws IOException {
         TextEntry entry = dict.get(token);
         int prevId = 0;
         int bytesWritten = 0;
 
-        for (TokenReview review : entry.tokenReviews) {
+        for (TextPostListValue review : entry.tokenReviews) {
             ArrayList<Byte> id = encode(review.reviewId - prevId);
             ArrayList<Byte> freq = encode(review.freqInReview);
             bytesWritten += writeBytes(outStream, id);
@@ -279,6 +279,4 @@ public class TextDictWriter {
         }
         return bytesWritten;
     }
-
-
 }

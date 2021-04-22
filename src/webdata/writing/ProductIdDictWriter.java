@@ -1,7 +1,7 @@
 package webdata.writing;
 
-import webdata.Dictionary.ProductIdEntry;
-import webdata.Utils.WebDataUtils;
+import webdata.dictionary.ProductIdEntry;
+import webdata.utils.WebDataUtils;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -9,13 +9,19 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import static webdata.writing.ProductIdDictWriter.ProductIdParam.*;
-
+/**
+ * this class is used to write the productId dictionary
+ */
 public class ProductIdDictWriter {
 
-    public static final int BLOCK_SIZE = PRODUCT_ID.length + FIRST_REVIEW.length +NUM_OF_REVIEWS.length;
+    public static final int BLOCK_SIZE = ProductIdParam.PRODUCT_ID.length + ProductIdParam.FIRST_REVIEW.length
+            + ProductIdParam.NUM_OF_REVIEWS.length;
     private final File dictFile;
     HashMap<String, ProductIdEntry> dict;
+
+    /**
+     * enum for storing the constants of the dictionary param's lengths and offsets.
+     */
     public enum ProductIdParam {
         PRODUCT_ID(10),
         FIRST_REVIEW(4),
@@ -27,9 +33,7 @@ public class ProductIdDictWriter {
         public final int length;
 
         ProductIdParam(int length) {
-
             this.length = length;
-
         }
 
         /**
@@ -83,9 +87,10 @@ public class ProductIdDictWriter {
         try (DataOutputStream dictWriter = new DataOutputStream(new FileOutputStream(dictFile))) {
             for (String productId : products) {
                 ProductIdEntry entry = dict.get(productId);
-                dictWriter.write(WebDataUtils.toByteArray(productId, PRODUCT_ID.length));
-                dictWriter.write(WebDataUtils.toByteArray(entry.firstReview, FIRST_REVIEW.length));
-                dictWriter.write(WebDataUtils.toByteArray(entry.getNumOfReviews(), NUM_OF_REVIEWS.length));
+                dictWriter.write(WebDataUtils.toByteArray(productId, ProductIdParam.PRODUCT_ID.length));
+                dictWriter.write(WebDataUtils.toByteArray(entry.firstReview, ProductIdParam.FIRST_REVIEW.length));
+                dictWriter.write(WebDataUtils.toByteArray(entry.getNumOfReviews(),
+                        ProductIdParam.NUM_OF_REVIEWS.length));
             }
         } catch (IOException e) {
             e.printStackTrace();

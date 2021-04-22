@@ -5,15 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/DictEntries/ProductIdEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/ProductIdEntry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/DictEntries/TextEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/TextEntry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/ProductIdDictWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/ProductIdDictWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/TextDictWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/TextDictWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/TokenReview.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/TokenReview.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/TextEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/TextEntry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/TokenReview.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/TextPostListValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/Utils/GenericPair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Utils/IntPair.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webdata/reading/IndexReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/reading/IndexReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/reading/ProductIdDictReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/reading/ProductIdDictReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webdata/reading/TextDictReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/reading/TextDictReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/writing/SlowIndexWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/SlowIndexWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/writing/TextDictWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/TextDictWriter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

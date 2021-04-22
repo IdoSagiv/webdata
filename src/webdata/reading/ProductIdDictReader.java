@@ -1,8 +1,8 @@
 package webdata.reading;
 
-import webdata.Dictionary.ProductIdEntry;
+import webdata.dictionary.ProductIdEntry;
 import webdata.writing.ProductIdDictWriter;
-import webdata.Utils.WebDataUtils;
+import webdata.utils.WebDataUtils;
 
 import webdata.writing.ProductIdDictWriter.ProductIdParam;
 
@@ -12,11 +12,18 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Arrays;
 
+/**
+ * the class is used for reading from the productId dictionary
+ */
 public class ProductIdDictReader {
 
     private byte[] dict;
     int size;
 
+    /**
+     * @param dictFile the dictionary file
+     * @param size     the number of different productId's in the dictionary
+     */
     public ProductIdDictReader(File dictFile, int size) {
         this.size = size;
         try {
@@ -28,11 +35,15 @@ public class ProductIdDictReader {
         }
     }
 
-
-    public ProductIdIterator getPosLstIterator(String token) {
-        token = WebDataUtils.preProcessText(token);
-        ProductIdEntry entry = binarySearch(0, size-1, token);
-        if (entry == null){
+    /***
+     *
+     * @param productId product Id string
+     * @return ProductIdIterator
+     */
+    public ProductIdIterator getProductIdIterator(String productId) {
+        productId = WebDataUtils.preProcessText(productId);
+        ProductIdEntry entry = binarySearch(0, size - 1, productId);
+        if (entry == null) {
             return new ProductIdIterator();
         }
         return new ProductIdIterator(entry.firstReview, entry.getNumOfReviews());

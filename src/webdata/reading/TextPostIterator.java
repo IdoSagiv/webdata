@@ -19,7 +19,7 @@ public class TextPostIterator implements Enumeration<Integer> {
     private boolean isReviewId;
 
     /**
-     * default constructor
+     * default constructor, creates an empty iterator
      */
     TextPostIterator() {
         this(null, 0, 0);

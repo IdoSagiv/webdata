@@ -1,14 +1,15 @@
 package webdata.reading;
 
 import webdata.writing.TextDictWriter;
-import webdata.Utils.GenericPair;
-import webdata.Utils.WebDataUtils;
+import webdata.utils.IntPair;
+import webdata.utils.WebDataUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.stream.Stream;
 
 /**
@@ -53,18 +54,48 @@ public class TextDictReader {
      * @param token
      * @return a pair of the pointer to the token's first byte in the dictionary and the tokenId
      */
-    public GenericPair<Integer, Integer> findToken(String token) {
+    public IntPair findToken(String token) {
         token = WebDataUtils.preProcessText(token);
         return searchInBlock(findTokensBlock(token), token);
     }
+
+    /**
+     * @param wordPtr    pointer to the begining of the word in the dictionary
+     * @param param      wanted param
+     * @param posInBlock words index within its block
+     * @return the wanted parameters value.
+     */
+    public int readWordParam(int wordPtr, TextDictWriter.TokenParam param, int posInBlock) {
+        int from = wordPtr + param.getOffset(posInBlock);
+        byte[] bytes = Arrays.copyOfRange(dict, from, from + param.length);
+        return WebDataUtils.byteArrayToInt(bytes);
+    }
+
+    /**
+     * @param token token to iterate on
+     * @return iterator to the token's posting list
+     */
+    public Enumeration<Integer> getPosLstIterator(String token) {
+        IntPair pos = findToken(token);
+        if (pos == null) {
+            return new TextPostIterator();
+        }
+        long[] startAndStop = getPostLstBounds(pos.first, pos.second);
+        return new TextPostIterator(invertedIdxFile, startAndStop[0], startAndStop[1]);
+    }
+
+    /*
+    Private methods
+     */
 
     /**
      * @param tokenPos the pointer to the token's first byte in the dictionary
      * @param tokenId
      * @return the given token's posting list bounds
      */
-    public long[] getPostLstBounds(int tokenPos, int tokenId) {
-        long start = readWordParam(tokenPos, TextDictWriter.TokenParam.INVERTED_PTR, tokenId % TextDictWriter.TOKENS_IN_BLOCK);
+    private long[] getPostLstBounds(int tokenPos, int tokenId) {
+        long start = readWordParam(tokenPos, TextDictWriter.TokenParam.INVERTED_PTR,
+                tokenId % TextDictWriter.TOKENS_IN_BLOCK);
         long stop;
         if (tokenId == size - 1) {
             stop = invertedIdxFile.length();
@@ -76,10 +107,6 @@ public class TextDictReader {
         }
         return new long[]{start, stop};
     }
-
-    /*
-    Private methods
-     */
 
 
     /**
@@ -121,30 +148,18 @@ public class TextDictReader {
     }
 
     /**
-     * @param wordPtr    pointer to the begining of the word in the dictionary
-     * @param param      wanted param
-     * @param posInBlock words index within its block
-     * @return the wanted parameters value.
-     */
-    public int readWordParam(int wordPtr, TextDictWriter.TokenParam param, int posInBlock) {
-        int from = wordPtr + param.getOffset(posInBlock);
-        byte[] bytes = Arrays.copyOfRange(dict, from, from + param.length);
-        return WebDataUtils.byteArrayToInt(bytes);
-    }
-
-    /**
      * @param blockNum block to search in.
      * @param token    token to search for.
      * @return a pointer to the token's position in the dictionary or -1 if the token is not in the block.
      */
-    private GenericPair<Integer, Integer> searchInBlock(int blockNum, String token) {
+    private IntPair searchInBlock(int blockNum, String token) {
         int wordPtr = (blockNum * TextDictWriter.BLOCK_LENGTH);
         String curWord = readFirstToken(blockNum);
 
         int tokenId = blockNum * TextDictWriter.TOKENS_IN_BLOCK;
         if (curWord.equals(token)) {
             // if it's the first word in the block
-            return new GenericPair<>(wordPtr, tokenId);
+            return new IntPair(wordPtr, tokenId);
         } else if (token.compareTo(curWord) < 0) {
             // the token supposed to be in a former block.
             return null;
@@ -184,7 +199,7 @@ public class TextDictReader {
             curWord = prevWord.substring(0, curPrefSize) + suffix;
 
             if (curWord.equals(token)) {
-                return new GenericPair<>(wordPtr, tokenId);
+                return new IntPair(wordPtr, tokenId);
             }
             wordPtr += TextDictWriter.getRowLength(i);
             tokenId++;
