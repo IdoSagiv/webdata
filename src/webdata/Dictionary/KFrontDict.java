@@ -23,8 +23,8 @@ public abstract class KFrontDict<T> {
     public enum TokenParam {
         FREQ(4),
         INVERTED_PTR(4),
-        LENGTH(1),
-        PREFIX_SIZE(1),
+        LENGTH(2),
+        PREFIX_SIZE(2),
         CONCATENATED_STR_PTR(4);
 
         /**
@@ -209,26 +209,18 @@ public abstract class KFrontDict<T> {
      */
     private void writeWordToDictionary(String word, int wordIdx, int invertedPtr, int stringPtr, int prefixSize,
                                        DataOutputStream dictWriter) throws IOException {
-        //        ToDo: show to adi!
-//        dictWriter.writeInt(dict.get(word).tokenFreq);
-//        dictWriter.writeInt(invertedPtr);
         dictWriter.write(WebDataUtils.toByteArray(dict.get(word).tokenFreq, TokenParam.FREQ.length));
         dictWriter.write(WebDataUtils.toByteArray(invertedPtr, TokenParam.INVERTED_PTR.length));
 
         if (wordIdx % TOKENS_IN_BLOCK == 0) {
             // the first in the block
-//            dictWriter.write((byte) word.length());
-//            dictWriter.writeInt(stringPtr);
             dictWriter.write(WebDataUtils.toByteArray(word.length(), TokenParam.LENGTH.length));
             dictWriter.write(WebDataUtils.toByteArray(stringPtr, TokenParam.CONCATENATED_STR_PTR.length));
         } else if (wordIdx % TOKENS_IN_BLOCK == TOKENS_IN_BLOCK - 1) {
             // the last in the block
-//            dictWriter.write((byte) prefixSize);
             dictWriter.write(WebDataUtils.toByteArray(prefixSize, TokenParam.PREFIX_SIZE.length));
         } else {
             // the rest of the block
-//            dictWriter.write((byte) word.length());
-//            dictWriter.write((byte) prefixSize);
             dictWriter.write(WebDataUtils.toByteArray(word.length(), TokenParam.LENGTH.length));
             dictWriter.write(WebDataUtils.toByteArray(prefixSize, TokenParam.PREFIX_SIZE.length));
         }

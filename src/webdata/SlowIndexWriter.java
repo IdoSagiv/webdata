@@ -148,17 +148,10 @@ public class SlowIndexWriter {
      */
     private void writeReviewFields(OutputStream outStream, String helpfulness, String score,
                                    int tokensInReview, String productId) throws IOException {
-//        ToDo: show to adi!
         int scoreAsInt = Math.round(Float.parseFloat(score));
         String[] helpfulnessArray = helpfulness.split("/");
         int numerator = Integer.parseInt(helpfulnessArray[0]);
         int denominator = Integer.parseInt(helpfulnessArray[1]);
-
-//        OLD VERSION
-//        byte[] bytesToWrite = {(byte) (numerator), (byte) (denominator), (byte) (scoreAsInt),
-//                (byte) (tokensInReview >>> 8), (byte) tokensInReview};
-//        outStream.write(bytesToWrite);
-//        outStream.write(productId.getBytes());
 
 //        NEW VERSION
         outStream.write(WebDataUtils.toByteArray(numerator, ReviewField.NUMERATOR.length));
