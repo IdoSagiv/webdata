@@ -3,24 +3,28 @@ package webdata;
 import webdata.reading.TextPostIterator;
 
 /**
- * the class is used in order to represent a posting list iterator for productId
+ * the class is used in order to represent a posting list iterator for text tokens
  */
-public class ProductIdPostIteratorOld extends TextPostIterator {
+public class TextPostIteratorOld extends TextPostIterator {
+//    private boolean isReviewId;
+//
 //
 //    /**
 //     * @param file  the inverted index file
 //     * @param start the list start position in the file
 //     * @param stop  the list end position in the file
 //     */
-//    public ProductIdPostIteratorOld(File file, long start, long stop) {
+//    public TextPostIterator(File file, long start, long stop) {
 //        super(file, start, stop);
+//        isReviewId = true;
 //    }
 //
 //    /**
 //     * default constructor
 //     */
-//    public ProductIdPostIteratorOld() {
+//    public TextPostIterator() {
 //        super();
+//        isReviewId = false;
 //    }
 //
 //    /**
@@ -29,8 +33,12 @@ public class ProductIdPostIteratorOld extends TextPostIterator {
 //     */
 //    @Override
 //    int updateElement(int elem) {
-//        elem += prevReviewId;
-//        prevReviewId = elem;
+//        if (isReviewId) {
+//            elem += prevReviewId;
+//            prevReviewId = elem;
+//        }
+//
+//        isReviewId = !isReviewId;
 //        return elem;
 //    }
 }

@@ -1,4 +1,4 @@
-package webdata;
+package webdata.reading;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,18 +10,20 @@ import java.util.NoSuchElementException;
 /**
  * the class is an abstract class used in order to represent a posting list iterator
  */
-public abstract class PosListIterator implements Enumeration<Integer> {
+public class TextPostIterator implements Enumeration<Integer> {
 
     private final File file;
     private long curPos;
     private final long endPos;
-    protected int prevReviewId;
+    private int prevReviewId;
+    private boolean isReviewId;
 
     /**
      * default constructor
      */
-    PosListIterator() {
+    TextPostIterator() {
         this(null, 0, 0);
+        isReviewId = false;
     }
 
     /**
@@ -29,11 +31,12 @@ public abstract class PosListIterator implements Enumeration<Integer> {
      * @param start the list start position in the file
      * @param stop  the list end position in the file
      */
-    PosListIterator(File file, long start, long stop) {
+    TextPostIterator(File file, long start, long stop) {
         this.file = file;
         this.curPos = start;
         this.endPos = stop;
         this.prevReviewId = 0;
+        isReviewId = true;
     }
 
     /**
@@ -75,6 +78,14 @@ public abstract class PosListIterator implements Enumeration<Integer> {
      * @param elem raw element as read from the file
      * @return final value of the element
      */
-    abstract int updateElement(int elem);
+    private int updateElement(int elem) {
+        if (isReviewId) {
+            elem += prevReviewId;
+            prevReviewId = elem;
+        }
+
+        isReviewId = !isReviewId;
+        return elem;
+    }
 }
 

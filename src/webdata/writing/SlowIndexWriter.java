@@ -1,8 +1,9 @@
-package webdata;
+package webdata.writing;
 
 import webdata.Dictionary.ProductIdDict;
 import webdata.Dictionary.ProductIdDictWriter;
 import webdata.Dictionary.TextDict;
+import webdata.writing.Parser;
 import webdata.Utils.WebDataUtils;
 
 import java.io.*;
@@ -13,23 +14,23 @@ import java.util.Arrays;
  */
 public class SlowIndexWriter {
     // the text index filed
-    static final String TEXT_DICT_PATH = "textDictFile.bin";
-    static final String TEXT_CONC_STR_PATH = "textConcatenatedString.txt";
-    static final String TEXT_INV_IDX_PATH = "textInvertedIndex.bin";
+    public static final String TEXT_DICT_PATH = "textDictFile.bin";
+    public static final String TEXT_CONC_STR_PATH = "textConcatenatedString.txt";
+    public static final String TEXT_INV_IDX_PATH = "textInvertedIndex.bin";
 
     // the product id index filed
-    static final String PRODUCT_ID_DICT_PATH = "productIdDictFile.bin";
-    static final String PRODUCT_ID_CONC_STR_PATH = "productIdConcatenatedString.txt";
-    static final String PRODUCT_ID_INV_IDX_PATH = "productIdInvertedIndex.bin";
+    public static final String PRODUCT_ID_DICT_PATH = "productIdDictFile.bin";
+    public static final String PRODUCT_ID_CONC_STR_PATH = "productIdConcatenatedString.txt";
+    public static final String PRODUCT_ID_INV_IDX_PATH = "productIdInvertedIndex.bin";
 
     // the rest of the product fields files
-    static final String FIELDS_PATH = "reviewsFields.bin";
+    public static final String FIELDS_PATH = "reviewsFields.bin";
 
     //
-    static final String TOKEN_FREQ_PATH = "tokenFreq.bin";
+    public static final String TOKEN_FREQ_PATH = "tokenFreq.bin";
 
     // statistics file
-    static final String STATISTICS_PATH = "statistics.bin";
+    public static final String STATISTICS_PATH = "statistics.bin";
 
     /**
      * TokenParam enum represents token's parameters and their properties
@@ -68,7 +69,7 @@ public class SlowIndexWriter {
         }
     }
 
-    static final int FIELDS_BLOCK_LENGTH = ReviewField.NUMERATOR.length + ReviewField.DENOMINATOR.length +
+    public static final int FIELDS_BLOCK_LENGTH = ReviewField.NUMERATOR.length + ReviewField.DENOMINATOR.length +
             ReviewField.SCORE.length + ReviewField.NUM_OF_TOKENS.length + ReviewField.PRODUCT_ID.length;
 
 
@@ -85,8 +86,6 @@ public class SlowIndexWriter {
         File textConcatenatedStrFile = new File(dir, TEXT_CONC_STR_PATH);
         File textInvertedIdxFile = new File(dir, TEXT_INV_IDX_PATH);
         File productIdDictFile = new File(dir, PRODUCT_ID_DICT_PATH);
-        File productIdConcatenatedStrFile = new File(dir, PRODUCT_ID_CONC_STR_PATH);
-        File productIdInvertedIdxFile = new File(dir, PRODUCT_ID_INV_IDX_PATH);
         File tokensFreqFile = new File(dir, TOKEN_FREQ_PATH);
         //creates the directory if not exists
         if (!directory.exists()) directory.mkdir();
@@ -94,8 +93,6 @@ public class SlowIndexWriter {
         Parser parser = new Parser(inputFile);
         String[] section;
         TextDict textDict = new TextDict(textDictFile, textConcatenatedStrFile, textInvertedIdxFile, tokensFreqFile);
-//        ProductIdDict productIdDict =
-//                new ProductIdDict(productIdDictFile, productIdConcatenatedStrFile, productIdInvertedIdxFile);
         ProductIdDictWriter productIdDict = new ProductIdDictWriter(productIdDictFile);
 
         try (FileOutputStream reviewFieldsWriter = new FileOutputStream(new File(dir, FIELDS_PATH));
@@ -156,7 +153,6 @@ public class SlowIndexWriter {
         int numerator = Integer.parseInt(helpfulnessArray[0]);
         int denominator = Integer.parseInt(helpfulnessArray[1]);
 
-//        NEW VERSION
         outStream.write(WebDataUtils.toByteArray(numerator, ReviewField.NUMERATOR.length));
         outStream.write(WebDataUtils.toByteArray(denominator, ReviewField.DENOMINATOR.length));
         outStream.write(WebDataUtils.toByteArray(scoreAsInt, ReviewField.SCORE.length));

@@ -1,11 +1,11 @@
-package webdata;
+package webdata.reading;
 
 import webdata.Dictionary.KFrontDict;
 import webdata.Dictionary.KFrontDict.TokenParam;
-import webdata.Dictionary.ProductIdDict;
-import webdata.Dictionary.ProductIdReader;
+import webdata.TextPostIteratorOld;
 import webdata.Utils.GenericPair;
 import webdata.Utils.WebDataUtils;
+import webdata.writing.SlowIndexWriter;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -22,8 +22,8 @@ public class IndexReader {
     private byte[] tokensFreqBytes;
     private byte[] reviewFieldsBytes;
 
-    private DictReader textDict;
-    private ProductIdReader productIdDict;
+    private TextDictReader textDict;
+    private ProductIdDictReader productIdDict;
     private int numOfReviews;
     private int numOfTokens;
 
@@ -47,10 +47,10 @@ public class IndexReader {
             numOfTokens = statisticsReader.readInt();
             int numOfDiffTokens = statisticsReader.readInt();
             int numOfDiffProducts = statisticsReader.readInt();
-            textDict = new DictReader(textDictFile, textInvertedIdxFile, textConcatenatedStrFile, numOfDiffTokens);
+            textDict = new TextDictReader(textDictFile, textInvertedIdxFile, textConcatenatedStrFile, numOfDiffTokens);
 //            productIdDict = new DictReader(productIdDictFile, productIdInvertedIdxFile, productIdConcatenatedStrFile,
 //                    numOfDiffProducts);
-            productIdDict = new ProductIdReader(productIdDictFile, numOfDiffProducts);
+            productIdDict = new ProductIdDictReader(productIdDictFile, numOfDiffProducts);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -146,7 +146,7 @@ public class IndexReader {
     public Enumeration<Integer> getReviewsWithToken(String token) {
         GenericPair<Integer, Integer> pos = textDict.findToken(token);
         if (pos == null) {
-            return new TextPostIterator();
+            return new TextPostIteratorOld();
         }
         long[] startAndStop = textDict.getPostLstBounds(pos.first, pos.second);
         return new TextPostIterator(textDict.invertedIdxFile, startAndStop[0], startAndStop[1]);
@@ -175,13 +175,6 @@ public class IndexReader {
      */
     public Enumeration<Integer> getProductReviews(String productId) {
         return productIdDict.getPosLstIterator(productId);
-//
-//        GenericPair<Integer, Integer> pos = productIdDict.findToken(productId);
-//        if (pos == null) {
-//            return new ProductIdPostIteratorOld();
-//        }
-//        long[] startAndStop = productIdDict.getPostLstBounds(pos.first, pos.second);
-//        return new ProductIdPostIteratorOld(productIdDict.invertedIdxFile, startAndStop[0], startAndStop[1]);
     }
 
     /**

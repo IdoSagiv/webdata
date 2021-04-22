@@ -1,8 +1,7 @@
-package webdata.Dictionary;
+package webdata.reading;
 
 import webdata.Dictionary.DictEntries.ProductIdEntry;
-import webdata.ProductIdIterator;
-import webdata.ProductIdPostIteratorOld;
+import webdata.Dictionary.ProductIdDictWriter;
 import webdata.Utils.WebDataUtils;
 
 import webdata.Dictionary.ProductIdDictWriter.ProductIdParam;
@@ -13,12 +12,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Arrays;
 
-public class ProductIdReader {
+public class ProductIdDictReader {
 
     private byte[] dict;
     int size;
 
-    public ProductIdReader(File dictFile, int size) {
+    public ProductIdDictReader(File dictFile, int size) {
         this.size = size;
         try {
             this.dict = Files.readAllBytes(dictFile.toPath());

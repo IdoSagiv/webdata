@@ -1,9 +1,6 @@
-import webdata.DictReader;
-import webdata.IndexReader;
-import webdata.SlowIndexWriter;
-import webdata.Utils.WebDataUtils;
+import webdata.reading.IndexReader;
+import webdata.writing.SlowIndexWriter;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
 

@@ -1,4 +1,4 @@
-package webdata;
+package webdata.writing;
 
 import java.io.*;
 

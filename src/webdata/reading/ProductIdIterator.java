@@ -1,4 +1,4 @@
-package webdata;
+package webdata.reading;
 
 import java.util.Enumeration;
 import java.util.NoSuchElementException;

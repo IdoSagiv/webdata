@@ -1,4 +1,4 @@
-package webdata;
+package webdata.reading;
 
 import webdata.Dictionary.KFrontDict;
 import webdata.Utils.GenericPair;
@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 /**
  * this class is used for preforming all readings from the dictionary files
  */
-public class DictReader {
+public class TextDictReader {
 
     final File invertedIdxFile;
     final int size;
@@ -28,7 +28,7 @@ public class DictReader {
      * @param invertedIdxFile the inverted index file.
      * @param size            the number of different tokens in the dictionary
      */
-    public DictReader(File dictFile, File invertedIdxFile, File concStrFile, int size) {
+    public TextDictReader(File dictFile, File invertedIdxFile, File concStrFile, int size) {
         this.invertedIdxFile = invertedIdxFile;
         this.size = size;
         this.numOfBlocks = (int) Math.ceil((double) size / KFrontDict.TOKENS_IN_BLOCK);
