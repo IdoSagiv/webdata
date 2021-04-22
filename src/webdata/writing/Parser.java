@@ -5,7 +5,7 @@ import java.io.*;
 /**
  * the class Parser is used on order to parse the reviews file
  */
-class Parser {
+public class Parser {
     public final static int PRODUCT_ID_IDX = 0;
     public final static int HELPFULNESS_IDX = 1;
     public final static int SCORE_IDX = 2;
@@ -15,7 +15,7 @@ class Parser {
     /**
      * @param inputFile the reviews file
      */
-    Parser(String inputFile) {
+    public Parser(String inputFile) {
         File file = new File(inputFile);
         try {
             reader = new BufferedReader(new FileReader(file));
@@ -29,7 +29,7 @@ class Parser {
      *
      * @return the parsed section ro null if it can not be parsed correctly.
      */
-    String[] nextSection() {
+    public String[] nextSection() {
         final int OK_FLAG = 0xf; // binary representation of four ones (1111)
         String line;
         String[] section = new String[4];

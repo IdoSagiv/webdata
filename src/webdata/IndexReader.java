@@ -1,10 +1,12 @@
-package webdata.reading;
+package webdata;
 
+import webdata.reading.ProductIdDictReader;
+import webdata.reading.TextDictReader;
 import webdata.writing.TextDictWriter;
 import webdata.writing.TextDictWriter.TokenParam;
 import webdata.utils.IntPair;
 import webdata.utils.WebDataUtils;
-import webdata.writing.SlowIndexWriter;
+import webdata.SlowIndexWriter;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

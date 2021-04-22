@@ -1,6 +1,9 @@
-package webdata.writing;
+package webdata;
 
 import webdata.utils.WebDataUtils;
+import webdata.writing.Parser;
+import webdata.writing.ProductIdDictWriter;
+import webdata.writing.TextDictWriter;
 
 import java.io.*;
 

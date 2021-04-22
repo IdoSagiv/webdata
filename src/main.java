@@ -1,5 +1,5 @@
-import webdata.reading.IndexReader;
-import webdata.writing.SlowIndexWriter;
+import webdata.IndexReader;
+import webdata.SlowIndexWriter;
 
 import java.io.IOException;
 import java.util.Enumeration;

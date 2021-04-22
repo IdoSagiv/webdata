@@ -5,12 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/TextEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/TextEntry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/Dictionary/TokenReview.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Dictionary/TextPostListValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/Utils/GenericPair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/Utils/IntPair.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/reading/IndexReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/reading/IndexReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/reading/TextDictReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/reading/TextDictReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/writing/TextDictWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/TextDictWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/ProductIdEntry.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/ProductIdEntry.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextEntry.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextEntry.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextPostListValue.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextPostListValue.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/IntPair.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/IntPair.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/WebDataUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/WebDataUtils.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/reading/IndexReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/reading/IndexReader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/reading/ProductIdDictReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/reading/ProductIdDictReader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/reading/ProductIdIterator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/reading/ProductIdIterator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/reading/TextDictReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/reading/TextDictReader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ProductIdDictWriter$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ProductIdDictWriter$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ProductIdDictWriter$ProductIdParam.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ProductIdDictWriter$ProductIdParam.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ProductIdDictWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ProductIdDictWriter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/SlowIndexWriter$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/SlowIndexWriter$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/SlowIndexWriter$ReviewField.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/SlowIndexWriter$ReviewField.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/SlowIndexWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/SlowIndexWriter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IndexReaderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IndexReaderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/reading/IndexReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/IndexReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/writing/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/writing/SlowIndexWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/SlowIndexWriter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -334,11 +350,6 @@
           <url>file://$PROJECT_DIR$/src/main.java</url>
           <line>33</line>
           <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/webdata/reading/ProductIdDictReader.java</url>
-          <line>34</line>
-          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
