@@ -1,16 +1,20 @@
 package webdata.Dictionary.DictEntries;
 
-import webdata.Dictionary.TokenReview;
+import java.util.ArrayList;
 
-/**
- * this class extends DictEntry class and represents Text DictEntry
+/***
+ * The class represents an abstract token Dictionary Entry class which has tokenFreq and tokenReviews as fields
  */
 
+public abstract class DictEntry<T> {
+    // number of total appearances
+    public int tokenFreq;
 
-public class TextEntry extends DictEntry<TokenReview> {
-    public TextEntry(int reviewId) {
-        super();
-        tokenReviews.add(new TokenReview(reviewId));
+    // list of all the reviews Ids the token appears in
+    public ArrayList<T> tokenReviews;
+
+    public DictEntry() {
+        tokenFreq = 1;
+        tokenReviews = new ArrayList<>();
     }
 }
-
