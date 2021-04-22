@@ -1,8 +1,7 @@
 package webdata.reading;
 
-import webdata.Dictionary.KFrontDict;
-import webdata.Dictionary.KFrontDict.TokenParam;
-import webdata.TextPostIteratorOld;
+import webdata.Dictionary.TextDictWriter;
+import webdata.Dictionary.TextDictWriter.TokenParam;
 import webdata.Utils.GenericPair;
 import webdata.Utils.WebDataUtils;
 import webdata.writing.SlowIndexWriter;
@@ -36,8 +35,6 @@ public class IndexReader {
         File textConcatenatedStrFile = new File(dir, SlowIndexWriter.TEXT_CONC_STR_PATH);
         File textInvertedIdxFile = new File(dir, SlowIndexWriter.TEXT_INV_IDX_PATH);
         File productIdDictFile = new File(dir, SlowIndexWriter.PRODUCT_ID_DICT_PATH);
-//        File productIdConcatenatedStrFile = new File(dir, SlowIndexWriter.PRODUCT_ID_CONC_STR_PATH);
-//        File productIdInvertedIdxFile = new File(dir, SlowIndexWriter.PRODUCT_ID_INV_IDX_PATH);
 
         try (RandomAccessFile statisticsReader =
                      new RandomAccessFile(new File(dir, SlowIndexWriter.STATISTICS_PATH), "r")) {
@@ -48,8 +45,6 @@ public class IndexReader {
             int numOfDiffTokens = statisticsReader.readInt();
             int numOfDiffProducts = statisticsReader.readInt();
             textDict = new TextDictReader(textDictFile, textInvertedIdxFile, textConcatenatedStrFile, numOfDiffTokens);
-//            productIdDict = new DictReader(productIdDictFile, productIdInvertedIdxFile, productIdConcatenatedStrFile,
-//                    numOfDiffProducts);
             productIdDict = new ProductIdDictReader(productIdDictFile, numOfDiffProducts);
         } catch (IOException e) {
             e.printStackTrace();
@@ -130,7 +125,7 @@ public class IndexReader {
         if (pos == null) {
             return 0;
         }
-        return textDict.readWordParam(pos.first, TokenParam.FREQ, pos.second % KFrontDict.TOKENS_IN_BLOCK);
+        return textDict.readWordParam(pos.first, TokenParam.FREQ, pos.second % TextDictWriter.TOKENS_IN_BLOCK);
     }
 
 
@@ -146,7 +141,7 @@ public class IndexReader {
     public Enumeration<Integer> getReviewsWithToken(String token) {
         GenericPair<Integer, Integer> pos = textDict.findToken(token);
         if (pos == null) {
-            return new TextPostIteratorOld();
+            return new TextPostIterator();
         }
         long[] startAndStop = textDict.getPostLstBounds(pos.first, pos.second);
         return new TextPostIterator(textDict.invertedIdxFile, startAndStop[0], startAndStop[1]);

@@ -1,13 +1,10 @@
 package webdata.writing;
 
-import webdata.Dictionary.ProductIdDict;
 import webdata.Dictionary.ProductIdDictWriter;
-import webdata.Dictionary.TextDict;
-import webdata.writing.Parser;
+import webdata.Dictionary.TextDictWriter;
 import webdata.Utils.WebDataUtils;
 
 import java.io.*;
-import java.util.Arrays;
 
 /**
  * Slow Index Writer class
@@ -92,7 +89,7 @@ public class SlowIndexWriter {
 
         Parser parser = new Parser(inputFile);
         String[] section;
-        TextDict textDict = new TextDict(textDictFile, textConcatenatedStrFile, textInvertedIdxFile, tokensFreqFile);
+        TextDictWriter textDict = new TextDictWriter(textDictFile, textConcatenatedStrFile, textInvertedIdxFile, tokensFreqFile);
         ProductIdDictWriter productIdDict = new ProductIdDictWriter(productIdDictFile);
 
         try (FileOutputStream reviewFieldsWriter = new FileOutputStream(new File(dir, FIELDS_PATH));
