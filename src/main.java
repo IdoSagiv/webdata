@@ -1,19 +1,22 @@
 import webdata.DictReader;
 import webdata.IndexReader;
 import webdata.SlowIndexWriter;
+import webdata.Utils.WebDataUtils;
 
 import java.io.File;
 import java.io.IOException;
 
 
 public class main {
-
+    final static String DictionaryPath = "indexFiles";
+    final static String DataSetPath = "datasets\\1000.txt";
     public static void main(String[] args) throws IOException {
+
         SlowIndexWriter writer = new SlowIndexWriter();
         System.out.println("start");
-        writer.slowWrite("datasets\\test.txt", "indexFiles");
-//        writer.slowWrite("datasets\\1000.txt", "C:\\IndexDirectory");
-        IndexReader reader = new IndexReader("indexFiles");
+//        writer.slowWrite(DataSetPath, DictionaryPath);
+
+        IndexReader reader = new IndexReader(DictionaryPath);
         int reviewId = 1;
         System.out.println("helpfulness: " + reader.getReviewHelpfulnessNumerator(reviewId) + " / " + reader.getReviewHelpfulnessDenominator(reviewId));
         System.out.println("score: " + reader.getReviewScore(reviewId));
@@ -34,9 +37,9 @@ public class main {
 //        while (PosList.hasMoreElements()) {
 //            System.out.println(PosList.nextElement());
 //        }
-        DictReader d = new DictReader(new File("indexFiles\\textDictFile.bin"),new File("indexFiles\\textInvertedIndex.bin"),new File("indexFiles\\textConcatenatedString.txt"),8);
+//        DictReader d = new DictReader(new File("indexFiles\\textDictFile.bin"),new File("indexFiles\\textInvertedIndex.bin"),new File("indexFiles\\textConcatenatedString.txt"),8);
 
-//        writer.removeIndex("indexFiles");
+
 
 //        File concatenatedStrFile = new File("C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\webdata", "concatenatedString.txt");
 //        concatenatedStrFile.createNewFile();
@@ -56,6 +59,12 @@ public class main {
 //        }
 //        System.out.println(reader.readFirstToken(1));
 //        System.out.println(reader.findTokensBlock("1"));
+
+//                writer.removeIndex(DictionaryPath);
+
+        int num =(int)(Math.pow(2,31)-1);
+        System.out.println(num);
+        System.out.println(WebDataUtils.byteArrayToInt(WebDataUtils.toByteArray(num,4)));
     }
 }
 

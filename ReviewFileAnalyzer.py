@@ -2,12 +2,28 @@ import gzip
 import re
 import pathlib
 import ntpath
+import json
+
+
+#
+# def parse_json(filename):
+#     f = gzip.open(filename, 'r')
+#     for review in f:
+#         review = review.decode("utf-8")
+#         yield json.loads(review)
 
 
 def parse(filename):
-    f = open(filename, 'r') if pathlib.Path(filename).suffix == ".txt" else gzip.open(filename, 'r')
+    is_bytes = pathlib.Path(filename).suffix == ".gz"
+    f = gzip.open(filename, 'r') if is_bytes else open(filename, 'r')
     entry = {}
     for l in f:
+        if is_bytes:
+            try:
+                l = l.decode("utf-8")
+            except:
+                print(f"failed to decode {l}")
+                continue
         l = l.strip()
         colonPos = l.find(':')
         if colonPos == -1:
@@ -39,8 +55,10 @@ def count_tokens(text: str):
 
 if __name__ == '__main__':
     datasets = [
-        r"C:\Users\Ido\Documents\Degree\Third Year\Semester B\Web Information Retrival\webdata\datasets\1000.txt",
-        r"C:\Users\Ido\Documents\Degree\Third Year\Semester B\Web Information Retrival\webdata\datasets\100.txt"]
+        r"datasets\100.txt",
+        r"datasets\1000.txt"
+        # r"datasets\Books.txt.gz"
+    ]
 
     for dataset in datasets:
         all_tokens = {}
@@ -70,7 +88,6 @@ if __name__ == '__main__':
         num_of_diff_tokens = len(all_tokens.keys())
         most_popular_token = max(all_tokens, key=all_tokens.get)
         max_token_frq = all_tokens[most_popular_token]
-        # max_token_frq = max(all_tokens.values())
         most_popular_product = max(all_products, key=all_products.get)
         max_product_freq = all_products[most_popular_product]
 

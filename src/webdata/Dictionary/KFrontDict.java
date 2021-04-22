@@ -27,6 +27,9 @@ public abstract class KFrontDict<T> {
         PREFIX_SIZE(1),
         CONCATENATED_STR_PTR(4);
 
+        /**
+         * parameter's length in bytes in the dictionary saved .bin file
+         */
         public final int length;
 
         TokenParam(int length) {
@@ -35,7 +38,7 @@ public abstract class KFrontDict<T> {
 
         /**
          * @param positionInBlock the token relational position inside the block
-         * @return the relational offset in the token's row of the given param
+         * @return the relational offset (in bytes) in the token's row of the given param
          */
         public int getOffset(int positionInBlock) {
             assert (positionInBlock >= 0 && positionInBlock < TOKENS_IN_BLOCK);
@@ -152,19 +155,19 @@ public abstract class KFrontDict<T> {
             String prevWord = "";
             for (int i = 0; i < keys.size(); i++) {
                 String word = keys.get(i);
-                String token = word;
+                String suffixToWrite = word;
                 int prefixSize = 0;
                 if (i % TOKENS_IN_BLOCK != 0) {
                     prefixSize = commonPrefixSize(word, prevWord);
-                    token = word.substring(prefixSize);
+                    suffixToWrite = word.substring(prefixSize);
                 }
                 prevWord = word;
                 if (i % TOKENS_IN_BLOCK == TOKENS_IN_BLOCK - 1) {
                     prevWord = "";
                 }
                 writeWordToDictionary(word, i, invertedPtr, stringPtr, prefixSize, dictWriter);
-                conStrWriter.write(token);
-                stringPtr += token.length();
+                conStrWriter.write(suffixToWrite);
+                stringPtr += suffixToWrite.length();
 
                 invertedPtr += writeInvertedIndexEntry(invertedIdxWriter, word);
                 additionalWritings(word);
@@ -206,20 +209,28 @@ public abstract class KFrontDict<T> {
      */
     private void writeWordToDictionary(String word, int wordIdx, int invertedPtr, int stringPtr, int prefixSize,
                                        DataOutputStream dictWriter) throws IOException {
-        dictWriter.writeInt(dict.get(word).tokenFreq);
-        dictWriter.writeInt(invertedPtr);
+        //        ToDo: show to adi!
+//        dictWriter.writeInt(dict.get(word).tokenFreq);
+//        dictWriter.writeInt(invertedPtr);
+        dictWriter.write(WebDataUtils.toByteArray(dict.get(word).tokenFreq, TokenParam.FREQ.length));
+        dictWriter.write(WebDataUtils.toByteArray(invertedPtr, TokenParam.INVERTED_PTR.length));
 
         if (wordIdx % TOKENS_IN_BLOCK == 0) {
             // the first in the block
-            dictWriter.write((byte) word.length());
-            dictWriter.writeInt(stringPtr);
+//            dictWriter.write((byte) word.length());
+//            dictWriter.writeInt(stringPtr);
+            dictWriter.write(WebDataUtils.toByteArray(word.length(), TokenParam.LENGTH.length));
+            dictWriter.write(WebDataUtils.toByteArray(stringPtr, TokenParam.CONCATENATED_STR_PTR.length));
         } else if (wordIdx % TOKENS_IN_BLOCK == TOKENS_IN_BLOCK - 1) {
             // the last in the block
-            dictWriter.write((byte) prefixSize);
+//            dictWriter.write((byte) prefixSize);
+            dictWriter.write(WebDataUtils.toByteArray(prefixSize, TokenParam.PREFIX_SIZE.length));
         } else {
             // the rest of the block
-            dictWriter.write((byte) word.length());
-            dictWriter.write((byte) prefixSize);
+//            dictWriter.write((byte) word.length());
+//            dictWriter.write((byte) prefixSize);
+            dictWriter.write(WebDataUtils.toByteArray(word.length(), TokenParam.LENGTH.length));
+            dictWriter.write(WebDataUtils.toByteArray(prefixSize, TokenParam.PREFIX_SIZE.length));
         }
     }
 

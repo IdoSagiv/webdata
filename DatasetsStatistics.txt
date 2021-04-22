@@ -1,19 +1,56 @@
 Statistics for - 1000.txt:
-num of reviews - 1000
-num of products - 207
-total num of tokens - 75447
-num of different tokens - 5979
-max token len - 18
-max num of tokens in review - 922
-max numerator - 47
-max denominator - 47
-
 Statistics for - 100.txt:
 num of reviews - 100
 num of products - 29
 total num of tokens - 6903
 num of different tokens - 1532
+most popular product - B001EO5QW8
+max product freq - 19
+most popular token - the
+max token freq - 288
 max token len - 13
 max num of tokens in review - 447
 max numerator - 19
 max denominator - 19
+
+Statistics for - 1000.txt:
+num of reviews - 1000
+num of products - 207
+total num of tokens - 75447
+num of different tokens - 5979
+most popular product - B000G6RYNE
+max product freq - 217
+most popular token - the
+max token freq - 3161
+max token len - 18
+max num of tokens in review - 922
+max numerator - 47
+max denominator - 47
+
+Statistics for - Movies_&_TV.txt:
+num of reviews - 7850072
+num of products - 212836
+total num of tokens - 1190284223
+num of different tokens - 1171661
+most popular product - B0007LEMM4
+max product freq - 4853
+most popular token - the
+max token freq - 69344762
+max token len - 989
+max num of tokens in review - 6207
+max numerator - 20924
+max denominator - 20924
+
+Statistics for - Books.txt.gz:
+num of reviews - 12886488
+num of products - 929264
+total num of tokens - 1912536900
+num of different tokens - 1946167
+most popular product - B000GTRN3W
+max product freq - 6817
+most popular token - the
+max token freq - 105934474
+max token len - 991
+max num of tokens in review - 6292
+max numerator - 12058
+max denominator - 12058

@@ -16,7 +16,6 @@ import static webdata.Utils.WebDataUtils.writeBytes;
  * this class extends KFrontDict class and represents a dictionary for productId field
  */
 public class ProductIdDict extends KFrontDict<Integer> {
-
     /**
      * @param dictFile            the dictionary file
      * @param concatenatedStrFile the concatenated string file

@@ -2,8 +2,10 @@ package webdata;
 
 import webdata.Dictionary.ProductIdDict;
 import webdata.Dictionary.TextDict;
+import webdata.Utils.WebDataUtils;
 
 import java.io.*;
+import java.util.Arrays;
 
 /**
  * Slow Index Writer class
@@ -32,12 +34,15 @@ public class SlowIndexWriter {
      * TokenParam enum represents token's parameters and their properties
      */
     public enum ReviewField {
-        NUMERATOR(1),
-        DENOMINATOR(1),
+        NUMERATOR(2),
+        DENOMINATOR(2),
         SCORE(1),
         NUM_OF_TOKENS(2),
         PRODUCT_ID(10);
 
+        /**
+         * field's length in bytes in the reviewsFields saved .bin file
+         */
         public final int length;
 
         ReviewField(int length) {
@@ -143,14 +148,23 @@ public class SlowIndexWriter {
      */
     private void writeReviewFields(OutputStream outStream, String helpfulness, String score,
                                    int tokensInReview, String productId) throws IOException {
+//        ToDo: show to adi!
         int scoreAsInt = Math.round(Float.parseFloat(score));
         String[] helpfulnessArray = helpfulness.split("/");
         int numerator = Integer.parseInt(helpfulnessArray[0]);
         int denominator = Integer.parseInt(helpfulnessArray[1]);
 
-        byte[] bytesToWrite = {(byte) (numerator), (byte) (denominator), (byte) (scoreAsInt),
-                (byte) (tokensInReview >>> 8), (byte) tokensInReview};
-        outStream.write(bytesToWrite);
-        outStream.write(productId.getBytes());
+//        OLD VERSION
+//        byte[] bytesToWrite = {(byte) (numerator), (byte) (denominator), (byte) (scoreAsInt),
+//                (byte) (tokensInReview >>> 8), (byte) tokensInReview};
+//        outStream.write(bytesToWrite);
+//        outStream.write(productId.getBytes());
+
+//        NEW VERSION
+        outStream.write(WebDataUtils.toByteArray(numerator, ReviewField.NUMERATOR.length));
+        outStream.write(WebDataUtils.toByteArray(denominator, ReviewField.DENOMINATOR.length));
+        outStream.write(WebDataUtils.toByteArray(scoreAsInt, ReviewField.SCORE.length));
+        outStream.write(WebDataUtils.toByteArray(tokensInReview, ReviewField.NUM_OF_TOKENS.length));
+        outStream.write(WebDataUtils.toByteArray(productId, ReviewField.PRODUCT_ID.length));
     }
 }

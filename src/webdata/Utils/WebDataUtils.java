@@ -3,12 +3,16 @@ package webdata.Utils;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * the class is used to store general methods for the project
  */
 public class WebDataUtils {
+    private final static int[] BYTE_SHIFTS = {0, 8, 16, 24, 32};
+
     /**
      * encodes given number with Length Pre-Coded Varint code.
      *
@@ -21,16 +25,16 @@ public class WebDataUtils {
         if (num < 0x3f) {
             res.add((byte) num);
         } else if (num < 0x3fff) {
-            res.add((byte) ((num >>> 8) | 0x40));
+            res.add((byte) ((num >>> BYTE_SHIFTS[1]) | 0x40));
             res.add((byte) num);
         } else if (num < 0x3fffff) {
-            res.add((byte) ((num >>> 16) | 0x80));
-            res.add((byte) (num >>> 8));
+            res.add((byte) ((num >>> BYTE_SHIFTS[2]) | 0x80));
+            res.add((byte) (num >>> BYTE_SHIFTS[1]));
             res.add((byte) num);
         } else if (num < 0x3fffffff) {
-            res.add((byte) ((num >>> 24) | 0x80 + 0x40));
-            res.add((byte) (num >>> 16));
-            res.add((byte) (num >>> 8));
+            res.add((byte) ((num >>> BYTE_SHIFTS[3]) | 0x80 + 0x40));
+            res.add((byte) (num >>> BYTE_SHIFTS[2]));
+            res.add((byte) (num >>> BYTE_SHIFTS[1]));
             res.add((byte) num);
         }
 
@@ -50,7 +54,7 @@ public class WebDataUtils {
             byte b = bytes[i];
             byte[] asBytes = new byte[4];
             int numOfBytes = b >>> 6;
-            asBytes[asBytes.length - 1 - numOfBytes] = (byte) (b & (int) (Math.pow(2, 6) - 1));
+            asBytes[asBytes.length - 1 - numOfBytes] = (byte) (b & 0x3f);
             for (int j = 0; j < numOfBytes; j++) {
                 asBytes[asBytes.length - j - 1] = bytes[i + j + 1];
             }
@@ -93,8 +97,22 @@ public class WebDataUtils {
         assert (bytes.length <= 4);
         int res = 0;
         for (byte b : bytes) {
-            res = (res << 8) | Byte.toUnsignedInt(b);
+            res = (res << BYTE_SHIFTS[1]) | Byte.toUnsignedInt(b);
         }
         return res;
+    }
+
+    public static byte[] toByteArray(int numToCast, int numOfBytes) {
+        assert (numOfBytes >= 0 && numOfBytes <= 4);
+        byte[] res = new byte[numOfBytes];
+        for (int i = 0; i < numOfBytes; i++) {
+            res[numOfBytes - i - 1] = (byte) (numToCast >>> BYTE_SHIFTS[i]);
+        }
+        return res;
+    }
+
+    public static byte[] toByteArray(String str, int numOfBytes) {
+        assert (numOfBytes <= str.length());
+        return Arrays.copyOfRange(str.getBytes(StandardCharsets.UTF_8), 0, numOfBytes);
     }
 }
