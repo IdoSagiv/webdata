@@ -1,6 +1,9 @@
 package webdata.writing;
 
+import webdata.utils.WebDataUtils;
+
 import java.io.*;
+import java.util.Enumeration;
 
 /**
  * the class Parser is used on order to parse the reviews file
@@ -59,5 +62,10 @@ public class Parser {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    public static TokenIterator getTokenIterator(String text) {
+        text = WebDataUtils.preProcessText(text);
+        return new TokenIterator(text);
     }
 }

@@ -3,7 +3,7 @@ package webdata.utils;
 /**
  * a Mutable pair of integers
  */
-public class IntPair {
+public class IntPair implements Comparable<IntPair> {
     public int first;
     public int second;
 
@@ -14,5 +14,11 @@ public class IntPair {
     public IntPair(int first, int second) {
         this.first = first;
         this.second = second;
+    }
+
+    @Override
+    public int compareTo(IntPair o) {
+        int cmp = Integer.compare(first, o.first);
+        return cmp != 0 ? cmp : Integer.compare(second, o.second);
     }
 }

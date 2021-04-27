@@ -1,5 +1,7 @@
 import webdata.IndexReader;
+import webdata.IndexWriter;
 import webdata.SlowIndexWriter;
+import webdata.utils.IntPair;
 
 import java.io.IOException;
 import java.util.Enumeration;
@@ -8,8 +10,8 @@ import java.util.Enumeration;
 public class main {
     final static String DictionaryPath = "indexFiles";
     final static String DataSetPath = "datasets\\test.txt";
-    public static void main(String[] args) throws IOException {
 
+    public static void test1() {
         SlowIndexWriter writer = new SlowIndexWriter();
         System.out.println("start");
         writer.slowWrite(DataSetPath, DictionaryPath);
@@ -38,7 +40,6 @@ public class main {
 //        DictReader d = new DictReader(new File("indexFiles\\textDictFile.bin"),new File("indexFiles\\textInvertedIndex.bin"),new File("indexFiles\\textConcatenatedString.txt"),8);
 
 
-
 //        File concatenatedStrFile = new File("C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\webdata", "concatenatedString.txt");
 //        concatenatedStrFile.createNewFile();
 //        try (BufferedWriter writer = new BufferedWriter(new FileWriter(concatenatedStrFile))){
@@ -59,6 +60,18 @@ public class main {
 //        System.out.println(reader.findTokensBlock("1"));
 
 //                writer.removeIndex(DictionaryPath);
+    }
+
+    public static void test2() {
+        IndexWriter writer = new IndexWriter();
+        writer.write(DataSetPath, DictionaryPath);
+
+    }
+
+
+    public static void main(String[] args) throws IOException {
+//        test1();
+        test2();
     }
 }
 
