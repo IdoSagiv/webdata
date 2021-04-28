@@ -276,22 +276,21 @@ public class IndexWriter {
                 writeSequence(outputFile, blockToWrite);
             }
 
-            if (pi == blocks[best_i].length-8-1){
+            if (pi == blocks[best_i].length - 8 - 1) {
                 // read the next block
                 File file = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep, best_i));
                 //TODO: stopped here, change next lines
-                byte[] block = new byte[(int) Math.min(B, file.length()-blocks[best_i].length)];
+                byte[] block = new byte[(int) Math.min(B, file.length() - blocks[best_i].length)];
                 try (RandomAccessFile reader = new RandomAccessFile(file, "r")) {
-                    reader.read(block, blocks[best_i].length, blocks[best_i].length+block.length);
+                    reader.read(block, blocks[best_i].length, blocks[best_i].length + block.length);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 blocks[i] = block;
                 pointers[i] = 0;
                 blocks[best_i] =
-            }
-            else{
-                pi+=8;
+            } else {
+                pi += 8;
             }
 
 
@@ -302,14 +301,13 @@ public class IndexWriter {
 
     }
 
-    private void writeSequence(File file,ArrayList<Integer> blockToWrite){
-        try(RandomAccessFile writer = new RandomAccessFile(file,"rw")){
+    private void writeSequence(File file, ArrayList<Integer> blockToWrite) {
+        try (RandomAccessFile writer = new RandomAccessFile(file, "rw")) {
             writer.seek(file.length());
-            for (int elem: blockToWrite){
+            for (int elem : blockToWrite) {
                 writer.writeInt(elem);
             }
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
