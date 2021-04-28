@@ -1,6 +1,5 @@
 package webdata;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import webdata.utils.IntPair;
 import webdata.utils.WebDataUtils;
 import webdata.writing.Parser;
@@ -9,6 +8,10 @@ import webdata.writing.TokenIterator;
 
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 public class IndexWriter {
@@ -18,6 +21,9 @@ public class IndexWriter {
     public static final String TEXT_INV_IDX_PATH = "textInvertedIndex.bin";
     public static final String TOKEN_FREQ_PATH = "tokenFreq.bin";
     public static final String TOKEN_ID_TO_REVIEW_ID_LST_PATH = "tokenIdToReviewIdLst.bin";
+
+    private static final String TEMP_FILE_TEMPLATE = "mergeStep_%d_%d.bin";
+    private String tempFilesDir;
 
     // the product id index file
     public static final String PRODUCT_ID_DICT_PATH = "productIdDict.bin";
@@ -30,11 +36,21 @@ public class IndexWriter {
 
     private HashMap<String, Integer> tokenIdDict;
 
-    private static final int BUFFER_SIZE = 1000;
+    // ToDo: verify this
+    // block size in bytes
+    private static final int B = 4 * 1000; // 4MB
 
+    // main memory size in blocks
+    private static final int M = (int) Math.ceil(((1000 - 100) * 1000.0) / B); // total of 1GB less 100MB to java
+    // pair size in bytes
+    private static final int PAIR_SIZE = 24;
+
+    private String outputDir;
 
     public IndexWriter() {
         tokenIdDict = new HashMap<>();
+        outputDir = "";
+        tempFilesDir = "";
     }
 
     /**
@@ -47,31 +63,35 @@ public class IndexWriter {
      * @param dir
      */
     public void write(String inputFile, String dir) {
+        this.outputDir = dir;
+        this.tempFilesDir = Paths.get(outputDir, "tempFiles").toString();
         // create the directory if not exist
-        File directory = new File(dir);
-        File textDictFile = new File(dir, TEXT_DICT_PATH);
-        File textConcatenatedStrFile = new File(dir, TEXT_CONC_STR_PATH);
-        File textInvertedIdxFile = new File(dir, TEXT_INV_IDX_PATH);
-        File productIdDictFile = new File(dir, PRODUCT_ID_DICT_PATH);
-        File tokensFreqFile = new File(dir, TOKEN_FREQ_PATH);
+        File outDir = new File(outputDir);
+        File tempDir = new File(tempFilesDir);
+//        File textDictFile = new File(dir, TEXT_DICT_PATH);
+//        File textConcatenatedStrFile = new File(dir, TEXT_CONC_STR_PATH);
+//        File textInvertedIdxFile = new File(dir, TEXT_INV_IDX_PATH);
+//        File productIdDictFile = new File(dir, PRODUCT_ID_DICT_PATH);
+//        File tokensFreqFile = new File(dir, TOKEN_FREQ_PATH);
 
         //creates the directory if not exists
-        if (!directory.exists()) directory.mkdir();
+        if (!outDir.exists()) outDir.mkdir();
+        if (!tempDir.exists()) tempDir.mkdir();
 
 
-        step1(inputFile, dir);
+        step1(inputFile);
 
         // writes to disk the sorted lists of pairs
-        step2(inputFile, dir);
-//
-//        // merge the sorted lists to one sorted list
-//        String sortedList = step3(dir, tempFileDir);
+        step2(inputFile);
+
+        // merge the sorted lists to one sorted list
+        step3();
 //
 //        // write the dictionary and posting list
 //        step4(sortedList);
 
 
-//        removeIndex(tempFileDir);
+//        removeIndex(tempFilesDir);
     }
 
 
@@ -94,7 +114,7 @@ public class IndexWriter {
 //     Private Methods
 //
 
-    private void step1(String inputFile, String outputDir) {
+    private void step1(String inputFile) {
         File productIdDictFile = new File(outputDir, PRODUCT_ID_DICT_PATH);
         TreeSet<String> tokensSet = new TreeSet<>();
 
@@ -150,48 +170,45 @@ public class IndexWriter {
             tokenSet.add(tokenIterator.nextElement());
             counter++;
         }
-//        for (String token : text.split(regex)) {
-//            if (!token.isEmpty()) {
-//                tokenSet.add(token);
-//                counter++;
-//            }
-//        }
+
         return counter;
     }
 
-    private void step2(String inputFile, String outputDir) {
+    private void step2(String inputFile) {
         Parser parser = new Parser(inputFile);
         String[] section;
         ArrayList<IntPair> tokenToReviewMapping = new ArrayList<>();
         File tokenToReviewFile = new File(outputDir, TOKEN_ID_TO_REVIEW_ID_LST_PATH);
-        long pairSize = 24;
 
         int reviewId = 1;
         int currBufferSize = 0;
+        int fileIndex = 0;
 
         while ((section = parser.nextSection()) != null) {
-            if (currBufferSize > BUFFER_SIZE - pairSize) {
+            if (currBufferSize > M * B - PAIR_SIZE) {
                 Collections.sort(tokenToReviewMapping);
-                writeSequence(tokenToReviewFile, tokenToReviewMapping);
+                writeSequence(0, fileIndex, tokenToReviewMapping);
                 tokenToReviewMapping = new ArrayList<>();
+                fileIndex++;
             }
             TokenIterator tokenIterator = Parser.getTokenIterator(section[Parser.TEXT_IDX]);
             while (tokenIterator.hasMoreElements()) {
                 tokenToReviewMapping.add(new IntPair(tokenIdDict.get(tokenIterator.nextElement()), reviewId));
-                currBufferSize += pairSize;
+                currBufferSize += PAIR_SIZE;
             }
             reviewId++;
         }
         Collections.sort(tokenToReviewMapping);
-        writeSequence(tokenToReviewFile, tokenToReviewMapping);
+        writeSequence(0, fileIndex, tokenToReviewMapping);
 
     }
 
-    private void writeSequence(File outFile, ArrayList<IntPair> sequence) {
+    private void writeSequence(int mergeStep, int fileIndex, ArrayList<IntPair> sequence) {
+        File outFile = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep, fileIndex));
         try (FileOutputStream writer = new FileOutputStream(outFile)) {
             for (IntPair pair : sequence) {
-                writer.write(WebDataUtils.toByteArray(pair.first,4));
-                writer.write(WebDataUtils.toByteArray(pair.second,4));
+                writer.write(WebDataUtils.toByteArray(pair.first, 4));
+                writer.write(WebDataUtils.toByteArray(pair.second, 4));
             }
 
         } catch (IOException e) {
@@ -200,7 +217,103 @@ public class IndexWriter {
     }
 
     private void step3() {
+        int stepIndex = 1;
+        while (???){
+            int currLeft = 0;
+            int currRight = 0;
+            while (currLeft < currRight) {
+                basicMerge(stepIndex, currLeft, currRight);
+                currLeft = currRight + 1;
+                currRight += Math.min(M - 1, what left to read);
+            }
+            stepIndex++;
+
+        }
+
     }
+
+    private void basicMerge(int mergeStep, int fileIndex, int left, int right) {
+        int[] pointers = new int[right - left];
+        byte[][] blocks = new byte[right - left][];
+        int N = 0;
+        File outputFile = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep, fileIndex));
+        for (int i = left; i <= right; i++) {
+            File file = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep, i));
+            byte[] block = new byte[(int) Math.min(B, file.length())];
+            try (RandomAccessFile reader = new RandomAccessFile(file, "r")) {
+                reader.read(block, 0, block.length);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            blocks[i] = block;
+            pointers[i] = 0;
+            N += block.length / PAIR_SIZE;
+        }
+
+        int k = 0;
+        ArrayList<Integer> blockToWrite = new ArrayList<>();
+        while (k < N) {
+            int best_i = 0;
+//            Arrays.copyOfRange(blocks[best_i],pointers[best_i],4)
+//            Arrays.copyOfRange(blocks[best_i],pointers[best_i]+4,4)
+
+            IntPair minPair = new IntPair(WebDataUtils.byteArrayToInt(Arrays.copyOfRange(blocks[best_i], pointers[best_i], 4)),
+                    WebDataUtils.byteArrayToInt(Arrays.copyOfRange(blocks[best_i], pointers[best_i] + 4, 4)));
+            for (int i = 0; i <= right - left; i++) {
+                IntPair currPair = new IntPair(WebDataUtils.byteArrayToInt(Arrays.copyOfRange(blocks[i], pointers[i], 4)),
+                        WebDataUtils.byteArrayToInt(Arrays.copyOfRange(blocks[i], pointers[i] + 4, 4)));
+                if (minPair.compareTo(currPair) > 0) {
+                    best_i = i;
+                    minPair = currPair;
+                }
+            }
+            int pi = pointers[best_i];
+            blockToWrite.add(minPair.first);
+            blockToWrite.add(minPair.second);
+            k++;
+
+            if (k % (B / PAIR_SIZE) == 0) {
+                writeSequence(outputFile, blockToWrite);
+            }
+
+            if (pi == blocks[best_i].length-8-1){
+                // read the next block
+                File file = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep, best_i));
+                //TODO: stopped here, change next lines
+                byte[] block = new byte[(int) Math.min(B, file.length()-blocks[best_i].length)];
+                try (RandomAccessFile reader = new RandomAccessFile(file, "r")) {
+                    reader.read(block, blocks[best_i].length, blocks[best_i].length+block.length);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                blocks[i] = block;
+                pointers[i] = 0;
+                blocks[best_i] =
+            }
+            else{
+                pi+=8;
+            }
+
+
+        }
+
+        blockToWrite.forEach();
+
+
+    }
+
+    private void writeSequence(File file,ArrayList<Integer> blockToWrite){
+        try(RandomAccessFile writer = new RandomAccessFile(file,"rw")){
+            writer.seek(file.length());
+            for (int elem: blockToWrite){
+                writer.writeInt(elem);
+            }
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
 
     private void step4() {
     }
@@ -219,6 +332,7 @@ public class IndexWriter {
         String[] helpfulnessArray = helpfulness.split("/");
         int numerator = Integer.parseInt(helpfulnessArray[0]);
         int denominator = Integer.parseInt(helpfulnessArray[1]);
+
 
         outStream.write(WebDataUtils.toByteArray(numerator, ReviewField.NUMERATOR.length));
         outStream.write(WebDataUtils.toByteArray(denominator, ReviewField.DENOMINATOR.length));

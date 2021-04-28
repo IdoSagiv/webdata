@@ -6,12 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/productIdDictFile.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/productIdDictFile.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/reviewsFields.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/reviewsFields.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/statistics.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/statistics.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/IndexWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/IndexWriter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webdata/utils/IntPair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/utils/IntPair.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/writing/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/Parser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -335,21 +331,6 @@
           <url>file://$PROJECT_DIR$/src/main.java</url>
           <line>37</line>
           <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/webdata/IndexWriter.java</url>
-          <line>171</line>
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/webdata/IndexWriter.java</url>
-          <line>177</line>
-          <option name="timeStamp" value="26" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/webdata/writing/TokenIterator.java</url>
-          <line>13</line>
-          <option name="timeStamp" value="27" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
