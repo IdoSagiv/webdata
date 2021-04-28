@@ -1,5 +1,4 @@
-# webdata
-A search engine for product reviews.
-We will be using product review data, such as that available for “Fine Foods”, “Movies” etc., in the Stanford Large Network Dataset Collection (http://snap.stanford.edu/data/index.html).
+Web-Data
+A search engine for product reviews. The program is for product reviews such as those available in “Fine Foods”, “Movies” etc., in the Amazon Datasets from Stanford Large Network Dataset Collection.
 
-The project steps follows the Hebrew University of Jerusalem Web Information Retrieval course
+The project follows the Hebrew University of Jerusalem Web Information Retrieval course.
