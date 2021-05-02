@@ -3,8 +3,12 @@ import webdata.IndexReader;
 import webdata.IndexWriter;
 import webdata.SlowIndexWriter;
 import webdata.utils.IntPair;
+import webdata.writing.ReviewSectionIterator;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Enumeration;
@@ -12,8 +16,8 @@ import java.util.Enumeration;
 
 public class main {
     final static String DictionaryPath = "indexFiles";
-    //    final static String DataSetPath = "datasets\\10000.txt";
-    final static String DataSetPath = "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\BigDatasets\\1000000.txt";
+    //    final static String DataSetPath = "datasets\\1000.txt";
+    final static String DataSetPath = "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\BigDatasets\\100000.txt";
 
     public static void test1() {
         SlowIndexWriter writer = new SlowIndexWriter();
@@ -67,25 +71,40 @@ public class main {
     }
 
     public static void test2() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-
-        SlowIndexWriter slowWriter = new SlowIndexWriter();
+//        SlowIndexWriter slowWriter = new SlowIndexWriter();
         IndexWriter writer = new IndexWriter();
-        System.out.println("Started at\n" + dtf.format(now));
+        System.out.println("Started at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
         long startTime = System.currentTimeMillis();
         writer.write(DataSetPath, DictionaryPath);
 //        slowWriter.slowWrite(DataSetPath, DictionaryPath);
         long estimatedTimeMs = System.currentTimeMillis() - startTime;
-        System.out.println("creating index in: " + estimatedTimeMs / 1000 / 60 + " Minutes");
+        System.out.println("Finished at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
+        System.out.printf("creating index in: %.3f minutes", estimatedTimeMs / 1000.0 / 60);
 
 
+    }
+
+    public static void test3() {
+        String dataset = "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\BigDatasets\\100000.txt";
+        try {
+            RandomAccessFile f = new RandomAccessFile(new File(dataset), "r");
+            ReviewSectionIterator iter = new ReviewSectionIterator(f);
+            int i = 0;
+            while (iter.hasMoreElements()) {
+                iter.nextElement();
+                i++;
+            }
+            System.out.println("there are " + i + " reviews");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
     public static void main(String[] args) throws IOException {
 //        test1();
         test2();
+//        test3();
     }
 }
 
