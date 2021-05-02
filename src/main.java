@@ -85,6 +85,7 @@ public class main {
     }
 
     public static void test3() {
+        // ToDo: ignore this :)
         String dataset = "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\BigDatasets\\100000.txt";
         try {
             RandomAccessFile f = new RandomAccessFile(new File(dataset), "r");
