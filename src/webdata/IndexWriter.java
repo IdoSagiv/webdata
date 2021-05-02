@@ -8,10 +8,14 @@ import webdata.writing.TokenIterator;
 
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
 public class IndexWriter {
+    // ToDo: DELETE!!!!
+    private static final String TEMP_REF_FILE = "referenceMergeStepTEMP.bin";
+
     // the text index files
     public static final String TEXT_DICT_PATH = "textDict.bin";
     public static final String TEXT_CONC_STR_PATH = "textConcatenatedString.txt";
@@ -20,6 +24,7 @@ public class IndexWriter {
     public static final String TOKEN_ID_TO_REVIEW_ID_LST_PATH = "tokenIdToReviewIdLst.bin";
 
     private static final String TEMP_FILE_TEMPLATE = "mergeStep_%d_%d.bin";
+
     private String tempFilesDir;
 
     // the product id index file
@@ -84,9 +89,9 @@ public class IndexWriter {
 
         // merge the sorted lists to one sorted list
         String sortedFile = step3(numOfSequences);
-//
+
 //        // write the dictionary and posting list
-//        step4(sortedList);
+        step4(sortedFile);
 
 
 //        removeIndex(tempFilesDir);
@@ -145,6 +150,7 @@ public class IndexWriter {
             tokenId++;
         }
 
+
         productIdDict.saveToDisk();
     }
 
@@ -181,23 +187,34 @@ public class IndexWriter {
         int currBufferSize = 0;
         int fileIndex = 0;
 
+//        try (DataOutputStream tempWriter = new DataOutputStream(new FileOutputStream(new File(outputDir, TEMP_REF_FILE)))) { // ToDo: delete! for debug
         while ((section = parser.nextSection()) != null) {
             if (currBufferSize > M * BLOCK_SIZE - PAIR_SIZE_ON_MEMORY) {
                 Collections.sort(tokenToReviewMapping);
                 writeSequence(0, fileIndex, tokenToReviewMapping);
                 tokenToReviewMapping = new ArrayList<>();
                 fileIndex++;
+                currBufferSize = 0;
             }
             TokenIterator tokenIterator = Parser.getTokenIterator(section[Parser.TEXT_IDX]);
             while (tokenIterator.hasMoreElements()) {
-                tokenToReviewMapping.add(new IntPair(tokenIdDict.get(tokenIterator.nextElement()), reviewId));
+                IntPair pair = new IntPair(tokenIdDict.get(tokenIterator.nextElement()), reviewId);
+                tokenToReviewMapping.add(pair);
                 currBufferSize += PAIR_SIZE_ON_MEMORY;
+
+//                    tempWriter.write(WebDataUtils.toByteArray(pair.first, 4)); // ToDo: delete! for debug
+//                    tempWriter.write(WebDataUtils.toByteArray(pair.second, 4)); // ToDo: delete! for debug
             }
             reviewId++;
         }
+//        } // ToDo: delete! for debug
+//        catch (IOException e) { // ToDo: delete! for debug
+//            e.printStackTrace(); // ToDo: delete! for debug
+//        } // ToDo: delete! for debug
         Collections.sort(tokenToReviewMapping);
         writeSequence(0, fileIndex, tokenToReviewMapping);
         fileIndex++;
+
 
         return fileIndex;
     }
@@ -222,13 +239,8 @@ public class IndexWriter {
         }
     }
 
-    private static double customLog(double base, double logNumber) {
-        return Math.log(logNumber) / Math.log(base);
-    }
-
     private String step3(int numOfSequences) {
         int stepIndex = 1;
-//        while (stepIndex <= 1 + Math.ceil(customLog(M - 1, numOfSequences))) {
         while (numOfSequences > 1) {
             int sequencesLeft = numOfSequences;
             int currLeft = 0;
@@ -251,16 +263,27 @@ public class IndexWriter {
     }
 
     private void basicMerge(int mergeStep, int fileIndex, int left, int right) {
-        // ToDo: if left==right just rename the file (no need to merge a file with itself)
+        File outputFile = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep, fileIndex));
+        // end case - there is only one file to merge
+        if (right == left) {
+            File inputFile = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, left));
+            try {
+                Files.copy(inputFile.toPath(), outputFile.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
         int[] pointers = new int[right - left + 1];
         int[] numOfBlocksRead = new int[right - left + 1];
         byte[][] blocks = new byte[right - left + 1][];
 
         int N = 0;
-        File outputFile = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep, fileIndex));
+
         // init the pointers and read first block of each sequence
-        for (int i = left; i <= right; i++) {
-            File file = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, i));
+        for (int i = 0; i <= right - left; i++) {
+            File file = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, i + left));
             byte[] block = new byte[(int) Math.min(BLOCK_SIZE, file.length())];
             try (RandomAccessFile reader = new RandomAccessFile(file, "r")) {
                 reader.read(block, 0, block.length);
@@ -270,21 +293,25 @@ public class IndexWriter {
             blocks[i] = block;
             pointers[i] = 0;
             numOfBlocksRead[i] = 0;
-            N += block.length / PAIR_SIZE_ON_MEMORY;
+            N += file.length() / PAIR_SIZE_ON_DISK;
         }
 
         int k = 0;
         ArrayList<Integer> outputBlock = new ArrayList<>();
         while (k < N) {
-            int best_i = 0;
+            int best_i = -1;
+
+            // initial dummy value
+            IntPair minPair = new IntPair(Integer.MAX_VALUE, Integer.MAX_VALUE);
 
             // find the pointer that points to the min element
-            IntPair minPair = new IntPair(WebDataUtils.byteArrayToInt(Arrays.copyOfRange(blocks[best_i], pointers[best_i], 4)),
-                    WebDataUtils.byteArrayToInt(Arrays.copyOfRange(blocks[best_i], pointers[best_i] + 4, 4)));
             for (int i = 0; i <= right - left; i++) {
-                IntPair currPair = new IntPair(WebDataUtils.byteArrayToInt(Arrays.copyOfRange(blocks[i], pointers[i], 4)),
-                        WebDataUtils.byteArrayToInt(Arrays.copyOfRange(blocks[i], pointers[i] + 4, 4)));
-                if (minPair.compareTo(currPair) > 0) {
+                if (pointers[i] == -1) {
+                    continue;
+                }
+                IntPair currPair = new IntPair(WebDataUtils.byteArrayToInt(Arrays.copyOfRange(blocks[i], pointers[i], pointers[i] + 4)),
+                        WebDataUtils.byteArrayToInt(Arrays.copyOfRange(blocks[i], pointers[i] + 4, pointers[i] + 8)));
+                if (minPair.compareTo(currPair) >= 0) {
                     best_i = i;
                     minPair = currPair;
                 }
@@ -297,22 +324,30 @@ public class IndexWriter {
             // no more memory - flush to disk
             if (k % (BLOCK_SIZE / PAIR_SIZE_ON_MEMORY) == 0) {
                 writeSequence(outputFile, outputBlock);
+                outputBlock = new ArrayList<>();
             }
 
             // pi points to the last element in the block
-            if (pointers[best_i] == blocks[best_i].length - PAIR_SIZE_ON_DISK - 1) {
+            if (pointers[best_i] == blocks[best_i].length - PAIR_SIZE_ON_DISK) {
                 numOfBlocksRead[best_i]++;
                 // read the next block
                 File file = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, best_i));
-                byte[] block = new byte[(int) Math.min(BLOCK_SIZE, file.length() - (long) BLOCK_SIZE * numOfBlocksRead[best_i])];
-                try (RandomAccessFile reader = new RandomAccessFile(file, "r")) {
-                    reader.seek((long) BLOCK_SIZE * numOfBlocksRead[best_i]);
-                    reader.read(block, 0, block.length);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                int block_size = (int) Math.min(BLOCK_SIZE, file.length() - (long) BLOCK_SIZE * numOfBlocksRead[best_i]);
+                if (block_size <= 0) {
+                    // there is no more to read in this file
+                    blocks[best_i] = new byte[0];
+                    pointers[best_i] = -1;
+                } else {
+                    byte[] block = new byte[(int) Math.min(BLOCK_SIZE, file.length() - (long) BLOCK_SIZE * numOfBlocksRead[best_i])];
+                    try (RandomAccessFile reader = new RandomAccessFile(file, "r")) {
+                        reader.seek((long) BLOCK_SIZE * numOfBlocksRead[best_i]);
+                        reader.read(block, 0, block.length);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    blocks[best_i] = block;
+                    pointers[best_i] = 0;
                 }
-                blocks[best_i] = block;
-                pointers[best_i] = 0;
             } else {
                 pointers[best_i] += PAIR_SIZE_ON_DISK;
             }
@@ -339,7 +374,12 @@ public class IndexWriter {
     }
 
 
-    private void step4() {
+    private void step4(String sortedFile) {
+        try (RandomAccessFile reader = new RandomAccessFile(new File(tempFilesDir, sortedFile), "r")) {
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
