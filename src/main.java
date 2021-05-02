@@ -5,13 +5,15 @@ import webdata.SlowIndexWriter;
 import webdata.utils.IntPair;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Enumeration;
 
 
 public class main {
     final static String DictionaryPath = "indexFiles";
     //    final static String DataSetPath = "datasets\\10000.txt";
-    final static String DataSetPath = "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\BigDatasets\\100000.txt";
+    final static String DataSetPath = "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\BigDatasets\\1000000.txt";
 
     public static void test1() {
         SlowIndexWriter writer = new SlowIndexWriter();
@@ -65,9 +67,12 @@ public class main {
     }
 
     public static void test2() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
 
         SlowIndexWriter slowWriter = new SlowIndexWriter();
         IndexWriter writer = new IndexWriter();
+        System.out.println("Started at\n" + dtf.format(now));
         long startTime = System.currentTimeMillis();
         writer.write(DataSetPath, DictionaryPath);
 //        slowWriter.slowWrite(DataSetPath, DictionaryPath);
