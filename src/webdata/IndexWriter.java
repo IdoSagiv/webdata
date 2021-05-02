@@ -87,11 +87,10 @@ public class IndexWriter {
         // merge the sorted lists to one sorted list
         String sortedFile = step3(numOfSequences);
 
-//        // write the dictionary and posting list
+        // write the dictionary and posting list
         step4(sortedFile);
 
-
-//        removeIndex(tempFilesDir);
+        removeIndex(tempFilesDir);
     }
 
 

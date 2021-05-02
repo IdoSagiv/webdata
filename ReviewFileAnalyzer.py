@@ -3,6 +3,9 @@ import re
 import pathlib
 import ntpath
 import json
+import os
+
+REVIEW_SIZE = 9
 
 
 #
@@ -53,13 +56,7 @@ def count_tokens(text: str):
     return total, max_len
 
 
-if __name__ == '__main__':
-    datasets = [
-        r"datasets\100.txt",
-        r"datasets\1000.txt"
-        # r"datasets\Books.txt.gz"
-    ]
-
+def get_statistics(dataset):
     for dataset in datasets:
         all_tokens = {}
         all_products = {}
@@ -104,3 +101,27 @@ if __name__ == '__main__':
               f"max num of tokens in review - {max_tokens_in_review}\n"
               f"max numerator - {max_numerator}\n"
               f"max denominator - {max_denominator}\n")
+
+
+def create_smaller_version(in_file, out_dir, num_of_reviews):
+    out_file = open(os.path.join(out_dir, str(num_of_reviews) + ".txt"), 'w')
+    # next_n_lines = list(islice(open(in_file), REVIEW_SIZE * num_of_reviews))
+    out_file.writelines(open(in_file, 'r').readlines()[0: + REVIEW_SIZE * num_of_reviews])
+
+
+if __name__ == '__main__':
+    datasets = [
+        r"datasets\100.txt",
+        r"datasets\1000.txt"
+        # r"datasets\Books.txt.gz"
+    ]
+    # get_statistics(datasets)
+    create_smaller_version(
+        r"C:\Users\Ido\Documents\Degree\Third Year\Semester B\Web Information Retrival\BigDatasets\Movies_&_TV.txt",
+        r"C:\Users\Ido\Documents\Degree\Third Year\Semester B\Web Information Retrival\BigDatasets",
+        100000)
+    print("finish 100000")
+    create_smaller_version(
+        r"C:\Users\Ido\Documents\Degree\Third Year\Semester B\Web Information Retrival\BigDatasets\Movies_&_TV.txt",
+        r"C:\Users\Ido\Documents\Degree\Third Year\Semester B\Web Information Retrival\BigDatasets",
+        1000000)
