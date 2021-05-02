@@ -14,4 +14,12 @@ public class TextPostListValue {
         this.reviewId = reviewId;
         this.freqInReview = 1;
     }
+
+    /**
+     * @param reviewId
+     */
+    public TextPostListValue(int reviewId, int freqInReview) {
+        this.reviewId = reviewId;
+        this.freqInReview = freqInReview;
+    }
 }

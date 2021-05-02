@@ -1,6 +1,6 @@
 package webdata.reading;
 
-import webdata.writing.TextDictWriter;
+import webdata.writing.TextDictWriterOLD;
 import webdata.utils.IntPair;
 import webdata.utils.WebDataUtils;
 
@@ -32,7 +32,7 @@ public class TextDictReader {
     public TextDictReader(File dictFile, File invertedIdxFile, File concStrFile, int size) {
         this.invertedIdxFile = invertedIdxFile;
         this.size = size;
-        this.numOfBlocks = (int) Math.ceil((double) size / TextDictWriter.TOKENS_IN_BLOCK);
+        this.numOfBlocks = (int) Math.ceil((double) size / TextDictWriterOLD.TOKENS_IN_BLOCK);
         StringBuilder consStrBuilder = new StringBuilder();
         try (Stream<String> stream = Files.lines(concStrFile.toPath(), StandardCharsets.UTF_8)) {
             this.dict = Files.readAllBytes(dictFile.toPath());
@@ -65,7 +65,7 @@ public class TextDictReader {
      * @param posInBlock words index within its block
      * @return the wanted parameters value.
      */
-    public int readWordParam(int wordPtr, TextDictWriter.TokenParam param, int posInBlock) {
+    public int readWordParam(int wordPtr, TextDictWriterOLD.TokenParam param, int posInBlock) {
         int from = wordPtr + param.getOffset(posInBlock);
         byte[] bytes = Arrays.copyOfRange(dict, from, from + param.length);
         return WebDataUtils.byteArrayToInt(bytes);
@@ -94,16 +94,16 @@ public class TextDictReader {
      * @return the given token's posting list bounds
      */
     private long[] getPostLstBounds(int tokenPos, int tokenId) {
-        long start = readWordParam(tokenPos, TextDictWriter.TokenParam.INVERTED_PTR,
-                tokenId % TextDictWriter.TOKENS_IN_BLOCK);
+        long start = readWordParam(tokenPos, TextDictWriterOLD.TokenParam.INVERTED_PTR,
+                tokenId % TextDictWriterOLD.TOKENS_IN_BLOCK);
         long stop;
         if (tokenId == size - 1) {
             stop = invertedIdxFile.length();
         } else {
-            int posInBlock = tokenId % TextDictWriter.TOKENS_IN_BLOCK;
-            int nextRow = tokenPos + TextDictWriter.getRowLength(posInBlock);
-            stop = readWordParam(nextRow, TextDictWriter.TokenParam.INVERTED_PTR, (posInBlock + 1) %
-                    TextDictWriter.TOKENS_IN_BLOCK);
+            int posInBlock = tokenId % TextDictWriterOLD.TOKENS_IN_BLOCK;
+            int nextRow = tokenPos + TextDictWriterOLD.getRowLength(posInBlock);
+            stop = readWordParam(nextRow, TextDictWriterOLD.TokenParam.INVERTED_PTR, (posInBlock + 1) %
+                    TextDictWriterOLD.TOKENS_IN_BLOCK);
         }
         return new long[]{start, stop};
     }
@@ -141,9 +141,9 @@ public class TextDictReader {
      * @return the first token in the given block.
      */
     private String readFirstToken(int blockNum) {
-        int pos = (blockNum * TextDictWriter.BLOCK_LENGTH);
-        int tokenLength = readWordParam(pos, TextDictWriter.TokenParam.LENGTH, 0);
-        int strPtr = readWordParam(pos, TextDictWriter.TokenParam.CONCATENATED_STR_PTR, 0);
+        int pos = (blockNum * TextDictWriterOLD.BLOCK_LENGTH);
+        int tokenLength = readWordParam(pos, TextDictWriterOLD.TokenParam.LENGTH, 0);
+        int strPtr = readWordParam(pos, TextDictWriterOLD.TokenParam.CONCATENATED_STR_PTR, 0);
         return concStr.substring(strPtr, strPtr + tokenLength);
     }
 
@@ -153,10 +153,10 @@ public class TextDictReader {
      * @return a pointer to the token's position in the dictionary or -1 if the token is not in the block.
      */
     private IntPair searchInBlock(int blockNum, String token) {
-        int wordPtr = (blockNum * TextDictWriter.BLOCK_LENGTH);
+        int wordPtr = (blockNum * TextDictWriterOLD.BLOCK_LENGTH);
         String curWord = readFirstToken(blockNum);
 
-        int tokenId = blockNum * TextDictWriter.TOKENS_IN_BLOCK;
+        int tokenId = blockNum * TextDictWriterOLD.TOKENS_IN_BLOCK;
         if (curWord.equals(token)) {
             // if it's the first word in the block
             return new IntPair(wordPtr, tokenId);
@@ -165,33 +165,33 @@ public class TextDictReader {
             return null;
         }
         tokenId++;
-        int concStrPtr = readWordParam(wordPtr, TextDictWriter.TokenParam.CONCATENATED_STR_PTR, 0);
-        wordPtr += TextDictWriter.getRowLength(0);
+        int concStrPtr = readWordParam(wordPtr, TextDictWriterOLD.TokenParam.CONCATENATED_STR_PTR, 0);
+        wordPtr += TextDictWriterOLD.getRowLength(0);
 
         concStrPtr += curWord.length();
         String prevWord;
         long curLength;
         int curPrefSize;
 
-        for (int i = 1; i < TextDictWriter.TOKENS_IN_BLOCK && tokenId < size; i++) {
+        for (int i = 1; i < TextDictWriterOLD.TOKENS_IN_BLOCK && tokenId < size; i++) {
             prevWord = curWord;
-            curPrefSize = readWordParam(wordPtr, TextDictWriter.TokenParam.PREFIX_SIZE, i);
+            curPrefSize = readWordParam(wordPtr, TextDictWriterOLD.TokenParam.PREFIX_SIZE, i);
 
-            if (i == TextDictWriter.TOKENS_IN_BLOCK - 1) {
+            if (i == TextDictWriterOLD.TOKENS_IN_BLOCK - 1) {
                 // behave differently to the last element in the block
                 if (tokenId == size - 1) {
                     // this is the last token - calc the tokens length with the files length
                     curLength = concStr.length() - concStrPtr + curPrefSize;
                 } else {
                     // there is at least one more block - calc the tokens length with the next blocks concStr pointer
-                    int start = wordPtr + TextDictWriter.getRowLength(i) +
-                            TextDictWriter.TokenParam.CONCATENATED_STR_PTR.getOffset(0);
-                    int size = TextDictWriter.TokenParam.CONCATENATED_STR_PTR.length;
+                    int start = wordPtr + TextDictWriterOLD.getRowLength(i) +
+                            TextDictWriterOLD.TokenParam.CONCATENATED_STR_PTR.getOffset(0);
+                    int size = TextDictWriterOLD.TokenParam.CONCATENATED_STR_PTR.length;
                     curLength = WebDataUtils.byteArrayToInt(Arrays.copyOfRange(dict, start, start + size)) -
                             concStrPtr + curPrefSize;
                 }
             } else {
-                curLength = readWordParam(wordPtr, TextDictWriter.TokenParam.LENGTH, i);
+                curLength = readWordParam(wordPtr, TextDictWriterOLD.TokenParam.LENGTH, i);
             }
 
             String suffix = concStr.substring(concStrPtr, concStrPtr + (int) curLength - curPrefSize);
@@ -201,7 +201,7 @@ public class TextDictReader {
             if (curWord.equals(token)) {
                 return new IntPair(wordPtr, tokenId);
             }
-            wordPtr += TextDictWriter.getRowLength(i);
+            wordPtr += TextDictWriterOLD.getRowLength(i);
             tokenId++;
         }
 

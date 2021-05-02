@@ -10,7 +10,7 @@ import java.util.Enumeration;
 
 public class main {
     final static String DictionaryPath = "indexFiles";
-    final static String DataSetPath = "datasets\\1000.txt";
+    final static String DataSetPath = "datasets\\100.txt";
 
     public static void test1() {
         SlowIndexWriter writer = new SlowIndexWriter();
@@ -64,8 +64,14 @@ public class main {
     }
 
     public static void test2() {
+//        SlowIndexWriter writer = new SlowIndexWriter();
+//        writer.slowWrite(DataSetPath, DictionaryPath);
+
         IndexWriter writer = new IndexWriter();
+        long startTime = System.currentTimeMillis();
         writer.write(DataSetPath, DictionaryPath);
+        long estimatedTime = System.currentTimeMillis() - startTime;
+        System.out.println("creating index in: " + estimatedTime + " ms");
 
 
     }

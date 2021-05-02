@@ -2,11 +2,10 @@ package webdata;
 
 import webdata.reading.ProductIdDictReader;
 import webdata.reading.TextDictReader;
-import webdata.writing.TextDictWriter;
-import webdata.writing.TextDictWriter.TokenParam;
+import webdata.writing.TextDictWriterOLD;
+import webdata.writing.TextDictWriterOLD.TokenParam;
 import webdata.utils.IntPair;
 import webdata.utils.WebDataUtils;
-import webdata.SlowIndexWriter;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -127,7 +126,7 @@ public class IndexReader {
         if (pos == null) {
             return 0;
         }
-        return textDict.readWordParam(pos.first, TokenParam.FREQ, pos.second % TextDictWriter.TOKENS_IN_BLOCK);
+        return textDict.readWordParam(pos.first, TokenParam.FREQ, pos.second % TextDictWriterOLD.TOKENS_IN_BLOCK);
     }
 
 

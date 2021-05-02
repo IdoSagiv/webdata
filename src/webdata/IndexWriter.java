@@ -4,6 +4,7 @@ import webdata.utils.IntPair;
 import webdata.utils.WebDataUtils;
 import webdata.writing.Parser;
 import webdata.writing.ProductIdDictWriter;
+import webdata.writing.TextDictWriter;
 import webdata.writing.TokenIterator;
 
 
@@ -71,11 +72,7 @@ public class IndexWriter {
         // create the directory if not exist
         File outDir = new File(outputDir);
         File tempDir = new File(tempFilesDir);
-//        File textDictFile = new File(dir, TEXT_DICT_PATH);
-//        File textConcatenatedStrFile = new File(dir, TEXT_CONC_STR_PATH);
-//        File textInvertedIdxFile = new File(dir, TEXT_INV_IDX_PATH);
-//        File productIdDictFile = new File(dir, PRODUCT_ID_DICT_PATH);
-//        File tokensFreqFile = new File(dir, TOKEN_FREQ_PATH);
+
 
         //creates the directory if not exists
         if (!outDir.exists()) outDir.mkdir();
@@ -375,11 +372,18 @@ public class IndexWriter {
 
 
     private void step4(String sortedFile) {
-        try (RandomAccessFile reader = new RandomAccessFile(new File(tempFilesDir, sortedFile), "r")) {
+        File dictFile = new File(outputDir, TEXT_DICT_PATH);
+        File concatenatedStrFile = new File(outputDir, TEXT_CONC_STR_PATH);
+        File invertedIdxFile = new File(outputDir, TEXT_INV_IDX_PATH);
+        File tokensFreqFile = new File(outputDir, TOKEN_FREQ_PATH);
+        File inputFile = new File(tempFilesDir, sortedFile);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        List<String> tokens = new ArrayList<>(tokenIdDict.keySet());
+        Collections.sort(tokens);
+
+        TextDictWriter dictWriter = new TextDictWriter(inputFile, dictFile, concatenatedStrFile, invertedIdxFile,
+                tokensFreqFile, tokens.toArray(new String[0]));
+        dictWriter.saveToDisk();
     }
 
     /**

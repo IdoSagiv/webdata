@@ -3,7 +3,7 @@ package webdata;
 import webdata.utils.WebDataUtils;
 import webdata.writing.Parser;
 import webdata.writing.ProductIdDictWriter;
-import webdata.writing.TextDictWriter;
+import webdata.writing.TextDictWriterOLD;
 
 import java.io.*;
 
@@ -86,7 +86,7 @@ public class SlowIndexWriter {
 
         Parser parser = new Parser(inputFile);
         String[] section;
-        TextDictWriter textDict = new TextDictWriter(textDictFile, textConcatenatedStrFile, textInvertedIdxFile,
+        TextDictWriterOLD textDict = new TextDictWriterOLD(textDictFile, textConcatenatedStrFile, textInvertedIdxFile,
                 tokensFreqFile);
         ProductIdDictWriter productIdDict = new ProductIdDictWriter(productIdDictFile);
 
