@@ -5,7 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indexFiles/productIdDict.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/productIdDict.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indexFiles/reviewsFields.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/reviewsFields.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indexFiles/statistics.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/statistics.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indexFiles/tempFiles/mergeStep_0_0.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/tempFiles/mergeStep_0_0.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/IndexWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/IndexWriter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/IntPair.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/IntPair.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/IndexWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/IndexWriter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,6 +181,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="IndexReaderTest2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="webdata" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="IndexReaderTest2" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="IndexReaderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="webdata" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -196,14 +214,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="IndexReaderTest.getProductID" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="IndexReaderTests3" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="webdata" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../../../../../../../Program Files/Java/jdk-16.0.1" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="IndexReaderTest" />
-      <option name="METHOD_NAME" value="getProductID" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="MAIN_CLASS_NAME" value="IndexReaderTests3" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -211,16 +226,17 @@
     <list>
       <item itemvalue="Application.main" />
       <item itemvalue="JUnit.IndexReaderTest" />
-      <item itemvalue="JUnit.IndexReaderTest.getProductID" />
       <item itemvalue="JUnit.IndexReaderTest.ProductIDShouldBeNULL" />
+      <item itemvalue="JUnit.IndexReaderTest2" />
+      <item itemvalue="JUnit.IndexReaderTests3" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.main" />
+        <item itemvalue="JUnit.IndexReaderTests3" />
+        <item itemvalue="JUnit.IndexReaderTest2" />
         <item itemvalue="JUnit.IndexReaderTest" />
         <item itemvalue="JUnit.IndexReaderTest" />
-        <item itemvalue="JUnit.IndexReaderTest.getProductID" />
-        <item itemvalue="JUnit.IndexReaderTest.ProductIDShouldBeNULL" />
       </list>
     </recent_temporary>
   </component>
@@ -317,17 +333,17 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main.java</url>
-          <line>74</line>
+          <line>76</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main.java</url>
-          <line>41</line>
+          <line>42</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main.java</url>
-          <line>37</line>
+          <line>38</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>

@@ -1,4 +1,5 @@
 import webdata.IndexReader;
+//import webdata.IndexWriter;
 import webdata.IndexWriter;
 import webdata.SlowIndexWriter;
 import webdata.utils.IntPair;
@@ -9,7 +10,7 @@ import java.util.Enumeration;
 
 public class main {
     final static String DictionaryPath = "indexFiles";
-    final static String DataSetPath = "datasets\\test.txt";
+    final static String DataSetPath = "datasets\\1000.txt";
 
     public static void test1() {
         SlowIndexWriter writer = new SlowIndexWriter();
@@ -65,6 +66,7 @@ public class main {
     public static void test2() {
         IndexWriter writer = new IndexWriter();
         writer.write(DataSetPath, DictionaryPath);
+
 
     }
 
