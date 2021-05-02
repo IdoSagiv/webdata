@@ -5,8 +5,6 @@ import ntpath
 import json
 import os
 
-REVIEW_SIZE = 9
-
 
 #
 # def parse_json(filename):
@@ -56,7 +54,7 @@ def count_tokens(text: str):
     return total, max_len
 
 
-def get_statistics(dataset):
+def get_statistics(datasets):
     for dataset in datasets:
         all_tokens = {}
         all_products = {}
@@ -103,25 +101,23 @@ def get_statistics(dataset):
               f"max denominator - {max_denominator}\n")
 
 
-def create_smaller_version(in_file, out_dir, num_of_reviews):
-    out_file = open(os.path.join(out_dir, str(num_of_reviews) + ".txt"), 'w')
-    # next_n_lines = list(islice(open(in_file), REVIEW_SIZE * num_of_reviews))
-    out_file.writelines(open(in_file, 'r').readlines()[0: + REVIEW_SIZE * num_of_reviews])
+def create_smaller_versions(in_file, review_size, out_dir, num_of_reviews_lst):
+    relevant_lines = open(in_file, 'r').readlines()[0: + review_size * max(num_of_reviews_lst)]
+    for num_of_reviews in num_of_reviews_lst:
+        out_file = open(os.path.join(out_dir, str(num_of_reviews) + ".txt"), 'w')
+        out_file.writelines(relevant_lines[0: review_size * num_of_reviews])
 
 
 if __name__ == '__main__':
     datasets = [
-        r"datasets\100.txt",
-        r"datasets\1000.txt"
+        # r"datasets\100.txt",
+        # r"datasets\1000.txt",
+        r"C:\Users\Ido\Documents\Degree\Third Year\Semester B\Web Information Retrival\BigDatasets\10000.txt"
         # r"datasets\Books.txt.gz"
     ]
     # get_statistics(datasets)
-    create_smaller_version(
+    create_smaller_versions(
         r"C:\Users\Ido\Documents\Degree\Third Year\Semester B\Web Information Retrival\BigDatasets\Movies_&_TV.txt",
+        11,
         r"C:\Users\Ido\Documents\Degree\Third Year\Semester B\Web Information Retrival\BigDatasets",
-        100000)
-    print("finish 100000")
-    create_smaller_version(
-        r"C:\Users\Ido\Documents\Degree\Third Year\Semester B\Web Information Retrival\BigDatasets\Movies_&_TV.txt",
-        r"C:\Users\Ido\Documents\Degree\Third Year\Semester B\Web Information Retrival\BigDatasets",
-        1000000)
+        [10000, 100000, 1000000])
