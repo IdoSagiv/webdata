@@ -17,7 +17,7 @@ import java.util.Enumeration;
 public class main {
     final static String DictionaryPath = "indexFiles";
     //    final static String DataSetPath = "datasets\\1000.txt";
-    final static String DataSetPath = "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\BigDatasets\\100000.txt";
+    final static String DataSetPath = "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\BigDatasets\\1000000.txt";
 
     public static void test1() {
         SlowIndexWriter writer = new SlowIndexWriter();
