@@ -16,8 +16,8 @@ import java.util.Enumeration;
 
 public class main {
     final static String DictionaryPath = "indexFiles";
-    //    final static String DataSetPath = "datasets\\1000.txt";
-    final static String DataSetPath = "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\BigDatasets\\1000000.txt";
+//        final static String DataSetPath = "datasets\\test.txt";
+    final static String DataSetPath = "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\BigDatasets\\10000.txt";
 
     public static void test1() {
         SlowIndexWriter writer = new SlowIndexWriter();
@@ -84,22 +84,22 @@ public class main {
 
     }
 
-    public static void test3() {
-        // ToDo: ignore this :)
-        String dataset = "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\BigDatasets\\100000.txt";
-        try {
-            RandomAccessFile f = new RandomAccessFile(new File(dataset), "r");
-            ReviewSectionIterator iter = new ReviewSectionIterator(f);
-            int i = 0;
-            while (iter.hasMoreElements()) {
-                iter.nextElement();
-                i++;
-            }
-            System.out.println("there are " + i + " reviews");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void test3() {
+//        // ToDo: ignore this :)
+//        String dataset = "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\BigDatasets\\100000.txt";
+//        try {
+//            RandomAccessFile f = new RandomAccessFile(new File(dataset), "r");
+//            ReviewSectionIterator iter = new ReviewSectionIterator(f);
+//            int i = 0;
+//            while (iter.hasMoreElements()) {
+//                iter.nextElement();
+//                i++;
+//            }
+//            System.out.println("there are " + i + " reviews");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
     public static void main(String[] args) throws IOException {

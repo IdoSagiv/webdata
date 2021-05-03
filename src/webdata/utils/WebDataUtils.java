@@ -22,26 +22,24 @@ public class WebDataUtils {
      * @param num a number
      * @return Array of bytes representing the codded number.
      */
-    public static ArrayList<Byte> encode(int num) {
-        ArrayList<Byte> res = new ArrayList<>();
-
+    public static byte[] encode(int num) {
         if (num < 0x3f) {
-            res.add((byte) num);
+            return new byte[]{(byte) num};
         } else if (num < 0x3fff) {
-            res.add((byte) ((num >>> BYTE_SHIFTS[1]) | 0x40));
-            res.add((byte) num);
+            return new byte[]{(byte) ((num >>> BYTE_SHIFTS[1]) | 0x40),
+                    (byte) num};
         } else if (num < 0x3fffff) {
-            res.add((byte) ((num >>> BYTE_SHIFTS[2]) | 0x80));
-            res.add((byte) (num >>> BYTE_SHIFTS[1]));
-            res.add((byte) num);
+            return new byte[]{(byte) ((num >>> BYTE_SHIFTS[2]) | 0x80),
+                    (byte) (num >>> BYTE_SHIFTS[1]),
+                    (byte) num};
         } else if (num < 0x3fffffff) {
-            res.add((byte) ((num >>> BYTE_SHIFTS[3]) | 0x80 + 0x40));
-            res.add((byte) (num >>> BYTE_SHIFTS[2]));
-            res.add((byte) (num >>> BYTE_SHIFTS[1]));
-            res.add((byte) num);
+            return new byte[]{(byte) ((num >>> BYTE_SHIFTS[3]) | 0x80 + 0x40),
+                    (byte) (num >>> BYTE_SHIFTS[2]),
+                    (byte) (num >>> BYTE_SHIFTS[1]),
+                    (byte) num};
         }
 
-        return res;
+        return new byte[0];
     }
 
     /**
@@ -112,7 +110,9 @@ public class WebDataUtils {
      * @return a byte array of the given int
      */
     public static byte[] toByteArray(int numToCast, int numOfBytes) {
-        assert (numOfBytes >= 0 && numOfBytes <= 4);
+        if (numOfBytes == 4) {
+            return ByteBuffer.allocate(4).putInt(numToCast).array();
+        }
         byte[] res = new byte[numOfBytes];
         for (int i = 0; i < numOfBytes; i++) {
             res[numOfBytes - i - 1] = (byte) (numToCast >>> BYTE_SHIFTS[i]);
@@ -126,7 +126,6 @@ public class WebDataUtils {
      * @return a byte array of the given string
      */
     public static byte[] toByteArray(String str, int numOfBytes) {
-        assert (numOfBytes <= str.length());
         return Arrays.copyOfRange(str.getBytes(StandardCharsets.UTF_8), 0, numOfBytes);
     }
 }

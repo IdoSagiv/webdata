@@ -269,14 +269,14 @@ public class TextDictWriterOLD {
         int prevId = 0;
         int bytesWritten = 0;
 
-        for (TextPostListValue review : entry.tokenReviews) {
-            ArrayList<Byte> id = encode(review.reviewId - prevId);
-            ArrayList<Byte> freq = encode(review.freqInReview);
-            bytesWritten += writeBytes(outStream, id);
-            bytesWritten += writeBytes(outStream, freq);
-
-            prevId = review.reviewId;
-        }
+//        for (TextPostListValue review : entry.tokenReviews) {
+//            ArrayList<Byte> id = encode(review.reviewId - prevId);
+//            ArrayList<Byte> freq = encode(review.freqInReview);
+//            bytesWritten += writeBytes(outStream, id);
+//            bytesWritten += writeBytes(outStream, freq);
+//
+//            prevId = review.reviewId;
+//        }
         return bytesWritten;
     }
 }

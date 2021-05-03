@@ -11,6 +11,8 @@ import webdata.writing.TokenIterator;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class IndexWriter {
@@ -37,18 +39,15 @@ public class IndexWriter {
     // statistics file
     public static final String STATISTICS_PATH = "statistics.bin";
 
-    private final HashMap<String, Integer> tokenIdDict;
+//    private final HashMap<String, Integer> tokenIdDict;
+    private final LinkedHashMap<String, Integer> tokenIdDict;
 
     // ToDo: verify this
-
     // block size - 4MB (in Bytes)
     private static final int BLOCK_SIZE = 4 * WebDataUtils.MEGA; // 4MB
     // main memory size in blocks - total of 1GB less 100MB to java
-    private static final int M = (int) Math.ceil((WebDataUtils.GIGA - 100.0 * WebDataUtils.MEGA) / BLOCK_SIZE);
-//    // block size in bytes
-//    private static final int BLOCK_SIZE = 4 * 1024; // 4MB
-//    // main memory size in blocks
-//    private static final int M = (int) Math.ceil(((1024 - 100) * 1024.0) / BLOCK_SIZE); // total of 1GB less 100MB to java
+//    private static final int M = (int) Math.ceil((WebDataUtils.GIGA - 100.0 * WebDataUtils.MEGA) / BLOCK_SIZE);
+    private static final int M = (int) Math.ceil((WebDataUtils.GIGA - 50.0 * WebDataUtils.MEGA) / BLOCK_SIZE);
 
 
     // pair size in bytes
@@ -58,7 +57,7 @@ public class IndexWriter {
     private String outputDir;
 
     public IndexWriter() {
-        tokenIdDict = new HashMap<>();
+        tokenIdDict = new LinkedHashMap<>();
         outputDir = "";
         tempFilesDir = "";
     }
@@ -85,17 +84,22 @@ public class IndexWriter {
         if (!tempDir.exists()) tempDir.mkdir();
 
 
+        System.out.println("Start step1 at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
         step1(inputFile);
 
+        System.out.println("Start step2 at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
         // writes to disk the sorted lists of pairs
         int numOfSequences = step2(inputFile);
 
+        System.out.println("Start step3 at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
         // merge the sorted lists to one sorted list
         String sortedFile = step3(numOfSequences);
 
+        System.out.println("Start step4 at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
         // write the dictionary and posting list
         step4(sortedFile);
 
+        System.out.println("Start delete at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
         removeIndex(tempFilesDir);
     }
 
@@ -259,7 +263,6 @@ public class IndexWriter {
             stepIndex++;
         }
 
-
         // return the name of the final merged file
         return String.format(TEMP_FILE_TEMPLATE, stepIndex - 1, numOfSequences - 1);
     }
@@ -269,6 +272,10 @@ public class IndexWriter {
         // end case - there is only one file to merge
         if (right == left) {
             File inputFile = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, left));
+            // try to rename
+            if (inputFile.renameTo(outputFile)) {
+                return;
+            }
             try {
                 Files.copy(inputFile.toPath(), outputFile.toPath());
             } catch (IOException e) {
@@ -336,6 +343,8 @@ public class IndexWriter {
                 File file = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, best_i));
                 int block_size = (int) Math.min(BLOCK_SIZE, file.length() - (long) BLOCK_SIZE * numOfBlocksRead[best_i]);
                 if (block_size <= 0) {
+                    // ToDo: delete the temp file? we don't need it anymore
+//                    file.delete();
                     // there is no more to read in this file
                     blocks[best_i] = new byte[0];
                     pointers[best_i] = -1;
@@ -384,7 +393,7 @@ public class IndexWriter {
         File inputFile = new File(tempFilesDir, sortedFile);
 
         List<String> tokens = new ArrayList<>(tokenIdDict.keySet());
-        Collections.sort(tokens);
+//        Collections.sort(tokens);
 
         TextDictWriter dictWriter = new TextDictWriter(inputFile, dictFile, concatenatedStrFile, invertedIdxFile,
                 tokensFreqFile, tokens.toArray(new String[0]));

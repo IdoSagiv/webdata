@@ -1,0 +1,4 @@
+10000   - 0.929 minutes
+100000  - 25.911 minutes (before unit fix)
+100000  - 10.453 minutes (after unit fix)
+1000000 - 166.531 minutes
