@@ -12,6 +12,9 @@ import java.util.Arrays;
  */
 public class WebDataUtils {
     private final static int[] BYTE_SHIFTS = {0, 8, 16, 24, 32};
+    public static final int KILO = 1024; // in Bytes
+    public static final int MEGA = 1024 * KILO; // in Bytes
+    public static final int GIGA = 1024 * MEGA; // in Bytes
 
     /**
      * encodes given number with Length Pre-Coded Varint code.

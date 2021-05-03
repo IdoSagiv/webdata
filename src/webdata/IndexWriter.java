@@ -40,11 +40,17 @@ public class IndexWriter {
     private final HashMap<String, Integer> tokenIdDict;
 
     // ToDo: verify this
-    // block size in bytes
-    private static final int BLOCK_SIZE = 4 * 1024; // 4MB
 
-    // main memory size in blocks
-    private static final int M = (int) Math.ceil(((1024 - 100) * 1024.0) / BLOCK_SIZE); // total of 1GB less 100MB to java
+    // block size - 4MB (in Bytes)
+    private static final int BLOCK_SIZE = 4 * WebDataUtils.MEGA; // 4MB
+    // main memory size in blocks - total of 1GB less 100MB to java
+    private static final int M = (int) Math.ceil((WebDataUtils.GIGA - 100.0 * WebDataUtils.MEGA) / BLOCK_SIZE);
+//    // block size in bytes
+//    private static final int BLOCK_SIZE = 4 * 1024; // 4MB
+//    // main memory size in blocks
+//    private static final int M = (int) Math.ceil(((1024 - 100) * 1024.0) / BLOCK_SIZE); // total of 1GB less 100MB to java
+
+
     // pair size in bytes
     private static final int PAIR_SIZE_ON_MEMORY = 24;
     private static final int PAIR_SIZE_ON_DISK = 4 + 4; // two integers
