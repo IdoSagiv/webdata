@@ -166,7 +166,7 @@ public class TextDictWriter {
         try (RandomAccessFile reader = new RandomAccessFile(inputFile, "r");
              DataOutputStream dictWriter = new DataOutputStream(new FileOutputStream(dictFile));
              BufferedWriter conStrWriter = new BufferedWriter(new FileWriter(concatenatedStrFile));
-             FileOutputStream invertedIdxWriter = new FileOutputStream(invertedIdxFile);
+             ObjectOutputStream invertedIdxWriter = new ObjectOutputStream(new FileOutputStream(invertedIdxFile));
              DataOutputStream tokensFreqWriter = new DataOutputStream(new FileOutputStream(tokensFreqFile))) {
             while (reader.getFilePointer() != reader.length()) {
                 tokenId = reader.readInt();
@@ -296,7 +296,7 @@ public class TextDictWriter {
      * @return the number of bytes written to the file.
      * @throws IOException
      */
-    private int writeInvertedIndexEntry(FileOutputStream outStream, int reviewId, int freqInReview, int prevId) throws IOException {
+    private int writeInvertedIndexEntry(ObjectOutputStream outStream, int reviewId, int freqInReview, int prevId) throws IOException {
         int bytesWritten = 0;
         byte[] id = encode(reviewId - prevId);
         byte[] freq = encode(freqInReview);

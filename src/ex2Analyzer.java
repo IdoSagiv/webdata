@@ -13,8 +13,8 @@ public class ex2Analyzer {
 
 
     private static String [] dataSets = {
-            "datasets/100.txt"
-            ,"datasets/1000.txt"
+//            "datasets/100.txt"
+            "datasets/10000.txt"
     };
 
     public static void analyze(){

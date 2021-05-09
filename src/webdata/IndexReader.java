@@ -32,15 +32,15 @@ public class IndexReader {
      * Creates an IndexReader which will read from the given directory
      */
     public IndexReader(String dir) {
-        File textDictFile = new File(dir, SlowIndexWriter.TEXT_DICT_PATH);
-        File textConcatenatedStrFile = new File(dir, SlowIndexWriter.TEXT_CONC_STR_PATH);
-        File textInvertedIdxFile = new File(dir, SlowIndexWriter.TEXT_INV_IDX_PATH);
-        File productIdDictFile = new File(dir, SlowIndexWriter.PRODUCT_ID_DICT_PATH);
+        File textDictFile = new File(dir, IndexWriter.TEXT_DICT_PATH);
+        File textConcatenatedStrFile = new File(dir, IndexWriter.TEXT_CONC_STR_PATH);
+        File textInvertedIdxFile = new File(dir, IndexWriter.TEXT_INV_IDX_PATH);
+        File productIdDictFile = new File(dir, IndexWriter.PRODUCT_ID_DICT_PATH);
 
         try (RandomAccessFile statisticsReader =
-                     new RandomAccessFile(new File(dir, SlowIndexWriter.STATISTICS_PATH), "r")) {
-            tokensFreqBytes = Files.readAllBytes(Paths.get(dir, SlowIndexWriter.TOKEN_FREQ_PATH));
-            reviewFieldsBytes = Files.readAllBytes(Paths.get(dir, SlowIndexWriter.REVIEW_FIELDS_PATH));
+                     new RandomAccessFile(new File(dir, IndexWriter.STATISTICS_PATH), "r")) {
+            tokensFreqBytes = Files.readAllBytes(Paths.get(dir, IndexWriter.TOKEN_FREQ_PATH));
+            reviewFieldsBytes = Files.readAllBytes(Paths.get(dir, IndexWriter.REVIEW_FIELDS_PATH));
             numOfReviews = statisticsReader.readInt();
             numOfTokens = statisticsReader.readInt();
             int numOfDiffTokens = statisticsReader.readInt();
