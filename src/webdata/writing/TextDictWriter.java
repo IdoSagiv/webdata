@@ -4,7 +4,7 @@ import webdata.utils.WebDataUtils;
 
 import java.io.*;
 
-import static webdata.utils.WebDataUtils.encode;
+import static webdata.utils.WebDataUtils.*;
 
 /**
  * class representing a k-1 out of k prefix front coding dictionary as learned in class,
@@ -74,14 +74,12 @@ public class TextDictWriter {
     public final static int BLOCK_LENGTH = TOKENS_IN_BLOCK * (TokenParam.FREQ.length + TokenParam.INVERTED_PTR.length)
             + (TOKENS_IN_BLOCK - 1) * (TokenParam.LENGTH.length + TokenParam.PREFIX_SIZE.length) +
             TokenParam.CONCATENATED_STR_PTR.length;
-//    HashMap<String, TextEntry> dict;
 
     private final File inputFile;
     private final File dictFile;
     private final File concatenatedStrFile;
     private final File invertedIdxFile;
     private final File tokensFreqFile;
-    private final String[] tokens;
 
     /**
      * Constructor
@@ -91,13 +89,12 @@ public class TextDictWriter {
      * @param concatenatedStrFile the concatenated string file.
      * @param invertedIdxFile     the inverted index file.
      */
-    public TextDictWriter(File inputFile, File dictFile, File concatenatedStrFile, File invertedIdxFile, File tokensFreqFile, String[] tokens) {
+    public TextDictWriter(File inputFile, File dictFile, File concatenatedStrFile, File invertedIdxFile, File tokensFreqFile) {
         this.inputFile = inputFile;
         this.dictFile = dictFile;
         this.concatenatedStrFile = concatenatedStrFile;
         this.invertedIdxFile = invertedIdxFile;
         this.tokensFreqFile = tokensFreqFile;
-        this.tokens = tokens;
     }
 
     /**
@@ -120,38 +117,21 @@ public class TextDictWriter {
         return length;
     }
 
-//    /**
-//     * add the given text to the dictionary as tokens.
-//     *
-//     * @param text     text to tokenize and add to the dictionary.
-//     * @param reviewId the review id the text came from.
-//     */
-//    public int addText(String text, int reviewId) {
-//        int counter = 0;
-//        text = WebDataUtils.preProcessText(text);
-//        String regex = "[^a-z0-9]+";
-//        for (String token : text.split(regex)) {
-//            if (!token.isEmpty()) {
-//                addToken(token, reviewId);
-//                counter++;
-//            }
-//        }
-//        return counter;
-//    }
+    private void createEmptyIndex() {
+        try (RandomAccessFile ignored = new RandomAccessFile(inputFile, "r");
+             DataOutputStream ignored1 = new DataOutputStream(new FileOutputStream(dictFile));
+             BufferedWriter ignored2 = new BufferedWriter(new FileWriter(concatenatedStrFile));
+             FileOutputStream ignored3 = new FileOutputStream(invertedIdxFile);
+             DataOutputStream ignored4 = new DataOutputStream(new FileOutputStream(tokensFreqFile))) {
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-
-    public void saveToDisk() {
+    public void saveToDisk(String[] tokens) {
         if (tokens.length == 0) {
-            try (RandomAccessFile ignored = new RandomAccessFile(inputFile, "r");
-                 DataOutputStream ignored1 = new DataOutputStream(new FileOutputStream(dictFile));
-                 BufferedWriter ignored2 = new BufferedWriter(new FileWriter(concatenatedStrFile));
-                 FileOutputStream ignored3 = new FileOutputStream(invertedIdxFile);
-                 DataOutputStream ignored4 = new DataOutputStream(new FileOutputStream(tokensFreqFile))) {
-                return;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return;
-            }
+            createEmptyIndex();
+            return;
         }
 
         int stringPtr = 0;
@@ -163,14 +143,18 @@ public class TextDictWriter {
         // the last word we wrote to the disk
         String prevWord = "";
 
-        try (RandomAccessFile reader = new RandomAccessFile(inputFile, "r");
-             DataOutputStream dictWriter = new DataOutputStream(new FileOutputStream(dictFile));
+        try (BufferedInputStream reader = new BufferedInputStream(new FileInputStream(inputFile));
+             BufferedOutputStream dictWriter = new BufferedOutputStream(new FileOutputStream(dictFile));
              BufferedWriter conStrWriter = new BufferedWriter(new FileWriter(concatenatedStrFile));
-             ObjectOutputStream invertedIdxWriter = new ObjectOutputStream(new FileOutputStream(invertedIdxFile));
-             DataOutputStream tokensFreqWriter = new DataOutputStream(new FileOutputStream(tokensFreqFile))) {
-            while (reader.getFilePointer() != reader.length()) {
-                tokenId = reader.readInt();
-                int ReviewId = reader.readInt();
+             BufferedOutputStream postingListWriter = new BufferedOutputStream(new FileOutputStream(invertedIdxFile));
+             BufferedOutputStream tokenFreqWriter = new BufferedOutputStream(new FileOutputStream(tokensFreqFile))
+        ) {
+            long bytesRead = 0;
+            long bytesToRead = inputFile.length();
+            while (bytesRead <= bytesToRead - 8) {
+                tokenId = WebDataUtils.byteArrayToInt(reader.readNBytes(4));
+                int ReviewId = WebDataUtils.byteArrayToInt(reader.readNBytes(4));
+                bytesRead += 8;
                 if (tokens[tokenId].equals(currWord)) {
                     tokenFreq++;
                     if (ReviewId == currReviewId) {
@@ -178,8 +162,8 @@ public class TextDictWriter {
                     } else {
                         // in the very first review -> don't write because the values are initial values
                         if (currReviewId != 0) {
-                            nextInvertedPtr += writeInvertedIndexEntry(invertedIdxWriter, currReviewId,
-                                    currFreqInReview, prevReviewId);
+                            nextInvertedPtr +=
+                                    addInvertedIndexEntry(currReviewId, currFreqInReview, prevReviewId, postingListWriter);
                             invListSize++;
                         }
                         prevReviewId = currReviewId;
@@ -193,14 +177,12 @@ public class TextDictWriter {
                         prefixSize = commonPrefixSize(currWord, prevWord);
                         suffixToWrite = currWord.substring(prefixSize);
                     }
-
                     writeWordToDictionary(currWord, tokenId - 1, invertedPtr, stringPtr, prefixSize, dictWriter, tokenFreq);
                     conStrWriter.write(suffixToWrite);
                     stringPtr += suffixToWrite.length();
-
-                    nextInvertedPtr += writeInvertedIndexEntry(invertedIdxWriter, currReviewId, currFreqInReview, prevReviewId);
+                    nextInvertedPtr += addInvertedIndexEntry(currReviewId, currFreqInReview, prevReviewId, postingListWriter);
                     invListSize++;
-                    tokensFreqWriter.writeInt(invListSize);
+                    tokenFreqWriter.write(WebDataUtils.toByteArray(invListSize, 4));
                     prevReviewId = 0;
                     currReviewId = ReviewId;
                     currFreqInReview = 1;
@@ -224,9 +206,12 @@ public class TextDictWriter {
             }
             writeWordToDictionary(currWord, tokenId, invertedPtr, stringPtr, prefixSize, dictWriter, tokenFreq);
             conStrWriter.write(suffixToWrite);
-            writeInvertedIndexEntry(invertedIdxWriter, currReviewId, currFreqInReview, prevReviewId);
+            addInvertedIndexEntry(currReviewId, currFreqInReview, prevReviewId, postingListWriter);
             invListSize++;
-            tokensFreqWriter.writeInt(invListSize);
+            tokenFreqWriter.write(WebDataUtils.toByteArray(invListSize, 4));
+            postingListWriter.flush();
+            dictWriter.flush();
+            tokenFreqWriter.flush();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -261,15 +246,17 @@ public class TextDictWriter {
      * @throws IOException
      */
     private void writeWordToDictionary(String word, int wordIdx, int invertedPtr, int stringPtr, int prefixSize,
-                                       DataOutputStream dictWriter, int wordFreq) throws IOException {
+                                       BufferedOutputStream dictWriter, int wordFreq) throws IOException {
+        int positionInBlock = wordIdx % TOKENS_IN_BLOCK;
+
         dictWriter.write(WebDataUtils.toByteArray(wordFreq, TokenParam.FREQ.length));
         dictWriter.write(WebDataUtils.toByteArray(invertedPtr, TokenParam.INVERTED_PTR.length));
 
-        if (wordIdx % TOKENS_IN_BLOCK == 0) {
+        if (positionInBlock == 0) {
             // the first in the block
             dictWriter.write(WebDataUtils.toByteArray(word.length(), TokenParam.LENGTH.length));
             dictWriter.write(WebDataUtils.toByteArray(stringPtr, TokenParam.CONCATENATED_STR_PTR.length));
-        } else if (wordIdx % TOKENS_IN_BLOCK == TOKENS_IN_BLOCK - 1) {
+        } else if (positionInBlock == TOKENS_IN_BLOCK - 1) {
             // the last in the block
             dictWriter.write(WebDataUtils.toByteArray(prefixSize, TokenParam.PREFIX_SIZE.length));
         } else {
@@ -279,32 +266,22 @@ public class TextDictWriter {
         }
     }
 
-    /**
-     * @return the number of the different tokens in the dictionary
-     */
-    public int getSize() {
-        return tokens.length;
-    }
 
     /**
-     * writes the entry that related to the given token to the inverted index file.
+     * add entry to the posting list, and flush it if it is too big.
      *
-     * @param outStream    the inverted index output stream.
-     * @param reviewId     the review id of the token.
-     * @param freqInReview number of times the token appeared in the review.
-     * @param prevId       the review id of the last review that was written.
-     * @return the number of bytes written to the file.
-     * @throws IOException
+     * @param reviewId       the review id of the token.
+     * @param freqInReview   number of times the token appeared in the review.
+     * @param prevId         the review id of the last review that was written.
+     * @param postListWriter the posting list Writer object
+     * @return the number of bytes added to the posting list.
      */
-    private int writeInvertedIndexEntry(ObjectOutputStream outStream, int reviewId, int freqInReview, int prevId) throws IOException {
-        int bytesWritten = 0;
+    private int addInvertedIndexEntry(int reviewId, int freqInReview, int prevId, BufferedOutputStream postListWriter) throws IOException {
         byte[] id = encode(reviewId - prevId);
         byte[] freq = encode(freqInReview);
-
-        outStream.write(id);
-        outStream.write(freq);
-        bytesWritten += id.length + freq.length;
-
+        int bytesWritten = id.length + freq.length;
+        postListWriter.write(id);
+        postListWriter.write(freq);
         return bytesWritten;
     }
 }

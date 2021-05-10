@@ -4,6 +4,7 @@ import webdata.utils.WebDataUtils;
 
 import java.io.*;
 import java.util.Enumeration;
+import java.util.zip.GZIPInputStream;
 
 /**
  * the class Parser is used on order to parse the reviews file
@@ -20,11 +21,19 @@ public class Parser {
      */
     public Parser(String inputFile) {
         File file = new File(inputFile);
-        try {
-            reader = new BufferedReader(new FileReader(file));
-        } catch (FileNotFoundException e) {
+        try{
+            if (inputFile.endsWith(".gz")){
+                GZIPInputStream gzip = new GZIPInputStream(new FileInputStream(inputFile));
+                reader = new BufferedReader(new InputStreamReader(gzip));
+            }
+            else{
+                reader = new BufferedReader(new FileReader(file));
+            }
+        }
+        catch(IOException e){
             e.printStackTrace();
         }
+
     }
 
     /**

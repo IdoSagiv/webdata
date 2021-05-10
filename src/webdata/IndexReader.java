@@ -2,8 +2,8 @@ package webdata;
 
 import webdata.reading.ProductIdDictReader;
 import webdata.reading.TextDictReader;
-import webdata.writing.TextDictWriterOLD;
-import webdata.writing.TextDictWriterOLD.TokenParam;
+import webdata.writing.TextDictWriter;
+import webdata.writing.TextDictWriter.TokenParam;
 import webdata.utils.IntPair;
 import webdata.utils.WebDataUtils;
 
@@ -60,10 +60,10 @@ public class IndexReader {
         if (reviewId < 1 || reviewId > numOfReviews) {
             return null;
         }
-        int startingPos = (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK_LENGTH +
-                SlowIndexWriter.ReviewField.PRODUCT_ID.offset();
+        int startingPos = (reviewId - 1) * ReviewField.getBlockLength() +
+                ReviewField.PRODUCT_ID.offset();
         byte[] asBytes = Arrays.copyOfRange(reviewFieldsBytes, startingPos, startingPos +
-                SlowIndexWriter.ReviewField.PRODUCT_ID.length);
+                ReviewField.PRODUCT_ID.length);
         return new String(asBytes, StandardCharsets.UTF_8);
     }
 
@@ -72,7 +72,7 @@ public class IndexReader {
      * Returns -1 if there is no review with the given identifier
      */
     public int getReviewScore(int reviewId) {
-        return getReviewField(reviewId, SlowIndexWriter.ReviewField.SCORE);
+        return getReviewField(reviewId, ReviewField.SCORE);
     }
 
 
@@ -81,7 +81,7 @@ public class IndexReader {
      * Returns -1 if there is no review with the given identifier
      */
     public int getReviewHelpfulnessNumerator(int reviewId) {
-        return getReviewField(reviewId, SlowIndexWriter.ReviewField.NUMERATOR);
+        return getReviewField(reviewId, ReviewField.NUMERATOR);
     }
 
     /**
@@ -89,7 +89,7 @@ public class IndexReader {
      * Returns -1 if there is no review with the given identifier
      */
     public int getReviewHelpfulnessDenominator(int reviewId) {
-        return getReviewField(reviewId, SlowIndexWriter.ReviewField.DENOMINATOR);
+        return getReviewField(reviewId, ReviewField.DENOMINATOR);
     }
 
     /**
@@ -97,7 +97,7 @@ public class IndexReader {
      * Returns -1 if there is no review with the given identifier
      */
     public int getReviewLength(int reviewId) {
-        return getReviewField(reviewId, SlowIndexWriter.ReviewField.NUM_OF_TOKENS);
+        return getReviewField(reviewId, ReviewField.NUM_OF_TOKENS);
     }
 
     /**
@@ -126,7 +126,7 @@ public class IndexReader {
         if (pos == null) {
             return 0;
         }
-        return textDict.readWordParam(pos.first, TokenParam.FREQ, pos.second % TextDictWriterOLD.TOKENS_IN_BLOCK);
+        return textDict.readWordParam(pos.first, TokenParam.FREQ, pos.second % TextDictWriter.TOKENS_IN_BLOCK);
     }
 
 
@@ -169,15 +169,15 @@ public class IndexReader {
     }
 
     /**
-     * @param reviewId
+     * @param reviewId review id
      * @param field    the field
      * @return the field of the given reviewId
      */
-    private int getReviewField(int reviewId, SlowIndexWriter.ReviewField field) {
+    private int getReviewField(int reviewId, ReviewField field) {
         if (reviewId < 1 || reviewId > numOfReviews) {
             return -1;
         }
-        int startingPos = (reviewId - 1) * SlowIndexWriter.FIELDS_BLOCK_LENGTH + field.offset();
+        int startingPos = (reviewId - 1) * ReviewField.getBlockLength() + field.offset();
         return WebDataUtils.byteArrayToInt(Arrays.copyOfRange(reviewFieldsBytes, startingPos,
                 startingPos + field.length));
     }

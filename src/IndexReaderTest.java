@@ -2,7 +2,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import webdata.IndexReader;
-import webdata.SlowIndexWriter;
+import webdata.IndexWriter;
 
 import java.util.*;
 
@@ -16,9 +16,9 @@ class IndexReaderTest {
 
     @BeforeAll
     public static void prep() {
-        SlowIndexWriter writer = new SlowIndexWriter();
+        IndexWriter writer = new IndexWriter();
         long startTime = System.currentTimeMillis();
-        writer.slowWrite(DataSetPath, DictionaryPath);
+        writer.write(DataSetPath, DictionaryPath);
         long estimatedTime = System.currentTimeMillis() - startTime;
         System.out.println("creating index in: " + estimatedTime + " ms");
     }

@@ -1,32 +1,29 @@
 import webdata.IndexReader;
 //import webdata.IndexWriter;
 import webdata.IndexWriter;
-import webdata.SlowIndexWriter;
+import webdata.IndexWriter;
 import webdata.utils.IntPair;
 import webdata.utils.WebDataUtils;
-import webdata.writing.ReviewSectionIterator;
+//import webdata.writing.ReviewSectionIterator;
 
 import java.io.*;
 import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
-import java.util.Scanner;
 
 
 public class main {
     final static String DictionaryPath = "indexFiles";
-    //        final static String DataSetPath = "datasets\\test.txt";
+//        final static String DataSetPath = "datasets\\test.txt";
     final static String DataSetPath = "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\BigDatasets\\10000.txt";
 
     public static void test1() {
-        SlowIndexWriter writer = new SlowIndexWriter();
+        IndexWriter writer = new IndexWriter();
         System.out.println("start");
-        writer.slowWrite(DataSetPath, DictionaryPath);
+        writer.write(DataSetPath, DictionaryPath);
 
         IndexReader reader = new IndexReader(DictionaryPath);
 //        int reviewId = 1;
@@ -84,8 +81,6 @@ public class main {
         long estimatedTimeMs = System.currentTimeMillis() - startTime;
         System.out.println("Finished at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
         System.out.printf("creating index in: %.3f minutes", estimatedTimeMs / 1000.0 / 60);
-
-
     }
 
 //    public static void test3() {
@@ -105,108 +100,27 @@ public class main {
 //        }
 //    }
 
-    public static void flushToFile(File file, ByteBuffer buffer) {
-        try (FileChannel fc = new FileOutputStream(file, true).getChannel()) {
-            buffer.rewind();
-            fc.write(buffer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-//            buffer.rewind();
-            buffer.clear();
-        }
-    }
-
-    static void test4() {
-        ByteBuffer buffer = ByteBuffer.allocate(1*1024*1024*1024);
-        ByteBuffer buffer2 = ByteBuffer.allocate(1000*1024*1024);
-
-//        byte [] arr = new byte[3*1024*1024*1024+1];
-//        arr[0] = 3;
+    static void test4(int[] arr){
+//        arr[0]=3;
 //        ByteBuffer buffer = ByteBuffer.allocate(1000000);
 //        buffer.putInt(4);
-//        File file = new File("tryfile.bin");
-//        try {
-//            BufferedOutputStream buffer = new BufferedOutputStream(new FileOutputStream(file));
-//            for (int i=0 ; i<3000; i++) {
-//                buffer.write(WebDataUtils.toByteArray(i, 4));
-////                buffer.write(WebDataUtils.toByteArray(700000, 4));
-//            }
-//            buffer.flush();
-//            BufferedInputStream reader = new BufferedInputStream(new FileInputStream(file));
-//            System.out.println(reader.available());
-//            reader.read();
-//            System.out.println(reader.available());
-//            byte[] bytesArray = new byte[8192];
-//            reader.read(bytesArray, 0,8192);
-//            System.out.println(reader.available());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        File file = new File("tryfile.out");
+//        WebDataUtils.flushToFile(file, buffer);
+//        ArrayList<Byte> list = new ArrayList<>();
+//        list.add(Byte.parseByte("a"));
+//        Files.write("tryfile.out", list.toArray(new Byte[0]));
 
+        try{
+            BufferedOutputStream bw = new BufferedOutputStream(new FileOutputStream(file));
+            bw.write(1);
+            BufferedInputStream b = new BufferedInputStream(new FileInputStream(file));
 
-//        ByteArrayOutputStream stream = new ByteArrayOutputStream(1000000);
-//        byte[] arr = new byte[1000];
-//        for (int i=0; i<arr.length; i+=4){
-//            arr[i] = (byte) i;
-////            arr[i] = WebDataUtils.toByteArray(i, 4);
-//        }
-//        FileOutputStream output = new FileOutputStream(file,true)
-//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//        stream.write(2);
-//        stream.size();
-//        try {
-//            stream.write(WebDataUtils.toByteArray(4,4));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-////        Files.write(file.toPath(),stream.toByteArray());
-//        try(FileOutputStream output = new FileOutputStream(file,true)){
-//            stream.writeTo(output);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        buffer.clear();
-//        flushToFile(file, buffer);
-////        ArrayList<Byte> list = new ArrayList<>();
-////        list.add(Byte.parseByte("a"));
-////        Files.write("tryfile.out", list.toArray(new Byte[0]));
-//        ArrayList<Integer> list = new ArrayList<>();
-//        list.add(1);
-//        list.add(2);
-//        list.add(89999333);
-//        try(ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("tryfile.out"))){
-//            output.writeObject(list.toArray());
-////            Files.write(list.toArray());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        try(BufferedOutputStream writer = new BufferedOutputStream(new FileOutputStream("tryfile.out"),1000000)){
-//            for (int i=0; i<100000; i++){
-//                writer.write(1);
-//            }
-//        ArrayList<Integer> list = new ArrayList<>();
-//        list.add(4);
-//        list.add(3);
-//        Arrays.sort(list.toArray());
-
-
-
-
-
-    }
-
-    static class Temp {
-        int[] myArr;
-
-        Temp(int[] arr) {
-            this.myArr = arr;
+            b.close();
+            b.close();
+            System.out.println("here");
         }
-
-        public void doSomething() {
-            myArr[0] = 3;
+        catch (IOException e){
+            e.printStackTrace();
         }
     }
 
@@ -214,18 +128,15 @@ public class main {
 //        test1();
 //        test2();
 //        test3();
-        test4();
-//        ex2Analyzer.analyze();
-//        int[] arr1 = new int[3];
-//        arr1[0] = 5;
-//        Temp t = new Temp(arr1);
-//        t.doSomething();
-////        test4(arr1);
+        int[] arr1 = new int[3];
+//        arr1[0]=5;
+//        test4(arr1);
 //        System.out.println(arr1[0]);
-////        test4(arr1);
-    }
-}
+        ex2Analyzer.analyze();
 
+    }
+
+}
 
 
 
