@@ -19,10 +19,10 @@ public class ex2Analyzer {
 //            "/cs/usr/adiapel/Desktop/webData/ex2-new/webdata/datasets/1000.txt"
 //            ,"/cs/usr/adiapel/Desktop/webData/ex2-new/webdata/datasets/10000.txt"
 //            ,"/cs/usr/adiapel/Desktop/webData/ex2-new/webdata/datasets/100000.txt"
-//            "/cs/67782/adiapel/100000.txt"
+            "/cs/67782/adiapel/1000000.txt"
 //            "/tmp/movies.txt.gz"
 //            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\1000000.txt"
-            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\Movies_&_TV.txt.gz"
+//            "/cs/67782/ido_sagiv/Movies_&_TV.txt.gz"
 
     };
 
@@ -35,7 +35,7 @@ public class ex2Analyzer {
             writer.write(dataSetPath, DictionaryPath);
             long estimatedTimeMs = System.currentTimeMillis() - startTime;
             System.out.printf("creating index in: %.3f minutes\n", estimatedTimeMs / 1000.0 / 60);
-            System.out.printf("folder size is: %d KB\n", (fileSize(directory)) / WebDataUtils.KILO);
+            System.out.printf("folder size is: %d MB\n", (fileSize(directory)) / WebDataUtils.MEGA);
             IndexReader reader = new IndexReader(DictionaryPath);
             List<String> randomTokens = getRandomTokens(dataSetPath);
             startTime = System.currentTimeMillis();

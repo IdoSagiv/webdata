@@ -38,9 +38,9 @@ public class IndexWriter {
 
     private String[] sortedTokens;
 
-    private static final int BLOCK_SIZE = 4 * WebDataUtils.KILO; // 4KB
+    private static final int BLOCK_SIZE = 8 * WebDataUtils.KILO; // 8KB
     // main memory size in blocks - total of 1GB less 200MB to java
-    private static final int M = (int) Math.ceil((WebDataUtils.GIGA - 200.0 * WebDataUtils.MEGA) / BLOCK_SIZE);
+    private static final int M = (int) ((WebDataUtils.GIGA - 200.0 * WebDataUtils.MEGA) / BLOCK_SIZE);
 
 
     public static final int OUT_STREAM_BUFFER_SIZE = 8 * WebDataUtils.KILO;
@@ -93,6 +93,7 @@ public class IndexWriter {
         step4(sortedFile);
         System.out.println("Start delete at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
         removeIndex(tempFilesDir);
+        sortedTokens=new String[0];
     }
 
 
@@ -136,8 +137,8 @@ public class IndexWriter {
         Parser parser = new Parser(inputFile);
         String[] section;
         ProductIdDictWriter productIdDict = new ProductIdDictWriter(productIdDictFile);
-
-        try (FileOutputStream reviewFieldsWriter = new FileOutputStream(new File(outputDir, REVIEW_FIELDS_PATH))) {
+        File reviewFieldsFile = new File(outputDir, REVIEW_FIELDS_PATH);
+        try (BufferedOutputStream reviewFieldsWriter = new BufferedOutputStream(new FileOutputStream(reviewFieldsFile))) {
             int totalTokenCounter = 0;
             int reviewId = 1;
             while ((section = parser.nextSection()) != null) {
@@ -149,8 +150,8 @@ public class IndexWriter {
                 totalTokenCounter += reviewTokenCounter;
                 reviewId++;
             }
-
             writeStatistics(outputDir, reviewId - 1, totalTokenCounter, tokensSet.size(), productIdDict.getSize());
+            reviewFieldsWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -270,6 +271,7 @@ public class IndexWriter {
 
     private void basicMerge(int mergeStep, int fileIndex, int left, int right) {
         File outputFile = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep, fileIndex));
+        int blockSize = (int) (0.5*BLOCK_SIZE * ((M - (1d+right-left+1)-SAFETY) / (right - left)));
         int[] pointers = new int[right - left + 1];
         byte[][] blocks = new byte[right - left + 1][];
         BufferedInputStream[] readers = new BufferedInputStream[right - left + 1];
@@ -291,7 +293,7 @@ public class IndexWriter {
             for (int i = 0; i <= right - left; i++) {
                 File file = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, i + left));
                 readers[i] = new BufferedInputStream(new FileInputStream(file));
-                blocks[i] = readNextBlock(readers[i]);
+                blocks[i] = readNextBlock(readers[i], blockSize);
                 pointers[i] = 0;
                 N += file.length() / PAIR_SIZE_ON_DISK;
             }
@@ -301,12 +303,13 @@ public class IndexWriter {
 
                 // find the pointer that points to the min element
                 for (int i = 0; i <= right - left; i++) {
-                    if (pointers[i] == -1) {
+                    int p_i = pointers[i];
+                    if (p_i == -1) {
                         continue;
                     }
                     IntPair currPair = new IntPair(
-                            WebDataUtils.byteArrayToInt(Arrays.copyOfRange(blocks[i], pointers[i], pointers[i] + 4)),
-                            WebDataUtils.byteArrayToInt(Arrays.copyOfRange(blocks[i], pointers[i] + 4, pointers[i] + 8)));
+                            WebDataUtils.byteArrayToInt(Arrays.copyOfRange(blocks[i], p_i, p_i + 4)),
+                            WebDataUtils.byteArrayToInt(Arrays.copyOfRange(blocks[i], p_i + 4, p_i + 8)));
                     if (minPair.compareTo(currPair) >= 0) {
                         best_i = i;
                         minPair = currPair;
@@ -315,12 +318,13 @@ public class IndexWriter {
 
                 buffer.write(WebDataUtils.toByteArray(minPair.first, 4));
                 buffer.write(WebDataUtils.toByteArray(minPair.second, 4));
+                pointers[best_i] += PAIR_SIZE_ON_DISK;
 
                 k++;
                 // pi points to the last element in the block
-                if (pointers[best_i] == blocks[best_i].length - PAIR_SIZE_ON_DISK) {
+                if (pointers[best_i] == blocks[best_i].length) {
                     // read the next block
-                    if ((blocks[best_i] = readNextBlock(readers[best_i])).length == 0) {
+                    if ((blocks[best_i] = readNextBlock(readers[best_i], blockSize)).length == 0) {
                         File file = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, best_i));
                         readers[best_i].close();
                         file.delete();
@@ -328,8 +332,6 @@ public class IndexWriter {
                     } else {
                         pointers[best_i] = 0;
                     }
-                } else {
-                    pointers[best_i] += PAIR_SIZE_ON_DISK;
                 }
             }
             buffer.flush();
@@ -342,8 +344,8 @@ public class IndexWriter {
         }
     }
 
-    private byte[] readNextBlock(BufferedInputStream reader) throws IOException {
-        int blockSize = Math.min(BLOCK_SIZE, reader.available());
+    private byte[] readNextBlock(BufferedInputStream reader, int maxBlockSize) throws IOException {
+        int blockSize = Math.min(maxBlockSize, reader.available());
         if (blockSize <= 0) {
             return new byte[0];
         }
@@ -369,7 +371,7 @@ public class IndexWriter {
      * @param productId      productId field
      * @throws IOException
      */
-    private void writeReviewFields(OutputStream outStream, String helpfulness, String score,
+    private void writeReviewFields(BufferedOutputStream outStream, String helpfulness, String score,
                                    int tokensInReview, String productId) throws IOException {
         int scoreAsInt = Math.round(Float.parseFloat(score));
         String[] helpfulnessArray = helpfulness.split("/");

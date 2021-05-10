@@ -102,7 +102,7 @@ public class main {
 
     static void test4(int[] arr){
 //        arr[0]=3;
-//        ByteBuffer buffer = ByteBuffer.allocate(1000000);
+//        ByteBuffer buffer = ByteBuffer.allocate(1024*1024*1024);
 //        buffer.putInt(4);
         File file = new File("tryfile.out");
 //        WebDataUtils.flushToFile(file, buffer);
@@ -128,10 +128,12 @@ public class main {
 //        test1();
 //        test2();
 //        test3();
-        int[] arr1 = new int[3];
+//        int[] arr1 = new int[3];
 //        arr1[0]=5;
 //        test4(arr1);
 //        System.out.println(arr1[0]);
+//        ByteBuffer buffer = ByteBuffer.allocate((int) (0.99*1024*1024*1024));
+
         ex2Analyzer.analyze();
 
     }
