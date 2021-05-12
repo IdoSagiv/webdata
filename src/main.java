@@ -101,7 +101,7 @@ public class main {
 //        }
 //    }
 
-    static void test4(int[] arr) {
+    static void test4() {
 //        arr[0]=3;
 //        ByteBuffer buffer = ByteBuffer.allocate(1024*1024*1024);
 //        buffer.putInt(4);
@@ -114,11 +114,14 @@ public class main {
         try {
             BufferedOutputStream bw = new BufferedOutputStream(new FileOutputStream(file));
             bw.write(1);
+            bw.flush();
             BufferedInputStream b = new BufferedInputStream(new FileInputStream(file));
-
-            b.close();
-            b.close();
-            System.out.println("here");
+            b.read();
+            byte [] bytes = b.readNBytes(2);
+            int a = 6;
+//            b.close();
+//            b.close();
+//            System.out.println("here");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -134,7 +137,8 @@ public class main {
 //        System.out.println(arr1[0]);
 //        ByteBuffer buffer = ByteBuffer.allocate((int) (0.99*1024*1024*1024));
 
-        ex2Analyzer.analyze();
+//        ex2Analyzer.analyze();
+        test4();
 
 //        IndexReader reader = new IndexReader(DictionaryPath);
 //        System.out.println((double) reader.getTokenCollectionFrequency("the") / reader.getTokenFrequency("the"));

@@ -323,7 +323,8 @@ public class IndexWriter {
             for (int i = 0; i <= right - left; i++) {
                 File file = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, i + left));
                 readers[i] = new BufferedInputStream(new FileInputStream(file));
-                blocks[i] = readNextBlock(readers[i], blockSize);
+                blocks[i] = readers[i].readNBytes(blockSize);
+//                blocks[i] = readNextBlock(readers[i], blockSize);
                 pointers[i] = 0;
                 N += file.length() / PAIR_SIZE_ON_DISK;
             }
@@ -354,7 +355,8 @@ public class IndexWriter {
                 // pi points to the last element in the block
                 if (pointers[best_i] == blocks[best_i].length) {
                     // read the next block
-                    if ((blocks[best_i] = readNextBlock(readers[best_i], blockSize)).length == 0) {
+                    if ((blocks[best_i] = readers[best_i].readNBytes(blockSize)).length == 0) {
+//                        if ((blocks[best_i] = readNextBlock(readers[best_i], blockSize)).length == 0) {
                         File file = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, best_i));
                         readers[best_i].close();
                         file.delete();
@@ -382,13 +384,13 @@ public class IndexWriter {
      * @return the read block
      * @throws IOException in case of problem with the reading
      */
-    private byte[] readNextBlock(BufferedInputStream reader, int maxBlockSize) throws IOException {
-        int blockSize = Math.min(maxBlockSize, reader.available());
-        if (blockSize <= 0) {
-            return new byte[0];
-        }
-        return reader.readNBytes(blockSize);
-    }
+//    private byte[] readNextBlock(BufferedInputStream reader, int maxBlockSize) throws IOException {
+//        int blockSize = Math.min(maxBlockSize, reader.available());
+//        if (blockSize <= 0) {
+//            return new byte[0];
+//        }
+//        return reader.readNBytes(blockSize);
+//    }
 
     /**
      * converts the sorted sequence of (termId,docId) to the final index files

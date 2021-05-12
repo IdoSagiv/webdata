@@ -6,41 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2$TestFunctionsWithNoParams.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2$TestProductIdFunctions.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2$TestReviewIdFunction.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2$TestTokenFunctions.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/ex2Analyzer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/ex2Analyzer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/webdata/main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/ProductIdEntry.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/ProductIdEntry.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextEntry.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextPostListValue.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/IndexReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/IndexReader.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/IndexWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/IndexWriter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter$ReviewField.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/IntPair.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/IntPair.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/WebDataUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/WebDataUtils.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/Parser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ProductIdDictWriter$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ProductIdDictWriter$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ProductIdDictWriter$ProductIdParam.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ProductIdDictWriter$ProductIdParam.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ProductIdDictWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ProductIdDictWriter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ReviewSection.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ReviewSectionIterator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriter$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriter$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriter$TokenParam.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriter$TokenParam.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriterOLD$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriterOLD$TokenParam.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriterOLD.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TokenIterator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TokenIterator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IndexReaderTest2Old.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IndexReaderTest2Old.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ex2Analyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ex2Analyzer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/IndexWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/IndexWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/writing/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/Parser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

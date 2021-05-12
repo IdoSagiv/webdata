@@ -141,9 +141,13 @@ public class TextDictWriter {
              BufferedOutputStream postingListWriter = new BufferedOutputStream(new FileOutputStream(invertedIdxFile));
              BufferedOutputStream tokenFreqWriter = new BufferedOutputStream(new FileOutputStream(tokensFreqFile))
         ) {
-            while (reader.available() >= IndexWriter.PAIR_SIZE_ON_DISK) {
+            long bytesRead = 0;
+            long bytesToRead = inputFile.length();
+            while (bytesRead <= bytesToRead - 8) {
+//            while (reader.available() >= IndexWriter.PAIR_SIZE_ON_DISK) {
                 tokenId = WebDataUtils.byteArrayToInt(reader.readNBytes(4));
                 int ReviewId = WebDataUtils.byteArrayToInt(reader.readNBytes(4));
+                bytesRead += 8;
                 if (tokens[tokenId].equals(currWord)) {
                     tokenFreq++;
                     if (ReviewId == currReviewId) {
