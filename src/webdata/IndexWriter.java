@@ -8,7 +8,6 @@ import webdata.writing.TextDictWriter;
 import webdata.writing.TokenIterator;
 
 import java.io.*;
-import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -18,48 +17,38 @@ import java.util.*;
 public class IndexWriter {
 
     // the text index files
-    public static final String TEXT_DICT_PATH = "textDict.bin";
-    public static final String TEXT_CONC_STR_PATH = "textConcatenatedString.txt";
-    public static final String TEXT_INV_IDX_PATH = "textInvertedIndex.bin";
-    public static final String TOKEN_FREQ_PATH = "tokenFreq.bin";
+    public static final String TEXT_DICT_PATH = "textDict.out";
+    public static final String TEXT_CONC_STR_PATH = "concatenatedString.txt";
+    public static final String TEXT_INV_IDX_PATH = "invertedIndex.out";
+    public static final String TOKEN_FREQ_PATH = "tokenFreq.out";
+
+    // the product id index file
+    public static final String PRODUCT_ID_FILE_PATH = "productIdFile.out";
+
+    // the rest of the product fields file
+    public static final String REVIEW_FIELDS_PATH = "reviewsFields.out";
+
+    // statistics file
+    public static final String STATISTICS_PATH = "statistics.out";
 
     private static final String TEMP_FILE_TEMPLATE = "mergeStep_%d_%d.out";
 
-    private String tempFilesDir;
-
-    // the product id index file
-    public static final String PRODUCT_ID_DICT_PATH = "productIdDict.bin";
-
-    // the rest of the product fields file
-    public static final String REVIEW_FIELDS_PATH = "reviewsFields.bin";
-
-    // statistics file
-    public static final String STATISTICS_PATH = "statistics.bin";
-
-    private String[] sortedTokens;
-
+    // Memory management constants
     private static final int BLOCK_SIZE = 8 * WebDataUtils.KILO; // 8KB
     // main memory size in blocks - total of 1GB less 200MB to java
     private static final int M = (int) ((WebDataUtils.GIGA - 200.0 * WebDataUtils.MEGA) / BLOCK_SIZE);
-
-
     public static final int OUT_STREAM_BUFFER_SIZE = 8 * WebDataUtils.KILO;
-
     public static final int SAFETY = 100;
-
     public static final int STEP_2_RAM_CAP = (int) ((2 / 3d) * (M * BLOCK_SIZE - SAFETY - OUT_STREAM_BUFFER_SIZE));
-
 
     // pair size in bytes
     private static final int PAIR_SIZE_ON_MEMORY = 32;
-    private static final int PAIR_SIZE_ON_DISK = 4 + 4; // two integers
+    public static final int PAIR_SIZE_ON_DISK = 4 + 4; // two integers
 
+    // class fields
     private String outputDir;
-
-    public IndexWriter() {
-        outputDir = "";
-        tempFilesDir = "";
-    }
+    private String tempFilesDir;
+    private String[] sortedTokens;
 
     /**
      * Given product review data, creates an on disk index
@@ -67,11 +56,10 @@ public class IndexWriter {
      * dir is the directory in which all index files will be created
      * if the directory does not exist, it should be created
      *
-     * @param inputFile
-     * @param dir
+     * @param inputFile the file with the reviews to index
+     * @param dir       dir to write the index files to
      */
     public void write(String inputFile, String dir) {
-        // todo: keep??
         removeIndex(dir);
         this.outputDir = dir;
         this.tempFilesDir = Paths.get(outputDir, "tempFiles").toString();
@@ -79,7 +67,7 @@ public class IndexWriter {
         File outDir = new File(outputDir);
         File tempDir = new File(tempFilesDir);
 
-
+        // todo: delete all prints
         //creates the directory if not exists
         if (!outDir.exists()) outDir.mkdir();
         if (!tempDir.exists()) tempDir.mkdir();
@@ -120,6 +108,12 @@ public class IndexWriter {
 //     Private Methods
 //
 
+    /**
+     * create mapping of token->tokenId and write sorted sequences of pairs (tokenId,dictId)
+     *
+     * @param inputFile the file with the reviews to index
+     * @return number of written sequences
+     */
     private int step1And2(String inputFile) {
         System.out.println("Start step1 at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
         LinkedHashMap<String, Integer> map = step1(inputFile);
@@ -131,14 +125,19 @@ public class IndexWriter {
         return numOfTempFiles;
     }
 
+    /**
+     * @param inputFile the file with the reviews to index
+     * @return a sorted mapping token->tokenId
+     */
     private LinkedHashMap<String, Integer> step1(String inputFile) {
-        File productIdDictFile = new File(outputDir, PRODUCT_ID_DICT_PATH);
+        File productIdDictFile = new File(outputDir, PRODUCT_ID_FILE_PATH);
         TreeSet<String> tokensSet = new TreeSet<>();
         Parser parser = new Parser(inputFile);
         String[] section;
         ProductIdDictWriter productIdDict = new ProductIdDictWriter(productIdDictFile);
         File reviewFieldsFile = new File(outputDir, REVIEW_FIELDS_PATH);
-        try (BufferedOutputStream reviewFieldsWriter = new BufferedOutputStream(new FileOutputStream(reviewFieldsFile))) {
+        try (BufferedOutputStream reviewFieldsWriter =
+                     new BufferedOutputStream(new FileOutputStream(reviewFieldsFile))) {
             int totalTokenCounter = 0;
             int reviewId = 1;
             while ((section = parser.nextSection()) != null) {
@@ -150,7 +149,8 @@ public class IndexWriter {
                 totalTokenCounter += reviewTokenCounter;
                 reviewId++;
             }
-            writeStatistics(outputDir, reviewId - 1, totalTokenCounter, tokensSet.size(), productIdDict.getSize());
+            writeStatistics(reviewId - 1, totalTokenCounter, tokensSet.size(),
+                    productIdDict.getSize());
             reviewFieldsWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -171,8 +171,15 @@ public class IndexWriter {
         return tokenIdDict;
     }
 
-    private void writeStatistics(String outputDir, int numOfReviews, int totalNumOfTokens,
-                                 int numOfDifferentTokens, int numOfProducts) {
+    /**
+     * writes the statistics file
+     *
+     * @param numOfReviews         num of reviews in the input file
+     * @param totalNumOfTokens     the total number of tokens (with duplications)
+     * @param numOfDifferentTokens the number of different tokens
+     * @param numOfProducts        number of products appear in the input file
+     */
+    private void writeStatistics(int numOfReviews, int totalNumOfTokens, int numOfDifferentTokens, int numOfProducts) {
         try (DataOutputStream statisticsWriter = new DataOutputStream(new FileOutputStream(
                 new File(outputDir, STATISTICS_PATH)))) {
             statisticsWriter.writeInt(numOfReviews);
@@ -184,6 +191,11 @@ public class IndexWriter {
         }
     }
 
+    /**
+     * @param text     review raw text (before preprocessing)
+     * @param tokenSet set of all the different tokens to add to
+     * @return number of tokens in the text
+     */
     private int addToDict(String text, TreeSet<String> tokenSet) {
         int counter = 0;
         TokenIterator tokenIterator = Parser.getTokenIterator(text);
@@ -195,6 +207,11 @@ public class IndexWriter {
         return counter;
     }
 
+    /**
+     * @param tokenIdDict a sorted mapping token->tokenId
+     * @param inputFile   the file with the reviews to index
+     * @return number of written sequences (files)
+     */
     private int step2(LinkedHashMap<String, Integer> tokenIdDict, String inputFile) {
         Parser parser = new Parser(inputFile);
         String[] section;
@@ -212,7 +229,7 @@ public class IndexWriter {
                 currBufferSize += PAIR_SIZE_ON_MEMORY;
                 if (currBufferSize > (STEP_2_RAM_CAP)) {
                     Collections.sort(tokenToReviewMapping);
-                    writeSequence(0, fileIndex, tokenToReviewMapping);
+                    writeSequence(fileIndex, tokenToReviewMapping);
                     tokenToReviewMapping.clear();
                     fileIndex++;
                     currBufferSize = 0;
@@ -221,7 +238,7 @@ public class IndexWriter {
             reviewId++;
         }
         Collections.sort(tokenToReviewMapping);
-        writeSequence(0, fileIndex, tokenToReviewMapping);
+        writeSequence(fileIndex, tokenToReviewMapping);
         tokenToReviewMapping.clear();
         fileIndex++;
         return fileIndex;
@@ -231,12 +248,11 @@ public class IndexWriter {
     /**
      * creates a new file and write the sequence to it
      *
-     * @param mergeStep
-     * @param fileIndex
-     * @param sequence
+     * @param fileIndex index of the output file
+     * @param sequence  list of pairs (termId,docId)
      */
-    private void writeSequence(int mergeStep, int fileIndex, ArrayList<IntPair> sequence) {
-        File outFile = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep, fileIndex));
+    private void writeSequence(int fileIndex, ArrayList<IntPair> sequence) {
+        File outFile = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, 0, fileIndex));
         try (BufferedOutputStream buffer = new BufferedOutputStream(new FileOutputStream(outFile))) {
             for (IntPair pair : sequence) {
                 buffer.write(WebDataUtils.toByteArray(pair.first, 4));
@@ -248,6 +264,12 @@ public class IndexWriter {
         }
     }
 
+    /**
+     * merge all the sorted sequences to one sorted sequence
+     *
+     * @param numOfSequences number of sequences to merge
+     * @return the name of the final sequence file
+     */
     private String step3(int numOfSequences) {
         int stepIndex = 1;
         while (numOfSequences > 1) {
@@ -269,6 +291,12 @@ public class IndexWriter {
         return String.format(TEMP_FILE_TEMPLATE, stepIndex - 1, numOfSequences - 1);
     }
 
+    /**
+     * @param mergeStep index if the current merge
+     * @param fileIndex index of the output file in the current merge
+     * @param left      first sequence to merge
+     * @param right     last sequence to merge
+     */
     private void basicMerge(int mergeStep, int fileIndex, int left, int right) {
         File outputFile = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep, fileIndex));
         int blockSize = (int) (0.5 * BLOCK_SIZE * ((M - (1d + right - left + 1) - SAFETY) / (right - left)));
@@ -346,6 +374,14 @@ public class IndexWriter {
         }
     }
 
+    /**
+     * reads block from given reader (or less if there is no full block to read)
+     *
+     * @param reader       reader to read from
+     * @param maxBlockSize size of max block
+     * @return the read block
+     * @throws IOException in case of problem with the reading
+     */
     private byte[] readNextBlock(BufferedInputStream reader, int maxBlockSize) throws IOException {
         int blockSize = Math.min(maxBlockSize, reader.available());
         if (blockSize <= 0) {
@@ -354,6 +390,11 @@ public class IndexWriter {
         return reader.readNBytes(blockSize);
     }
 
+    /**
+     * converts the sorted sequence of (termId,docId) to the final index files
+     *
+     * @param sortedFile name of the sorted sequence file
+     */
     private void step4(String sortedFile) {
         File dictFile = new File(outputDir, TEXT_DICT_PATH);
         File concatenatedStrFile = new File(outputDir, TEXT_CONC_STR_PATH);
@@ -371,7 +412,7 @@ public class IndexWriter {
      * @param score          score field
      * @param tokensInReview the number of tokens in the review
      * @param productId      productId field
-     * @throws IOException
+     * @throws IOException in case of problem with the writing
      */
     private void writeReviewFields(BufferedOutputStream outStream, String helpfulness, String score,
                                    int tokensInReview, String productId) throws IOException {
@@ -385,5 +426,4 @@ public class IndexWriter {
         outStream.write(WebDataUtils.toByteArray(tokensInReview, ReviewField.NUM_OF_TOKENS.length));
         outStream.write(WebDataUtils.toByteArray(productId, ReviewField.PRODUCT_ID.length));
     }
-
 }

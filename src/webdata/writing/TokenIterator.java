@@ -18,7 +18,6 @@ public class TokenIterator implements Enumeration<String> {
         }
     }
 
-
     /**
      * @return True iff there are more reviews
      */

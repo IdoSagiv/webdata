@@ -18,7 +18,6 @@ import java.util.Enumeration;
  * Index Reader class
  */
 public class IndexReader {
-
     private byte[] tokensFreqBytes;
     private byte[] reviewFieldsBytes;
 
@@ -35,7 +34,7 @@ public class IndexReader {
         File textDictFile = new File(dir, IndexWriter.TEXT_DICT_PATH);
         File textConcatenatedStrFile = new File(dir, IndexWriter.TEXT_CONC_STR_PATH);
         File textInvertedIdxFile = new File(dir, IndexWriter.TEXT_INV_IDX_PATH);
-        File productIdDictFile = new File(dir, IndexWriter.PRODUCT_ID_DICT_PATH);
+        File productIdDictFile = new File(dir, IndexWriter.PRODUCT_ID_FILE_PATH);
 
         try (RandomAccessFile statisticsReader =
                      new RandomAccessFile(new File(dir, IndexWriter.STATISTICS_PATH), "r")) {

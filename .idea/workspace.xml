@@ -5,21 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/ex2Analyzer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/ex2Analyzer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/main$Temp.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/ProductIdEntry.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/ProductIdEntry.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextEntry.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextEntry.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextPostListValue.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextPostListValue.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/IndexWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/IndexWriter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/IntPair.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/IntPair.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/WebDataUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/WebDataUtils.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ex2Analyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ex2Analyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/IndexReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/IndexReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webdata/IndexWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/IndexWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/utils/IntPair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/utils/IntPair.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/utils/WebDataUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/utils/WebDataUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/writing/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/writing/ProductIdDictWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/ProductIdDictWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/SlowIndexWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/SlowIndexWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/writing/TextDictWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/TextDictWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/writing/TokenIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/TokenIterator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,6 +68,11 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\github-repos\webdata" />
+    </key>
   </component>
   <component name="RunManager" selected="Application.main">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
