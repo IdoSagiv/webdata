@@ -21,8 +21,8 @@ public class ex2Analyzer {
 //            ,"/cs/usr/adiapel/Desktop/webData/ex2-new/webdata/datasets/100000.txt"
 //            "/cs/67782/adiapel/1000000.txt"
 //            "/tmp/movies.txt.gz"
-//            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\1000000.txt"
-            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\Movies_&_TV.txt.gz"
+            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\1000000.txt"
+//            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\Movies_&_TV.txt.gz"
 
 //            "/cs/67782/ido_sagiv/Movies_&_TV.txt.gz"
 
@@ -69,6 +69,12 @@ public class ex2Analyzer {
     }
 
     private static List<String> getRandomTokens(String dataSetPath) {
+        Set<String> tokenSet = getAllTokens(dataSetPath);
+        int randInt = new Random().nextInt(tokenSet.size() - 100);
+        return new ArrayList<>(tokenSet).subList(randInt, randInt + 100);
+    }
+
+    public static Set<String> getAllTokens(String dataSetPath) {
         Set<String> tokenSet = new HashSet<>();
         Parser parser = new Parser(dataSetPath);
         String[] section;
@@ -78,7 +84,6 @@ public class ex2Analyzer {
                 tokenSet.add(tokenIterator.nextElement());
             }
         }
-        int randInt = new Random().nextInt(tokenSet.size() - 100);
-        return new ArrayList<>(tokenSet).subList(randInt, randInt + 100);
+        return tokenSet;
     }
 }

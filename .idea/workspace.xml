@@ -5,16 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2$TestFunctionsWithNoParams.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2$TestProductIdFunctions.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2$TestReviewIdFunction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2$TestTokenFunctions.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/IndexReaderTest2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/ex2Analyzer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/ex2Analyzer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/ProductIdEntry.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/ProductIdEntry.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextEntry.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextEntry.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextPostListValue.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextPostListValue.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextEntry.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextPostListValue.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/IndexReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/IndexReader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/IndexWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/IndexWriter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter$ReviewField.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/IntPair.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/IntPair.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/WebDataUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/WebDataUtils.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/IndexReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/IndexReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/Parser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ProductIdDictWriter$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ProductIdDictWriter$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ProductIdDictWriter$ProductIdParam.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ProductIdDictWriter$ProductIdParam.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ProductIdDictWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ProductIdDictWriter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ReviewSection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/ReviewSectionIterator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriter$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriter$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriter$TokenParam.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriter$TokenParam.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriterOLD$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriterOLD$TokenParam.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriterOLD.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TokenIterator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TokenIterator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IndexReaderTest2Old.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IndexReaderTest2Old.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ex2Analyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ex2Analyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webdata/IndexWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/IndexWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/SlowIndexWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/SlowIndexWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/writing/TextDictWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/TextDictWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/writing/TokenIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/TokenIterator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/writing/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/Parser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +89,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1618341733347" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../webdata-tests/webdata_test" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -107,10 +133,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="IndexReaderTest2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="IndexReaderTest2Old" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="webdata" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="IndexReaderTest2" />
+      <option name="MAIN_CLASS_NAME" value="IndexReaderTest2Old" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -153,14 +179,14 @@
       <item itemvalue="Application.main" />
       <item itemvalue="JUnit.IndexReaderTest" />
       <item itemvalue="JUnit.IndexReaderTest.ProductIDShouldBeNULL" />
-      <item itemvalue="JUnit.IndexReaderTest2" />
       <item itemvalue="JUnit.IndexReaderTests3" />
+      <item itemvalue="JUnit.IndexReaderTest2Old" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.main" />
         <item itemvalue="JUnit.IndexReaderTests3" />
-        <item itemvalue="JUnit.IndexReaderTest2" />
+        <item itemvalue="JUnit.IndexReaderTest2Old" />
         <item itemvalue="JUnit.IndexReaderTest" />
         <item itemvalue="JUnit.IndexReaderTest" />
       </list>

@@ -17,19 +17,19 @@ import java.util.*;
 public class IndexWriter {
 
     // the text index files
-    public static final String TEXT_DICT_PATH = "textDict.out";
+    public static final String TEXT_DICT_PATH = "textDict.bin";
     public static final String TEXT_CONC_STR_PATH = "concatenatedString.txt";
-    public static final String TEXT_INV_IDX_PATH = "invertedIndex.out";
-    public static final String TOKEN_FREQ_PATH = "tokenFreq.out";
+    public static final String TEXT_INV_IDX_PATH = "invertedIndex.bin";
+    public static final String TOKEN_FREQ_PATH = "tokenFreq.bin";
 
     // the product id index file
-    public static final String PRODUCT_ID_FILE_PATH = "productIdFile.out";
+    public static final String PRODUCT_ID_FILE_PATH = "productIdFile.bin";
 
     // the rest of the product fields file
-    public static final String REVIEW_FIELDS_PATH = "reviewsFields.out";
+    public static final String REVIEW_FIELDS_PATH = "reviewsFields.bin";
 
     // statistics file
-    public static final String STATISTICS_PATH = "statistics.out";
+    public static final String STATISTICS_PATH = "statistics.bin";
 
     private static final String TEMP_FILE_TEMPLATE = "mergeStep_%d_%d.out";
 

@@ -12,7 +12,7 @@ import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class IndexReaderTest2 {
+class IndexReaderTest2Old {
     final static String indexDir = "test_output";
     final static String inputFile = "small_data_set\\1000.txt";
     static private IndexReader indexReader;

@@ -13,11 +13,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Set;
 
 
 public class main {
     final static String DictionaryPath = "indexFiles";
-//        final static String DataSetPath = "datasets\\test.txt";
+    //        final static String DataSetPath = "datasets\\test.txt";
     final static String DataSetPath = "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\BigDatasets\\10000.txt";
 
     public static void test1() {
@@ -100,7 +101,7 @@ public class main {
 //        }
 //    }
 
-    static void test4(int[] arr){
+    static void test4(int[] arr) {
 //        arr[0]=3;
 //        ByteBuffer buffer = ByteBuffer.allocate(1024*1024*1024);
 //        buffer.putInt(4);
@@ -110,7 +111,7 @@ public class main {
 //        list.add(Byte.parseByte("a"));
 //        Files.write("tryfile.out", list.toArray(new Byte[0]));
 
-        try{
+        try {
             BufferedOutputStream bw = new BufferedOutputStream(new FileOutputStream(file));
             bw.write(1);
             BufferedInputStream b = new BufferedInputStream(new FileInputStream(file));
@@ -118,8 +119,7 @@ public class main {
             b.close();
             b.close();
             System.out.println("here");
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -135,6 +135,16 @@ public class main {
 //        ByteBuffer buffer = ByteBuffer.allocate((int) (0.99*1024*1024*1024));
 
         ex2Analyzer.analyze();
+
+//        IndexReader reader = new IndexReader(DictionaryPath);
+//        System.out.println((double) reader.getTokenCollectionFrequency("the") / reader.getTokenFrequency("the"));
+
+//        Set<String> allTokens = ex2Analyzer.getAllTokens("C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\Movies_&_TV.txt.gz");
+//        double sum = 0;
+//        for (String token : allTokens) {
+//            sum += (double) reader.getTokenCollectionFrequency(token) / reader.getTokenFrequency(token);
+//        }
+//        System.out.println(sum / allTokens.size());
 
     }
 

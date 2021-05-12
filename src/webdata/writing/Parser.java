@@ -48,7 +48,8 @@ public class Parser {
             int status = 0;
             while ((line = reader.readLine()) != null) {
                 if (line.isEmpty()) {
-                    break;
+                    if (status == OK_FLAG) break;
+                    continue;
                 }
                 String subsection = line.substring(line.indexOf(':') + 2);
                 if (line.startsWith("product/productId")) {
