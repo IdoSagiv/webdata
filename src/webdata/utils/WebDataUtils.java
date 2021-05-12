@@ -1,8 +1,6 @@
 package webdata.utils;
 
-import java.io.*;
 import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,15 +40,6 @@ public class WebDataUtils {
         return new byte[0];
     }
 
-    // ToDo: delete! here only for references from the SlowWriter
-    public static ArrayList<Byte> encodeOld(int num) {
-        ArrayList<Byte> arr = new ArrayList<>();
-        for (byte b : encode(num)) {
-            arr.add(b);
-        }
-        return arr;
-    }
-
     /**
      * decodes given bytes array according to Length Pre-Coded Varint code.
      *
@@ -72,21 +61,6 @@ public class WebDataUtils {
             res.add(ByteBuffer.wrap(asBytes).getInt());
         }
         return res;
-    }
-
-    /**
-     * writes the given bytes array to the given OutputStream
-     *
-     * @param outStream  output stream
-     * @param bytesArray bytes to write
-     * @return the number of bytes written to the file.
-     * @throws IOException
-     */
-    public static int writeBytes(OutputStream outStream, ArrayList<Byte> bytesArray) throws IOException {
-        for (Byte elem : bytesArray) {
-            outStream.write(elem);
-        }
-        return bytesArray.size();
     }
 
     /**
@@ -127,20 +101,8 @@ public class WebDataUtils {
             res[numOfBytes - i - 1] = (byte) (numToCast >>> BYTE_SHIFTS[i]);
         }
         return res;
-    }
 
-
-    /**
-     * @param numToCast  int to convert to bytes
-     * @param numOfBytes the number of bytes
-     * @return a byte array of the given int
-     */
-    public static ArrayList<Byte> toByteArrayList(int numToCast, int numOfBytes) {
-        ArrayList<Byte> res = new ArrayList<>();
-        for (byte b : Arrays.copyOfRange(ByteBuffer.allocate(4).putInt(numToCast).array(), 4 - numOfBytes, 4)) {
-            res.add(b);
-        }
-        return res;
+//        return Arrays.copyOfRange(ByteBuffer.allocate(4).putInt(numToCast).array(), 4 - numOfBytes, 4);
     }
 
     /**
@@ -150,27 +112,5 @@ public class WebDataUtils {
      */
     public static byte[] toByteArray(String str, int numOfBytes) {
         return Arrays.copyOfRange(str.getBytes(StandardCharsets.UTF_8), 0, numOfBytes);
-    }
-
-    public static void flushToFile(File file, ByteBuffer buffer) {
-        try (FileChannel fc = new FileOutputStream(file, true).getChannel()) {
-            buffer.rewind();
-            fc.write(buffer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-//            buffer.rewind();
-            buffer.clear();
-        }
-    }
-
-    public static void flush(File file, ByteArrayOutputStream stream) {
-        try (FileOutputStream output = new FileOutputStream(file, true)) {
-            //TODO: Files.write???
-            stream.writeTo(output);
-            stream.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

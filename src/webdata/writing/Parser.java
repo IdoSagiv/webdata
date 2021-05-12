@@ -3,7 +3,6 @@ package webdata.writing;
 import webdata.utils.WebDataUtils;
 
 import java.io.*;
-import java.util.Enumeration;
 import java.util.zip.GZIPInputStream;
 
 /**

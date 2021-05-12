@@ -5,28 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/productIdDict.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/productIdDict.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/reviewsFields.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/reviewsFields.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/statistics.bin" beforeDir="false" afterPath="$PROJECT_DIR$/indexFiles/statistics.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/textConcatenatedString.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/textDict.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/textInvertedIndex.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexFiles/tokenFreq.bin" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/webdata/ex2Analyzer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/ex2Analyzer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/main$Temp.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/ProductIdEntry.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/ProductIdEntry.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextEntry.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextEntry.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextPostListValue.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Dictionary/TextPostListValue.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/IndexWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/IndexWriter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter$ReviewField.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter$ReviewField.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/SlowIndexWriter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriterOLD$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriterOLD$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriterOLD$TokenParam.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriterOLD$TokenParam.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriterOLD.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/writing/TextDictWriterOLD.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/IntPair.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/IntPair.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/WebDataUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/webdata/webdata/Utils/WebDataUtils.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ex2Analyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ex2Analyzer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webdata/IndexWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/IndexWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webdata.iml" beforeDir="false" afterPath="$PROJECT_DIR$/webdata.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/utils/IntPair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/utils/IntPair.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/utils/WebDataUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/utils/WebDataUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/writing/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/writing/ProductIdDictWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/ProductIdDictWriter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,15 +75,6 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunManager" selected="Application.main">
-    <configuration name="main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-1.11.0-openjdk-amd64" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="main" />
-      <module name="webdata" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -98,6 +82,15 @@
         </value>
       </option>
       <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="$USER_HOME$/.jdks/corretto-11.0.10" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="main" />
+      <module name="webdata" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -203,36 +196,6 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="171" y="19" width="1024" height="749" key="#Project_Structure" timestamp="1620651096425">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state x="171" y="19" width="1024" height="749" key="#Project_Structure/0.0.1366.768@0.0.1366.768" timestamp="1620651096425" />
-    <state x="147" y="48" width="1071" height="679" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1620651083127">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state x="147" y="48" width="1071" height="679" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.768@0.0.1366.768" timestamp="1620651083127" />
-    <state width="1324" height="192" key="GridCell.Tab.0.bottom" timestamp="1620655717278">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state width="1324" height="192" key="GridCell.Tab.0.bottom/0.0.1366.768@0.0.1366.768" timestamp="1620655717278" />
-    <state width="1324" height="192" key="GridCell.Tab.0.center" timestamp="1620655717238">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state width="1324" height="192" key="GridCell.Tab.0.center/0.0.1366.768@0.0.1366.768" timestamp="1620655717238" />
-    <state width="1324" height="192" key="GridCell.Tab.0.left" timestamp="1620655717214">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state width="1324" height="192" key="GridCell.Tab.0.left/0.0.1366.768@0.0.1366.768" timestamp="1620655717214" />
-    <state width="1324" height="192" key="GridCell.Tab.0.right" timestamp="1620655717260">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state width="1324" height="192" key="GridCell.Tab.0.right/0.0.1366.768@0.0.1366.768" timestamp="1620655717260" />
-    <state x="361" y="285" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1620651123881">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state x="361" y="285" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1366.768@0.0.1366.768" timestamp="1620651123881" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

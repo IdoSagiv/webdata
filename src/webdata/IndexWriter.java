@@ -93,7 +93,7 @@ public class IndexWriter {
         step4(sortedFile);
         System.out.println("Start delete at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
         removeIndex(tempFilesDir);
-        sortedTokens=new String[0];
+        sortedTokens = new String[0];
     }
 
 
@@ -271,7 +271,9 @@ public class IndexWriter {
 
     private void basicMerge(int mergeStep, int fileIndex, int left, int right) {
         File outputFile = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep, fileIndex));
-        int blockSize = (int) (0.5*BLOCK_SIZE * ((M - (1d+right-left+1)-SAFETY) / (right - left)));
+        int blockSize = (int) (0.5 * BLOCK_SIZE * ((M - (1d + right - left + 1) - SAFETY) / (right - left)));
+        blockSize = blockSize - (blockSize % PAIR_SIZE_ON_DISK);
+//        int blockSize = BLOCK_SIZE;
         int[] pointers = new int[right - left + 1];
         byte[][] blocks = new byte[right - left + 1][];
         BufferedInputStream[] readers = new BufferedInputStream[right - left + 1];
