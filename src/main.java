@@ -32,7 +32,6 @@ public class main {
         System.out.println("Started at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
         long startTime = System.currentTimeMillis();
         writer.write(DataSetPath, DictionaryPath);
-//        writer.writeTrios(DataSetPath, DictionaryPath);
         long estimatedTimeMs = System.currentTimeMillis() - startTime;
         System.out.println("Finished at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
         System.out.printf("creating index in: %.3f minutes\n", estimatedTimeMs / 1000.0 / 60);
