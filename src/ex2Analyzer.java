@@ -46,6 +46,7 @@ public class ex2Analyzer {
         long estimatedTimeMs = System.currentTimeMillis() - startTime;
         System.out.printf("creating index in: %.3f minutes\n", estimatedTimeMs / 1000.0 / 60);
         System.out.printf("folder size is: %d MB\n", (fileSize(directory)) / WebDataUtils.MEGA);
+
     }
 
     public static void analyzeReader(String datasetPath, String indexFilesDict) {
