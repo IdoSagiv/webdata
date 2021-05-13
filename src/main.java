@@ -18,8 +18,8 @@ import java.util.Set;
 
 public class main {
     final static String DictionaryPath = "indexFiles";
-    //        final static String DataSetPath = "datasets\\test.txt";
-    final static String DataSetPath = "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\BigDatasets\\10000.txt";
+    final static String DataSetPath = "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\1000000.txt";
+//    final static String DataSetPath = "datasets\\test.txt";
 
     public static void test1() {
         IndexWriter writer = new IndexWriter();
@@ -73,35 +73,18 @@ public class main {
     }
 
     public static void test2() {
-//        SlowIndexWriter slowWriter = new SlowIndexWriter();
         IndexWriter writer = new IndexWriter();
+        System.out.println("Analyzing data set " + DataSetPath);
         System.out.println("Started at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
         long startTime = System.currentTimeMillis();
         writer.write(DataSetPath, DictionaryPath);
-//        slowWriter.slowWrite(DataSetPath, DictionaryPath);
         long estimatedTimeMs = System.currentTimeMillis() - startTime;
         System.out.println("Finished at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
-        System.out.printf("creating index in: %.3f minutes", estimatedTimeMs / 1000.0 / 60);
+        System.out.printf("creating index in: %.3f minutes\n", estimatedTimeMs / 1000.0 / 60);
+        System.out.printf("folder size is: %d MB\n", (ex2Analyzer.fileSize(new File(DictionaryPath))) / WebDataUtils.MEGA);
     }
 
-//    public static void test3() {
-//        // ToDo: ignore this :)
-//        String dataset = "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\BigDatasets\\100000.txt";
-//        try {
-//            RandomAccessFile f = new RandomAccessFile(new File(dataset), "r");
-//            ReviewSectionIterator iter = new ReviewSectionIterator(f);
-//            int i = 0;
-//            while (iter.hasMoreElements()) {
-//                iter.nextElement();
-//                i++;
-//            }
-//            System.out.println("there are " + i + " reviews");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-    static void test4() {
+    static void test4(int[] arr) {
 //        arr[0]=3;
 //        ByteBuffer buffer = ByteBuffer.allocate(1024*1024*1024);
 //        buffer.putInt(4);
@@ -114,14 +97,11 @@ public class main {
         try {
             BufferedOutputStream bw = new BufferedOutputStream(new FileOutputStream(file));
             bw.write(1);
-            bw.flush();
             BufferedInputStream b = new BufferedInputStream(new FileInputStream(file));
-            b.read();
-            byte [] bytes = b.readNBytes(2);
-            int a = 6;
-//            b.close();
-//            b.close();
-//            System.out.println("here");
+
+            b.close();
+            b.close();
+            System.out.println("here");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -129,8 +109,7 @@ public class main {
 
     public static void main(String[] args) throws IOException {
 //        test1();
-//        test2();
-//        test3();
+        test2();
 //        int[] arr1 = new int[3];
 //        arr1[0]=5;
 //        test4(arr1);
@@ -138,7 +117,6 @@ public class main {
 //        ByteBuffer buffer = ByteBuffer.allocate((int) (0.99*1024*1024*1024));
 
 //        ex2Analyzer.analyze();
-        test4();
 
 //        IndexReader reader = new IndexReader(DictionaryPath);
 //        System.out.println((double) reader.getTokenCollectionFrequency("the") / reader.getTokenFrequency("the"));

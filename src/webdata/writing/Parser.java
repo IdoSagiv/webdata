@@ -20,16 +20,14 @@ public class Parser {
      */
     public Parser(String inputFile) {
         File file = new File(inputFile);
-        try{
-            if (inputFile.endsWith(".gz")){
+        try {
+            if (inputFile.endsWith(".gz")) {
                 GZIPInputStream gzip = new GZIPInputStream(new FileInputStream(inputFile));
                 reader = new BufferedReader(new InputStreamReader(gzip));
-            }
-            else{
+            } else {
                 reader = new BufferedReader(new FileReader(file));
             }
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -46,29 +44,46 @@ public class Parser {
         String[] section = new String[4];
         try {
             int status = 0;
-            while ((line = reader.readLine()) != null) {
-                if (line.isEmpty()) {
-                    if (status == OK_FLAG) break;
-                    continue;
+            while ((status != OK_FLAG) && ((line = reader.readLine()) != null)) {
+                if (line.isEmpty()) continue;
+                String content = line.substring(line.indexOf(':') + 2);
+                switch (line.substring(0, line.indexOf(':'))) {
+                    case "product/productId" -> {
+                        status = status | 0x1;
+                        section[PRODUCT_ID_IDX] = content;
+                    }
+                    case "review/helpfulness" -> {
+                        status = status | 0x2;
+                        section[HELPFULNESS_IDX] = content;
+                    }
+                    case "review/score" -> {
+                        status = status | 0x4;
+                        section[SCORE_IDX] = content;
+                    }
+                    case "review/text" -> {
+                        status = status | 0x8;
+                        section[TEXT_IDX] = content;
+                    }
                 }
-                String subsection = line.substring(line.indexOf(':') + 2);
-                if (line.startsWith("product/productId")) {
-                    status = status | 1;
-                    section[PRODUCT_ID_IDX] = subsection;
-                } else if (line.startsWith("review/helpfulness")) {
-                    status = status | 2;
-                    section[HELPFULNESS_IDX] = subsection;
-                } else if (line.startsWith("review/score")) {
-                    status = status | 4;
-                    section[SCORE_IDX] = subsection;
-                } else if (line.startsWith("review/text")) {
-                    status = status | 8;
-                    section[TEXT_IDX] = subsection;
-                }
+
+//                if (line.startsWith("product/productId")) {
+//                    status = status | 0x1;
+//                    section[PRODUCT_ID_IDX] = content;
+//                } else if (line.startsWith("review/helpfulness")) {
+//                    status = status | 0x2;
+//                    section[HELPFULNESS_IDX] = content;
+//                } else if (line.startsWith("review/score")) {
+//                    status = status | 0x4;
+//                    section[SCORE_IDX] = content;
+//                } else if (line.startsWith("review/text")) {
+//                    status = status | 0x8;
+//                    section[TEXT_IDX] = content;
+//                }
             }
             // if all four subsections detected return the section, else return null.
             return status == OK_FLAG ? section : null;
         } catch (IOException e) {
+            e.printStackTrace();
             return null;
         }
     }

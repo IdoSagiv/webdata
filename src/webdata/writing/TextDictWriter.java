@@ -136,15 +136,14 @@ public class TextDictWriter {
         String prevWord = "";
 
         try (BufferedInputStream reader = new BufferedInputStream(new FileInputStream(inputFile));
-             BufferedWriter conStrWriter = new BufferedWriter(new FileWriter(concatenatedStrFile));
              BufferedOutputStream dictWriter = new BufferedOutputStream(new FileOutputStream(dictFile));
+             BufferedWriter conStrWriter = new BufferedWriter(new FileWriter(concatenatedStrFile));
              BufferedOutputStream postingListWriter = new BufferedOutputStream(new FileOutputStream(invertedIdxFile));
              BufferedOutputStream tokenFreqWriter = new BufferedOutputStream(new FileOutputStream(tokensFreqFile))
         ) {
             long bytesRead = 0;
             long bytesToRead = inputFile.length();
             while (bytesRead <= bytesToRead - 8) {
-//            while (reader.available() >= IndexWriter.PAIR_SIZE_ON_DISK) {
                 tokenId = WebDataUtils.byteArrayToInt(reader.readNBytes(4));
                 int ReviewId = WebDataUtils.byteArrayToInt(reader.readNBytes(4));
                 bytesRead += 8;
