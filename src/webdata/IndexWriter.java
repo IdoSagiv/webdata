@@ -85,6 +85,32 @@ public class IndexWriter {
         sortedTokens = new String[0];
     }
 
+    public void writeTrios(String inputFile, String dir) {
+        // todo: delete
+        removeIndex(dir);
+        this.outputDir = dir;
+        this.tempFilesDir = Paths.get(outputDir, "tempFiles").toString();
+        // create the directory if not exist
+        File outDir = new File(outputDir);
+        File tempDir = new File(tempFilesDir);
+
+        // todo: delete all prints
+        //creates the directory if not exists
+        if (!outDir.exists()) outDir.mkdir();
+        if (!tempDir.exists()) tempDir.mkdir();
+        // writes to disk the sorted lists of pairs
+        int numOfSequences = step1And2Trios(inputFile);
+        System.out.println("Start step3 at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
+        // merge the sorted lists to one sorted list
+        String sortedFile = step3Trios(numOfSequences);
+        System.out.println("Start step4 at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
+        // write the dictionary and posting list
+        step4Trios(sortedFile);
+        System.out.println("Start delete at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
+        removeIndex(tempFilesDir);
+        sortedTokens = new String[0];
+    }
+
 
     /**
      * Delete all index files by removing the given directory
@@ -120,6 +146,17 @@ public class IndexWriter {
         LinkedHashMap<String, Integer> map = step1(inputFile);
         System.out.println("Start step2 at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
         int numOfTempFiles = step2(map, inputFile);
+        sortedTokens = map.keySet().toArray(new String[0]);
+        map.clear();
+        map = null;
+        return numOfTempFiles;
+    }
+    private int step1And2Trios(String inputFile) {
+        // todo: delete
+        System.out.println("Start step1 at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
+        LinkedHashMap<String, Integer> map = step1(inputFile);
+        System.out.println("Start step2 at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
+        int numOfTempFiles = step2Trios(map, inputFile);
         sortedTokens = map.keySet().toArray(new String[0]);
         map.clear();
         map = null;
@@ -243,6 +280,34 @@ public class IndexWriter {
         return fileIndex;
     }
 
+    private int step2Trios(LinkedHashMap<String, Integer> tokenIdDict, String inputFile) {
+        // todo: delete
+        Parser parser = new Parser(inputFile);
+        String[] section;
+        TreeMap<IntPair, Integer> tokenToReviewMapping = new TreeMap<>();
+
+        int reviewId = 1;
+        int fileIndex = 0;
+
+        while ((section = parser.nextSection()) != null) {
+            TokenIterator tokenIterator = Parser.getTokenIterator(section[Parser.TEXT_IDX]);
+            while (tokenIterator.hasMoreElements()) {
+                IntPair pair = new IntPair(tokenIdDict.get(tokenIterator.nextElement()), reviewId);
+                tokenToReviewMapping.put(pair, tokenToReviewMapping.getOrDefault(pair, 0) + 1);
+                if (tokenToReviewMapping.size() >= (STEP_2_RAM_CAP / 48)) {
+                    writeSequenceTrios(fileIndex, tokenToReviewMapping);
+                    tokenToReviewMapping.clear();
+                    fileIndex++;
+                }
+            }
+            reviewId++;
+        }
+        writeSequenceTrios(fileIndex, tokenToReviewMapping);
+        tokenToReviewMapping.clear();
+        fileIndex++;
+        return fileIndex;
+    }
+
 
     /**
      * creates a new file and write the sequence to it
@@ -256,6 +321,21 @@ public class IndexWriter {
             for (IntPair pair : sequence) {
                 buffer.write(WebDataUtils.toByteArray(pair.first, 4));
                 buffer.write(WebDataUtils.toByteArray(pair.second, 4));
+            }
+            buffer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void writeSequenceTrios(int fileIndex, Map<IntPair, Integer> sequence) {
+        // todo: delete
+        File outFile = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, 0, fileIndex));
+        try (BufferedOutputStream buffer = new BufferedOutputStream(new FileOutputStream(outFile))) {
+            for (Map.Entry<IntPair, Integer> entry : sequence.entrySet()) {
+                buffer.write(WebDataUtils.toByteArray(entry.getKey().first, 4));
+                buffer.write(WebDataUtils.toByteArray(entry.getKey().second, 4));
+                buffer.write(WebDataUtils.toByteArray(entry.getValue(), 4));
             }
             buffer.flush();
         } catch (IOException e) {
@@ -278,6 +358,28 @@ public class IndexWriter {
             numOfSequences = 0;
             while (sequencesLeft > 0) {
                 basicMerge(stepIndex, numOfSequences, currLeft, currRight);
+                sequencesLeft = sequencesLeft - (currRight - currLeft + 1);
+
+                currLeft = currRight + 1;
+                currRight += Math.min(M - 1, sequencesLeft);
+                numOfSequences++;
+            }
+            stepIndex++;
+        }
+        // return the name of the final merged file
+        return String.format(TEMP_FILE_TEMPLATE, stepIndex - 1, numOfSequences - 1);
+    }
+
+    private String step3Trios(int numOfSequences) {
+        // todo: delete
+        int stepIndex = 1;
+        while (numOfSequences > 1) {
+            int sequencesLeft = numOfSequences;
+            int currLeft = 0;
+            int currRight = Math.min(M - 1, numOfSequences) - 1;
+            numOfSequences = 0;
+            while (sequencesLeft > 0) {
+                basicMergeTrios(stepIndex, numOfSequences, currLeft, currRight);
                 sequencesLeft = sequencesLeft - (currRight - currLeft + 1);
 
                 currLeft = currRight + 1;
@@ -351,6 +453,74 @@ public class IndexWriter {
         }
     }
 
+    private void basicMergeTrios(int mergeStep, int fileIndex, int left, int right) {
+        // todo: delete
+        File outputFile = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep, fileIndex));
+        int[] pointers = new int[right - left + 1];
+        byte[][] blocks = new byte[right - left + 1][];
+        BufferedInputStream[] readers = new BufferedInputStream[right - left + 1];
+        int blockSize = (int) (0.5 * BLOCK_SIZE * ((M - (1d + right - left + 1) - SAFETY) / (right - left)));
+        blockSize = blockSize - (blockSize % 12); // round to complete number of pairs in block
+
+        try (BufferedOutputStream buffer = new BufferedOutputStream(new FileOutputStream(outputFile))) {
+            // end case - there is only one file to merge
+            if (right == left) {
+                File inputFile = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, left));
+                // try to rename
+                if (!inputFile.renameTo(outputFile)) {
+                    Files.copy(inputFile.toPath(), outputFile.toPath());
+                }
+                return;
+            }
+
+            // init the pointers and read first block of each sequence
+            int N = 0; // total number of pairs to merge
+            for (int i = 0; i < readers.length; i++) {
+                File file = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, i + left));
+                readers[i] = new BufferedInputStream(new FileInputStream(file));
+                blocks[i] = readers[i].readNBytes(blockSize);
+                pointers[i] = 0;
+                N += file.length() / 12;
+            }
+
+            int currPairFreq = -1;
+            byte[] currPair = new byte[0];
+            for (int k = 0; k < N; k++) {
+                int best_i = findBestPointer(pointers, blocks);
+                byte[] bestPair = Arrays.copyOfRange(blocks[best_i], pointers[best_i], pointers[best_i] + PAIR_SIZE_ON_DISK);
+                pointers[best_i] += PAIR_SIZE_ON_DISK;
+                if (bestPair != currPair) {
+                    if (currPair.length != 0)
+                        buffer.write(WebDataUtils.toByteArray(currPairFreq, 4)); // write the last pair freq
+                    buffer.write(bestPair);
+                    currPair = bestPair;
+                    currPairFreq = 0;
+                }
+                currPairFreq += WebDataUtils.byteArrayToInt(Arrays.copyOfRange(blocks[best_i], pointers[best_i], pointers[best_i] + 4));
+                pointers[best_i] += 4;
+                // pi points to the last element in the block -> read the next block
+                {
+                    if (pointers[best_i] == blocks[best_i].length) {
+                        if ((blocks[best_i] = readers[best_i].readNBytes(blockSize)).length == 0) {
+                            readers[best_i].close();
+                            Files.delete(Path.of(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, best_i)));
+                            pointers[best_i] = -1;
+                        } else {
+                            pointers[best_i] = 0;
+                        }
+                    }
+                }
+            }
+            buffer.flush();
+
+            for (BufferedInputStream reader : readers) {
+                reader.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * @param pointers pointers to the blocks
      * @param blocks   current blocks
@@ -375,6 +545,7 @@ public class IndexWriter {
         return best_i;
     }
 
+
     /**
      * converts the sorted sequence of (termId,docId) to the final index files
      *
@@ -389,6 +560,17 @@ public class IndexWriter {
         TextDictWriter dictWriter = new TextDictWriter(
                 inputFile, dictFile, concatenatedStrFile, invertedIdxFile, tokensFreqFile);
         dictWriter.saveToDisk(sortedTokens);
+    }
+    private void step4Trios(String sortedFile) {
+        // todo: delete
+        File dictFile = new File(outputDir, TEXT_DICT_PATH);
+        File concatenatedStrFile = new File(outputDir, TEXT_CONC_STR_PATH);
+        File invertedIdxFile = new File(outputDir, TEXT_INV_IDX_PATH);
+        File tokensFreqFile = new File(outputDir, TOKEN_FREQ_PATH);
+        File inputFile = new File(tempFilesDir, sortedFile);
+        TextDictWriter dictWriter = new TextDictWriter(
+                inputFile, dictFile, concatenatedStrFile, invertedIdxFile, tokensFreqFile);
+        dictWriter.saveToDiskTrios(sortedTokens);
     }
 
     /**

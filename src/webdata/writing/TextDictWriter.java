@@ -212,6 +212,96 @@ public class TextDictWriter {
         }
     }
 
+    public void saveToDiskTrios(String[] tokens) {
+        // todo: delete
+        //todo: problem in the last element freq
+        int stringPtr = 0;
+        int invertedPtr = 0, nextInvertedPtr = 0;
+        int tokenId = 0, tokenFreq = 0;
+        int currReviewId = 0, currFreqInReview = 0, prevReviewId = 0, invListSize = 0;
+        // the current word we are building it's posting list (the next one to be written)
+        String currWord = tokens[tokenId];
+        // the last word we wrote to the disk
+        String prevWord = "";
+
+        try (BufferedInputStream reader = new BufferedInputStream(new FileInputStream(inputFile));
+             BufferedOutputStream dictWriter = new BufferedOutputStream(new FileOutputStream(dictFile));
+             BufferedWriter conStrWriter = new BufferedWriter(new FileWriter(concatenatedStrFile));
+             BufferedOutputStream postingListWriter = new BufferedOutputStream(new FileOutputStream(invertedIdxFile));
+             BufferedOutputStream tokenFreqWriter = new BufferedOutputStream(new FileOutputStream(tokensFreqFile))
+        ) {
+            long bytesRead = 0;
+            long bytesToRead = inputFile.length();
+            while (bytesRead <= bytesToRead - 8) {
+                tokenId = WebDataUtils.byteArrayToInt(reader.readNBytes(4));
+                int ReviewId = WebDataUtils.byteArrayToInt(reader.readNBytes(4));
+                int pairFreq = WebDataUtils.byteArrayToInt(reader.readNBytes(4));
+                bytesRead += 12;
+                if (tokens[tokenId].equals(currWord)) {
+                    tokenFreq += pairFreq;
+                    if (ReviewId == currReviewId) {
+                        currFreqInReview += pairFreq;
+                    } else {
+                        // in the very first review -> don't write because the values are initial values
+                        if (currReviewId != 0) {
+                            nextInvertedPtr +=
+                                    addInvertedIndexEntry(currReviewId, currFreqInReview, prevReviewId,
+                                            postingListWriter);
+                            invListSize++;
+                        }
+                        prevReviewId = currReviewId;
+                        currReviewId = ReviewId;
+                        currFreqInReview = pairFreq;
+                    }
+                } else {
+                    String suffixToWrite = currWord;
+                    int prefixSize = 0;
+                    if ((tokenId - 1) % TOKENS_IN_BLOCK != 0) {
+                        prefixSize = commonPrefixSize(currWord, prevWord);
+                        suffixToWrite = currWord.substring(prefixSize);
+                    }
+                    writeWordToDictionary(currWord, tokenId - 1, invertedPtr, stringPtr, prefixSize, dictWriter,
+                            tokenFreq);
+                    conStrWriter.write(suffixToWrite);
+                    stringPtr += suffixToWrite.length();
+                    nextInvertedPtr += addInvertedIndexEntry(currReviewId, currFreqInReview, prevReviewId,
+                            postingListWriter);
+                    invListSize++;
+                    tokenFreqWriter.write(WebDataUtils.toByteArray(invListSize, 4));
+                    prevReviewId = 0;
+                    currReviewId = ReviewId;
+                    currFreqInReview = pairFreq;
+                    invertedPtr = nextInvertedPtr;
+                    invListSize = 0;
+
+                    prevWord = currWord;
+                    if ((tokenId - 1) % TOKENS_IN_BLOCK == TOKENS_IN_BLOCK - 1) {
+                        prevWord = "";
+                    }
+                    currWord = tokens[tokenId];
+                    tokenFreq = pairFreq;
+                }
+            }
+            // next lines writes the last word
+            String suffixToWrite = currWord;
+            int prefixSize = 0;
+            if (tokenId % TOKENS_IN_BLOCK != 0) {
+                prefixSize = commonPrefixSize(currWord, prevWord);
+                suffixToWrite = currWord.substring(prefixSize);
+            }
+            writeWordToDictionary(currWord, tokenId, invertedPtr, stringPtr, prefixSize, dictWriter, tokenFreq);
+            conStrWriter.write(suffixToWrite);
+            addInvertedIndexEntry(currReviewId, currFreqInReview, prevReviewId, postingListWriter);
+            invListSize++;
+            tokenFreqWriter.write(WebDataUtils.toByteArray(invListSize, 4));
+            postingListWriter.flush();
+            dictWriter.flush();
+            tokenFreqWriter.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * @param str1 the first String
      * @param str2 the second String
@@ -232,9 +322,11 @@ public class TextDictWriter {
     /**
      * writes the given data to the dictionary file.
      *
-     * @param word        the token to write
      * @param wordIdx     the tokens serial index (in order to determine its position in the block)
+     * @param wordFreq    tokens frequency in the corpus
      * @param invertedPtr pointer to the tokens posting list in the inverted index
+     * @param word        the token to write
+     * @param prefixSize  size of the tokens prefix in the concatenated string
      * @param stringPtr   pointer to the tokens start in the concatenated string
      * @param dictWriter  the dictionary output file
      * @throws IOException in case of problem with the write
