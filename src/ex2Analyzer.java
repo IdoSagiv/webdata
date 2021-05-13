@@ -42,7 +42,7 @@ public class ex2Analyzer {
             System.out.printf("folder size is: %d MB\n", (fileSize(directory)) / WebDataUtils.MEGA);
 
             IndexReader reader = new IndexReader(DictionaryPath);
-            List<String> randomTokens = getRandomTokens(dataSetPath);
+            List<String> randomTokens = getRandomTokens(dataSetPath, 100);
             startTime = System.currentTimeMillis();
             for (String token : randomTokens) {
                 reader.getReviewsWithToken(token);
@@ -71,10 +71,11 @@ public class ex2Analyzer {
         return length;
     }
 
-    private static List<String> getRandomTokens(String dataSetPath) {
-        Set<String> tokenSet = getAllTokens(dataSetPath);
-        int randInt = new Random().nextInt(tokenSet.size() - 100);
-        return new ArrayList<>(tokenSet).subList(randInt, randInt + 100);
+    private static List<String> getRandomTokens(String dataSetPath, int n) {
+        List<String> tokenSet = getAllTokens(dataSetPath).stream().toList();
+        Collections.shuffle(tokenSet);
+        assert (n <= tokenSet.size());
+        return tokenSet.subList(0, n - 1);
     }
 
     public static Set<String> getAllTokens(String dataSetPath) {
