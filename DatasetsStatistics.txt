@@ -26,6 +26,66 @@ max num of tokens in review - 922
 max numerator - 47
 max denominator - 47
 
+Statistics for - 100000.txt:
+num of reviews - 100000
+num of products - 2727
+total num of tokens - 15618260
+num of different tokens - 131653
+most popular product - B00004YABY
+max product freq - 1748
+most popular token - the
+max token freq - 908545
+avg token len - 7.949556789438904
+max token len - 202
+max num of tokens in review - 5117
+max numerator - 1041
+max denominator - 1041
+
+Statistics for - 200000.txt:
+num of reviews - 200000
+num of products - 5242
+total num of tokens - 30504337
+num of different tokens - 188034
+most popular product - B00004CMWI
+max product freq - 2006
+most popular token - the
+max token freq - 1781711
+avg token len - 8.073577119031665
+max token len - 202
+max num of tokens in review - 5117
+max numerator - 1041
+max denominator - 1041
+
+Statistics for - 500000.txt:
+num of reviews - 500000
+num of products - 15325
+total num of tokens - 75851038
+num of different tokens - 319309
+most popular product - B0007LEMM4
+max product freq - 4853
+most popular token - the
+max token freq - 4392558
+avg token len - 8.284007027675386
+max token len - 352
+max num of tokens in review - 5578
+max numerator - 4652
+max denominator - 4652
+
+Statistics for - 1000000.txt:
+num of reviews - 1000000
+num of products - 28763
+total num of tokens - 151588520
+num of different tokens - 459621
+most popular product - B0007LEMM4
+max product freq - 4853
+most popular token - the
+max token freq - 8786246
+avg token len - 8.451334904192802
+max token len - 352
+max num of tokens in review - 6207
+max numerator - 4652
+max denominator - 4652
+
 Statistics for - Movies_&_TV.txt:
 num of reviews - 7850072
 num of products - 212836
@@ -40,7 +100,7 @@ max num of tokens in review - 6207
 max numerator - 20924
 max denominator - 20924
 
-Statistics for - Books.txt.gz:
+Statistics for - Books.txt:
 num of reviews - 12886488
 num of products - 929264
 total num of tokens - 1912536900
@@ -49,6 +109,7 @@ most popular product - B000GTRN3W
 max product freq - 6817
 most popular token - the
 max token freq - 105934474
+avg token len - 9.248424210255338
 max token len - 991
 max num of tokens in review - 6292
 max numerator - 12058
