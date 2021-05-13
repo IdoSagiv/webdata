@@ -30,32 +30,39 @@ public class ex2Analyzer {
 //            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\Books.txt.gz"
     };
 
-    public static void analyze() {
-        File directory = new File(DictionaryPath);
+    public static void analyzeAll() {
         for (String dataSetPath : dataSets) {
-            System.out.println("Analyzing data set " + dataSetPath);
-            long startTime = System.currentTimeMillis();
-            IndexWriter writer = new IndexWriter();
-            writer.write(dataSetPath, DictionaryPath);
-            long estimatedTimeMs = System.currentTimeMillis() - startTime;
-            System.out.printf("creating index in: %.3f minutes\n", estimatedTimeMs / 1000.0 / 60);
-            System.out.printf("folder size is: %d MB\n", (fileSize(directory)) / WebDataUtils.MEGA);
-
-            IndexReader reader = new IndexReader(DictionaryPath);
-            List<String> randomTokens = getRandomTokens(dataSetPath, 100);
-            startTime = System.currentTimeMillis();
-            for (String token : randomTokens) {
-                reader.getReviewsWithToken(token);
-            }
-            estimatedTimeMs = System.currentTimeMillis() - startTime;
-            System.out.printf("100 random requests for getReviewWithToken took: %d ms\n", estimatedTimeMs);
-            startTime = System.currentTimeMillis();
-            for (String token : randomTokens) {
-                reader.getTokenFrequency(token);
-            }
-            estimatedTimeMs = System.currentTimeMillis() - startTime;
-            System.out.printf("100 random requests for TokenFrequency took: %d ms\n", estimatedTimeMs);
+            analyzeWriter(dataSetPath, DictionaryPath);
+            analyzeReader(dataSetPath, DictionaryPath);
         }
+    }
+
+    public static void analyzeWriter(String datasetPath, String indexFilesDict) {
+        File directory = new File(indexFilesDict);
+        System.out.println("Analyzing data set " + datasetPath);
+        long startTime = System.currentTimeMillis();
+        IndexWriter writer = new IndexWriter();
+        writer.write(datasetPath, indexFilesDict);
+        long estimatedTimeMs = System.currentTimeMillis() - startTime;
+        System.out.printf("creating index in: %.3f minutes\n", estimatedTimeMs / 1000.0 / 60);
+        System.out.printf("folder size is: %d MB\n", (fileSize(directory)) / WebDataUtils.MEGA);
+    }
+
+    public static void analyzeReader(String datasetPath, String indexFilesDict) {
+        IndexReader reader = new IndexReader(indexFilesDict);
+        List<String> randomTokens = getRandomTokens(datasetPath, 100);
+        long startTime = System.currentTimeMillis();
+        for (String token : randomTokens) {
+            reader.getReviewsWithToken(token);
+        }
+        long estimatedTimeMs = System.currentTimeMillis() - startTime;
+        System.out.printf("100 random requests for getReviewWithToken took: %d ms\n", estimatedTimeMs);
+        startTime = System.currentTimeMillis();
+        for (String token : randomTokens) {
+            reader.getTokenFrequency(token);
+        }
+        estimatedTimeMs = System.currentTimeMillis() - startTime;
+        System.out.printf("100 random requests for TokenFrequency took: %d ms\n", estimatedTimeMs);
     }
 
 
