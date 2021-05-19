@@ -38,39 +38,46 @@ public class main {
         System.out.printf("folder size is: %d MB\n", (ex2Analyzer.fileSize(new File(DictionaryPath))) / WebDataUtils.MEGA);
     }
 
-    static void test4(int[] arr) {
+    static void test4() throws IOException{
 //        arr[0]=3;
 //        ByteBuffer buffer = ByteBuffer.allocate(1024*1024*1024);
 //        buffer.putInt(4);
-        File file = new File("tryfile.out");
+        File file = new File("C:\\Users\\adiap\\Desktop\\temp\\tryfile.out");
 //        WebDataUtils.flushToFile(file, buffer);
 //        ArrayList<Byte> list = new ArrayList<>();
 //        list.add(Byte.parseByte("a"));
 //        Files.write("tryfile.out", list.toArray(new Byte[0]));
 
-        try {
+//        try {
             BufferedOutputStream bw = new BufferedOutputStream(new FileOutputStream(file));
-            bw.write(1);
-            BufferedInputStream b = new BufferedInputStream(new FileInputStream(file));
+//            int j=0;
+            for(int i=0; i<2000000000; i++){
+//                j++;
+                write(bw,1);
+            }
+//            BufferedInputStream b = new BufferedInputStream(new FileInputStream(file));
 
-            b.close();
-            b.close();
-            System.out.println("here");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            bw.close();
+//            b.close();
+//            System.out.println("here");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+    }
+    private static void write(BufferedOutputStream bw, int i) throws IOException{
+        bw.write(i);
     }
 
     public static void main(String[] args) throws IOException {
 //        test1();
-        test2();
+//        test2();
 //        int[] arr1 = new int[3];
 //        arr1[0]=5;
-//        test4(arr1);
+        test4();
 //        System.out.println(arr1[0]);
 //        ByteBuffer buffer = ByteBuffer.allocate((int) (0.99*1024*1024*1024));
 
-//        ex2Analyzer.analyze();
+//        ex2Analyzer.analyzeAll();
 
 //        IndexReader reader = new IndexReader(DictionaryPath);
 //        System.out.println((double) reader.getTokenCollectionFrequency("the") / reader.getTokenFrequency("the"));
@@ -81,6 +88,14 @@ public class main {
 //            sum += (double) reader.getTokenCollectionFrequency(token) / reader.getTokenFrequency(token);
 //        }
 //        System.out.println(sum / allTokens.size());
+//        long j=0;
+//        for(long i=0; i<2000000000;i++){
+//            for(int k=0; k<1000000; k++){
+//
+//            }
+//            j++;
+//        }
+//        System.out.println(j);
 
     }
 

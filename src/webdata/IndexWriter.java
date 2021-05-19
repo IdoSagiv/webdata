@@ -295,13 +295,10 @@ public class IndexWriter {
      * @param right     last sequence to merge
      */
     private void basicMerge(int mergeStep, int fileIndex, int left, int right) {
-        // todo: why this is much slower than step2??? maybe write in bigger chunks? maybe move to trios instead of pairs?
         File outputFile = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep, fileIndex));
         int[] pointers = new int[right - left + 1];
         byte[][] blocks = new byte[right - left + 1][];
         BufferedInputStream[] readers = new BufferedInputStream[right - left + 1];
-        int blockSize = (int) (0.5 * BLOCK_SIZE * ((M - (1d + right - left + 1) - SAFETY) / (right - left)));
-        blockSize = blockSize - (blockSize % PAIR_SIZE_ON_DISK); // round to complete number of pairs in block
 
         try (BufferedOutputStream buffer = new BufferedOutputStream(new FileOutputStream(outputFile))) {
             // end case - there is only one file to merge
@@ -315,38 +312,49 @@ public class IndexWriter {
             }
 
             // init the pointers and read first block of each sequence
-            int N = 0; // total number of pairs to merge
-            for (int i = 0; i < readers.length; i++) {
-                File file = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, i + left));
-                readers[i] = new BufferedInputStream(new FileInputStream(file));
-                blocks[i] = readers[i].readNBytes(blockSize);
-                pointers[i] = 0;
-                N += file.length() / PAIR_SIZE_ON_DISK;
-            }
+            int N = initMergeArrays(readers, pointers, blocks, mergeStep, left);
 
             for (int k = 0; k < N; k++) {
                 int best_i = findBestPointer(pointers, blocks);
-                buffer.write(Arrays.copyOfRange(blocks[best_i], pointers[best_i], pointers[best_i] + PAIR_SIZE_ON_DISK));
+                int start = pointers[best_i];
+                buffer.write(Arrays.copyOfRange(blocks[best_i], start, start + PAIR_SIZE_ON_DISK));
                 pointers[best_i] += PAIR_SIZE_ON_DISK;
                 // pi points to the last element in the block -> read the next block
                 if (pointers[best_i] == blocks[best_i].length) {
-                    if ((blocks[best_i] = readers[best_i].readNBytes(blockSize)).length == 0) {
-                        readers[best_i].close();
-                        Files.delete(Path.of(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, best_i)));
-                        pointers[best_i] = -1;
-                    } else {
-                        pointers[best_i] = 0;
-                    }
+                    pointers[best_i] = (blocks[best_i] = readers[best_i].readNBytes(BLOCK_SIZE)).length == 0 ? -1 : 0;
                 }
             }
             buffer.flush();
 
-            for (BufferedInputStream reader : readers) {
-                reader.close();
+            for (int i = 0; i < readers.length; i++) {
+                readers[i].close();
+                Files.delete(Path.of(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, i)));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     *
+     * @param readers empty readers array to fill
+     * @param pointers empty pointers array to fill
+     * @param blocks empty blocks array to fill
+     * @param mergeStep the mergestep
+     * @param firstFile the first file index
+     * @return number of pairs read
+     * @throws IOException
+     */
+    private int initMergeArrays(BufferedInputStream[] readers, int[] pointers, byte[][] blocks, int mergeStep, int firstFile) throws IOException {
+        int N = 0; // total number of pairs to merge
+        for (int i = 0; i < readers.length; i++) {
+            File file = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, i + firstFile));
+            readers[i] = new BufferedInputStream(new FileInputStream(file));
+            blocks[i] = readers[i].readNBytes(BLOCK_SIZE);
+            pointers[i] = 0;
+            N += file.length() / PAIR_SIZE_ON_DISK;
+        }
+        return N;
     }
 
     /**
