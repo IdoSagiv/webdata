@@ -73,11 +73,11 @@ public class main {
 //        test2();
 //        int[] arr1 = new int[3];
 //        arr1[0]=5;
-        test4();
+//        test4();
 //        System.out.println(arr1[0]);
 //        ByteBuffer buffer = ByteBuffer.allocate((int) (0.99*1024*1024*1024));
 
-//        ex2Analyzer.analyzeAll();
+        ex2Analyzer.analyzeAll();
 
 //        IndexReader reader = new IndexReader(DictionaryPath);
 //        System.out.println((double) reader.getTokenCollectionFrequency("the") / reader.getTokenFrequency("the"));
