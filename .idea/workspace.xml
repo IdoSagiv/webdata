@@ -6,8 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ex2Analyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ex2Analyzer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/IndexWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/IndexWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/reading/TextPostIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/reading/TextPostIterator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/utils/WebDataUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/utils/WebDataUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webdata/writing/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/writing/ProductIdDictWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/ProductIdDictWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/writing/TextDictWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/TextDictWriter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +73,7 @@
       <recent name="C:\github-repos\webdata" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.main">
+  <component name="RunManager" selected="JUnit.MoviesIndexReaderTest">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -88,51 +94,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="IndexReaderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="webdata" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../../../../../../../Program Files/Java/jdk-16.0.1" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="IndexReaderTest" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="IndexReaderTest2Old" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="webdata" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="IndexReaderTest2Old" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="IndexReaderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="webdata" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="ALTERNATIVE_JRE_PATH" value="16" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="IndexReaderTest" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="IndexReaderTest.ProductIDShouldBeNULL" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="webdata" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../../../../../../../Program Files/Java/jdk-16.0.1" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="IndexReaderTest" />
-      <option name="METHOD_NAME" value="ProductIDShouldBeNULL" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="IndexReaderTests3" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="webdata" />
       <option name="PACKAGE_NAME" value="" />
@@ -142,20 +103,49 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MoviesIndexReaderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="webdata" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="MoviesIndexReaderTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MoviesIndexReaderTest.ShouldFindCorrectIdiesFromText" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="webdata" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="MoviesIndexReaderTest" />
+      <option name="METHOD_NAME" value="ShouldFindCorrectIdiesFromText" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MoviesIndexReaderTest.getProductReviewsfShouldReturnEmpty" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="webdata" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="MoviesIndexReaderTest" />
+      <option name="METHOD_NAME" value="getProductReviewsfShouldReturnEmpty" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.main" />
-      <item itemvalue="JUnit.IndexReaderTest" />
-      <item itemvalue="JUnit.IndexReaderTest.ProductIDShouldBeNULL" />
       <item itemvalue="JUnit.IndexReaderTests3" />
-      <item itemvalue="JUnit.IndexReaderTest2Old" />
+      <item itemvalue="JUnit.MoviesIndexReaderTest" />
+      <item itemvalue="JUnit.MoviesIndexReaderTest.ShouldFindCorrectIdiesFromText" />
+      <item itemvalue="JUnit.MoviesIndexReaderTest.getProductReviewsfShouldReturnEmpty" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.MoviesIndexReaderTest" />
+        <item itemvalue="JUnit.MoviesIndexReaderTest.getProductReviewsfShouldReturnEmpty" />
+        <item itemvalue="JUnit.MoviesIndexReaderTest.ShouldFindCorrectIdiesFromText" />
         <item itemvalue="Application.main" />
         <item itemvalue="JUnit.IndexReaderTests3" />
-        <item itemvalue="JUnit.IndexReaderTest2Old" />
-        <item itemvalue="JUnit.IndexReaderTest" />
-        <item itemvalue="JUnit.IndexReaderTest" />
       </list>
     </recent_temporary>
   </component>
@@ -191,6 +181,15 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/webdata/IndexReader.java</url>
+          <line>141</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="currWord" />

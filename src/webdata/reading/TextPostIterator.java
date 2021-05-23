@@ -60,10 +60,11 @@ public class TextPostIterator implements Enumeration<Integer> {
             reader.seek(curPos);
             byte curByte = reader.readByte();
             byte[] asBytes = new byte[4];
-            int additionalBytes = curByte >>> 6;
-            asBytes[asBytes.length - 1 - additionalBytes] = (byte) (curByte & 0x3f);
+            int additionalBytes = ((curByte & 0xff) >>> 6);
+            int lsb = asBytes.length - 1 - additionalBytes;
+            asBytes[lsb] = (byte) (curByte & 0x3f);
             for (int j = 0; j < additionalBytes; j++) {
-                asBytes[asBytes.length - j - 1] = reader.readByte();
+                asBytes[lsb + j + 1] = reader.readByte();
             }
             curPos += additionalBytes + 1;
             res = ByteBuffer.wrap(asBytes).getInt();

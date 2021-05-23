@@ -82,7 +82,8 @@ public class ProductIdDictWriter {
         try (BufferedOutputStream dictWriter = new BufferedOutputStream(new FileOutputStream(dictFile))) {
             for (Map.Entry<String, ProductIdEntry> entry : dict.entrySet()) {
                 dictWriter.write(WebDataUtils.toByteArray(entry.getKey(), ProductIdParam.PRODUCT_ID.length));
-                dictWriter.write(WebDataUtils.toByteArray(entry.getValue().firstReview, ProductIdParam.FIRST_REVIEW.length));
+                dictWriter.write(WebDataUtils.toByteArray(entry.getValue().firstReview,
+                        ProductIdParam.FIRST_REVIEW.length));
                 dictWriter.write(WebDataUtils.toByteArray(entry.getValue().getNumOfReviews(),
                         ProductIdParam.NUM_OF_REVIEWS.length));
             }

@@ -69,15 +69,18 @@ public class main {
     }
 
     public static void main(String[] args) throws IOException {
-//        test1();
-//        test2();
-//        int[] arr1 = new int[3];
-//        arr1[0]=5;
-//        test4();
-//        System.out.println(arr1[0]);
-//        ByteBuffer buffer = ByteBuffer.allocate((int) (0.99*1024*1024*1024));
+//        int a = -127;
+//        byte asByte = (byte) a;
+//        System.out.println((asByte & 0xff)>>>8);
+//        int first = ((asByte & 0xff ) >>> 6);
+//        int second = (asByte >> 6);
+//        int res = Byte.toUnsignedInt((byte) (asByte >> 6));
+//        System.out.println(first);
+////        System.out.println("\n");
+//        System.out.println(second);
 
         ex2Analyzer.analyzeAll();
+
 
 //        IndexReader reader = new IndexReader(DictionaryPath);
 //        System.out.println((double) reader.getTokenCollectionFrequency("the") / reader.getTokenFrequency("the"));

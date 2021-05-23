@@ -101,8 +101,6 @@ public class WebDataUtils {
             res[numOfBytes - i - 1] = (byte) (numToCast >>> BYTE_SHIFTS[i]);
         }
         return res;
-
-//        return Arrays.copyOfRange(ByteBuffer.allocate(4).putInt(numToCast).array(), 4 - numOfBytes, 4);
     }
 
     /**

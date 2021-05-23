@@ -17,12 +17,18 @@ public class ex2Analyzer {
 //            "/cs/67782/adiapel/1000.txt"
 //            "/cs/usr/adiapel/Desktop/webData/ex2-new/webdata/datasets/test.txt"
 //            "/cs/usr/adiapel/Desktop/webData/ex2-new/webdata/datasets/1000.txt"
-//            ,"/cs/usr/adiapel/Desktop/webData/ex2-new/webdata/datasets/10000.txt"
+
+//            "/cs/usr/adiapel/Desktop/webData/ex2-new/webdata/datasets/1000.txt"
 //            ,"/cs/usr/adiapel/Desktop/webData/ex2-new/webdata/datasets/100000.txt"
 //            "/cs/67782/adiapel/1000000.txt"
 //            "/tmp/movies.txt.gz"
-            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\1000000.txt"
+//            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\1000.txt",
+
+//            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\10000.txt",
+            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\100000.txt"
+//            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\1000000.txt"
 //            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\Movies_&_TV.txt.gz"
+//            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\Books.txt.gz"
 
 //            "/cs/67782/ido_sagiv/Movies_&_TV.txt.gz"
 //            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\1000000.txt"
@@ -45,7 +51,7 @@ public class ex2Analyzer {
         writer.write(datasetPath, indexFilesDict);
         long estimatedTimeMs = System.currentTimeMillis() - startTime;
         System.out.printf("creating index in: %.3f minutes\n", estimatedTimeMs / 1000.0 / 60);
-        System.out.printf("folder size is: %d MB\n", (fileSize(directory)) / WebDataUtils.MEGA);
+        System.out.printf("folder size is: %f MB\n", (double) (fileSize(directory)) / WebDataUtils.MEGA);
 
     }
 

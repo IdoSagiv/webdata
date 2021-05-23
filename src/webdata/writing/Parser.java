@@ -48,41 +48,27 @@ public class Parser {
                 if (line.isEmpty()) continue;
                 String content = line.substring(line.indexOf(':') + 2);
                 switch (line.substring(0, line.indexOf(':'))) {
-                    case "product/productId" : {
+                    case "product/productId": {
                         status = status | 0x1;
                         section[PRODUCT_ID_IDX] = content;
                         break;
                     }
-                    case "review/helpfulness" : {
+                    case "review/helpfulness": {
                         status = status | 0x2;
                         section[HELPFULNESS_IDX] = content;
                         break;
                     }
-                    case "review/score" : {
+                    case "review/score": {
                         status = status | 0x4;
                         section[SCORE_IDX] = content;
                         break;
                     }
-                    case "review/text" : {
+                    case "review/text": {
                         status = status | 0x8;
                         section[TEXT_IDX] = content;
                         break;
                     }
                 }
-
-//                if (line.startsWith("product/productId")) {
-//                    status = status | 0x1;
-//                    section[PRODUCT_ID_IDX] = content;
-//                } else if (line.startsWith("review/helpfulness")) {
-//                    status = status | 0x2;
-//                    section[HELPFULNESS_IDX] = content;
-//                } else if (line.startsWith("review/score")) {
-//                    status = status | 0x4;
-//                    section[SCORE_IDX] = content;
-//                } else if (line.startsWith("review/text")) {
-//                    status = status | 0x8;
-//                    section[TEXT_IDX] = content;
-//                }
             }
             // if all four subsections detected return the section, else return null.
             return status == OK_FLAG ? section : null;
@@ -92,6 +78,10 @@ public class Parser {
         }
     }
 
+    /**
+     * @param text the text of the review
+     * @return a token iterator
+     */
     public static TokenIterator getTokenIterator(String text) {
         text = WebDataUtils.preProcessText(text);
         return new TokenIterator(text);

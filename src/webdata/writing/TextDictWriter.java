@@ -1,6 +1,5 @@
 package webdata.writing;
 
-import webdata.IndexWriter;
 import webdata.utils.WebDataUtils;
 
 import java.io.*;

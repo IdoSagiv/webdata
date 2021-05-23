@@ -336,10 +336,9 @@ public class IndexWriter {
     }
 
     /**
-     *
-     * @param readers empty readers array to fill
-     * @param pointers empty pointers array to fill
-     * @param blocks empty blocks array to fill
+     * @param readers   empty readers array to fill
+     * @param pointers  empty pointers array to fill
+     * @param blocks    empty blocks array to fill
      * @param mergeStep the mergestep
      * @param firstFile the first file index
      * @return number of pairs read
