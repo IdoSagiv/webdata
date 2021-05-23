@@ -337,7 +337,8 @@ public class IndexWriter {
      * @return number of pairs read
      * @throws IOException
      */
-    private int initMergeArrays(BufferedInputStream[] readers, int[] pointers, byte[][] blocks, int mergeStep, int firstFile) throws IOException {
+    private int initMergeArrays(BufferedInputStream[] readers, int[] pointers, byte[][] blocks, int mergeStep,
+                                int firstFile) throws IOException {
         int N = 0; // total number of pairs to merge
         for (int i = 0; i < readers.length; i++) {
             File file = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, i + firstFile));

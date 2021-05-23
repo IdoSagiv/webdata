@@ -41,29 +41,6 @@ public class WebDataUtils {
     }
 
     /**
-     * decodes given bytes array according to Length Pre-Coded Varint code.
-     *
-     * @param bytes byte array to decode
-     * @return the decoded value of the array
-     */
-    public static ArrayList<Integer> decode(byte[] bytes) {
-        ArrayList<Integer> res = new ArrayList<>();
-        int i = 0;
-        while (i < bytes.length) {
-            byte b = bytes[i];
-            byte[] asBytes = new byte[4];
-            int numOfBytes = b >>> 6;
-            asBytes[asBytes.length - 1 - numOfBytes] = (byte) (b & 0x3f);
-            for (int j = 0; j < numOfBytes; j++) {
-                asBytes[asBytes.length - j - 1] = bytes[i + j + 1];
-            }
-            i += numOfBytes + 1;
-            res.add(ByteBuffer.wrap(asBytes).getInt());
-        }
-        return res;
-    }
-
-    /**
      * @param text text to be preprocess
      * @return the preprocessed text
      */

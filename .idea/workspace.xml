@@ -6,14 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ex2Analyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ex2Analyzer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webdata/IndexWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/IndexWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/reading/TextPostIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/reading/TextPostIterator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/utils/WebDataUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/utils/WebDataUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/writing/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/writing/ProductIdDictWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/ProductIdDictWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/writing/TextDictWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/TextDictWriter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +66,7 @@
       <recent name="C:\github-repos\webdata" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.MoviesIndexReaderTest">
+  <component name="RunManager" selected="JUnit.IndexReaderTest2">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -85,19 +78,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="corretto-11" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="main" />
-      <module name="webdata" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="IndexReaderTests3" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="IndexReaderTest2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="webdata" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="IndexReaderTests3" />
+      <option name="MAIN_CLASS_NAME" value="IndexReaderTest2" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -132,20 +116,35 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ex1_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="webdata" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="webdata.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="webdata" />
+      <option name="MAIN_CLASS_NAME" value="webdata.ex1_test" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
-      <item itemvalue="Application.main" />
-      <item itemvalue="JUnit.IndexReaderTests3" />
       <item itemvalue="JUnit.MoviesIndexReaderTest" />
       <item itemvalue="JUnit.MoviesIndexReaderTest.ShouldFindCorrectIdiesFromText" />
       <item itemvalue="JUnit.MoviesIndexReaderTest.getProductReviewsfShouldReturnEmpty" />
+      <item itemvalue="JUnit.ex1_test" />
+      <item itemvalue="JUnit.IndexReaderTest2" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.IndexReaderTest2" />
+        <item itemvalue="JUnit.ex1_test" />
         <item itemvalue="JUnit.MoviesIndexReaderTest" />
         <item itemvalue="JUnit.MoviesIndexReaderTest.getProductReviewsfShouldReturnEmpty" />
         <item itemvalue="JUnit.MoviesIndexReaderTest.ShouldFindCorrectIdiesFromText" />
-        <item itemvalue="Application.main" />
-        <item itemvalue="JUnit.IndexReaderTests3" />
       </list>
     </recent_temporary>
   </component>

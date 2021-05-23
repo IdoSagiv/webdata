@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IndexReaderTest2
 {
-    static final String DictionaryPath = "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\CompateTo\\Books";
+    static final String DictionaryPath = "indexFiles";
 
     static IndexWriter indexWriter;
 
