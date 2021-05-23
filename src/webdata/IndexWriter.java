@@ -67,20 +67,15 @@ public class IndexWriter {
         // create the directory if not exist
         File outDir = new File(outputDir);
         File tempDir = new File(tempFilesDir);
-
-        // todo: delete all prints
         //creates the directory if not exists
         if (!outDir.exists()) outDir.mkdir();
         if (!tempDir.exists()) tempDir.mkdir();
         // writes to disk the sorted lists of pairs
         int numOfSequences = step1And2(inputFile);
-        System.out.println("Start step3 at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
         // merge the sorted lists to one sorted list
         String sortedFile = step3(numOfSequences);
-        System.out.println("Start step4 at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
         // write the dictionary and posting list
         step4(sortedFile);
-        System.out.println("Start delete at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
         removeIndex(tempFilesDir);
         sortedTokens = new String[0];
     }
@@ -115,9 +110,7 @@ public class IndexWriter {
      * @return number of written sequences
      */
     private int step1And2(String inputFile) {
-        System.out.println("Start step1 at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
         LinkedHashMap<String, Integer> map = step1(inputFile);
-        System.out.println("Start step2 at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
         int numOfTempFiles = step2(map, inputFile);
         sortedTokens = map.keySet().toArray(new String[0]);
         map.clear();
