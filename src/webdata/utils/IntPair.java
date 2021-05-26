@@ -1,5 +1,7 @@
 package webdata.utils;
 
+import java.util.Arrays;
+
 /**
  * a Mutable pair of integers
  */
@@ -14,6 +16,14 @@ public class IntPair implements Comparable<IntPair> {
     public IntPair(int first, int second) {
         this.first = first;
         this.second = second;
+    }
+
+    /**
+     * @param asBytes array of 8 bytes. first 4 are the first number and last 4 are the second one.
+     */
+    public IntPair(byte[] asBytes) {
+        this.first = WebDataUtils.byteArrayToInt(Arrays.copyOfRange(asBytes, 0, 4));
+        this.second = WebDataUtils.byteArrayToInt(Arrays.copyOfRange(asBytes, 4, 8));
     }
 
     /**

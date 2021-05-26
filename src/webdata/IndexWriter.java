@@ -8,11 +8,7 @@ import webdata.writing.TextDictWriter;
 import webdata.writing.TokenIterator;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class IndexWriter {
@@ -32,15 +28,16 @@ public class IndexWriter {
     // statistics file
     public static final String STATISTICS_PATH = "statistics";
 
-    private static final String TEMP_FILE_TEMPLATE = "mergeStep_%d_%d";
+    // temp file
+    public static final String TEMP_FILE_TEMPLATE = "sortedSeq_%d";
 
     // Memory management constants
     private static final int BLOCK_SIZE = 8 * WebDataUtils.KILO; // 8KB
     // main memory size in blocks - total of 1GB less 200MB to java
     private static final int M = (int) ((WebDataUtils.GIGA - 200.0 * WebDataUtils.MEGA) / BLOCK_SIZE);
-    public static final int OUT_STREAM_BUFFER_SIZE = 8 * WebDataUtils.KILO;
-    public static final int SAFETY = 100;
-    public static final int STEP_2_RAM_CAP = (int) ((2 / 3d) * (M * BLOCK_SIZE - SAFETY - OUT_STREAM_BUFFER_SIZE));
+    private static final int OUT_STREAM_BUFFER_SIZE = 8 * WebDataUtils.KILO;
+    private static final int SAFETY = 100;
+    private static final int STEP_2_RAM_CAP = (int) ((2 / 3d) * (M * BLOCK_SIZE - SAFETY - OUT_STREAM_BUFFER_SIZE));
 
     // pair size in bytes
     private static final int PAIR_SIZE_ON_MEMORY = 32;
@@ -72,10 +69,8 @@ public class IndexWriter {
         if (!tempDir.exists()) tempDir.mkdir();
         // writes to disk the sorted lists of pairs
         int numOfSequences = step1And2(inputFile);
-        // merge the sorted lists to one sorted list
-        String sortedFile = step3(numOfSequences);
         // write the dictionary and posting list
-        step4(sortedFile);
+        step3And4(numOfSequences);
         removeIndex(tempFilesDir);
         sortedTokens = new String[0];
     }
@@ -242,7 +237,7 @@ public class IndexWriter {
      * @param sequence  list of pairs (termId,docId)
      */
     private void writeSequence(int fileIndex, ArrayList<IntPair> sequence) {
-        File outFile = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, 0, fileIndex));
+        File outFile = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, fileIndex));
         try (BufferedOutputStream buffer = new BufferedOutputStream(new FileOutputStream(outFile))) {
             for (IntPair pair : sequence) {
                 buffer.write(WebDataUtils.toByteArray(pair.first, 4));
@@ -255,140 +250,17 @@ public class IndexWriter {
     }
 
     /**
-     * merge all the sorted sequences to one sorted sequence
-     *
-     * @param numOfSequences number of sequences to merge
-     * @return the name of the final sequence file
-     */
-    private String step3(int numOfSequences) {
-        int stepIndex = 1;
-        while (numOfSequences > 1) {
-            int sequencesLeft = numOfSequences;
-            int currLeft = 0;
-            int currRight = Math.min(M - 1, numOfSequences) - 1;
-            numOfSequences = 0;
-            while (sequencesLeft > 0) {
-                basicMerge(stepIndex, numOfSequences, currLeft, currRight);
-                sequencesLeft = sequencesLeft - (currRight - currLeft + 1);
-
-                currLeft = currRight + 1;
-                currRight += Math.min(M - 1, sequencesLeft);
-                numOfSequences++;
-            }
-            stepIndex++;
-        }
-        // return the name of the final merged file
-        return String.format(TEMP_FILE_TEMPLATE, stepIndex - 1, numOfSequences - 1);
-    }
-
-    /**
-     * @param mergeStep index if the current merge
-     * @param fileIndex index of the output file in the current merge
-     * @param left      first sequence to merge
-     * @param right     last sequence to merge
-     */
-    private void basicMerge(int mergeStep, int fileIndex, int left, int right) {
-        File outputFile = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep, fileIndex));
-        int[] pointers = new int[right - left + 1];
-        byte[][] blocks = new byte[right - left + 1][];
-        BufferedInputStream[] readers = new BufferedInputStream[right - left + 1];
-
-        try (BufferedOutputStream buffer = new BufferedOutputStream(new FileOutputStream(outputFile))) {
-            // end case - there is only one file to merge
-            if (right == left) {
-                File inputFile = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, left));
-                // try to rename
-                if (!inputFile.renameTo(outputFile)) {
-                    Files.copy(inputFile.toPath(), outputFile.toPath());
-                }
-                return;
-            }
-
-            // init the pointers and read first block of each sequence
-            int N = initMergeArrays(readers, pointers, blocks, mergeStep, left);
-
-            for (int k = 0; k < N; k++) {
-                int best_i = findBestPointer(pointers, blocks);
-                int start = pointers[best_i];
-                buffer.write(Arrays.copyOfRange(blocks[best_i], start, start + PAIR_SIZE_ON_DISK));
-                pointers[best_i] += PAIR_SIZE_ON_DISK;
-                // pi points to the last element in the block -> read the next block
-                if (pointers[best_i] == blocks[best_i].length) {
-                    pointers[best_i] = (blocks[best_i] = readers[best_i].readNBytes(BLOCK_SIZE)).length == 0 ? -1 : 0;
-                }
-            }
-            buffer.flush();
-
-            for (int i = 0; i < readers.length; i++) {
-                readers[i].close();
-                Files.delete(Path.of(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, i)));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * @param readers   empty readers array to fill
-     * @param pointers  empty pointers array to fill
-     * @param blocks    empty blocks array to fill
-     * @param mergeStep the mergestep
-     * @param firstFile the first file index
-     * @return number of pairs read
-     * @throws IOException
-     */
-    private int initMergeArrays(BufferedInputStream[] readers, int[] pointers, byte[][] blocks, int mergeStep,
-                                int firstFile) throws IOException {
-        int N = 0; // total number of pairs to merge
-        for (int i = 0; i < readers.length; i++) {
-            File file = new File(tempFilesDir, String.format(TEMP_FILE_TEMPLATE, mergeStep - 1, i + firstFile));
-            readers[i] = new BufferedInputStream(new FileInputStream(file));
-            blocks[i] = readers[i].readNBytes(BLOCK_SIZE);
-            pointers[i] = 0;
-            N += file.length() / PAIR_SIZE_ON_DISK;
-        }
-        return N;
-    }
-
-    /**
-     * @param pointers pointers to the blocks
-     * @param blocks   current blocks
-     * @return the index of the pointer that points to the minimal value
-     */
-    private int findBestPointer(int[] pointers, byte[][] blocks) {
-        int best_i = -1;
-        IntPair minPair = new IntPair(Integer.MAX_VALUE, Integer.MAX_VALUE);
-
-        // find the pointer that points to the min element
-        for (int i = 0; i < pointers.length; i++) {
-            int p_i = pointers[i];
-            if (p_i == -1) continue;
-            IntPair currPair = new IntPair(
-                    WebDataUtils.byteArrayToInt(Arrays.copyOfRange(blocks[i], p_i, p_i + 4)),
-                    WebDataUtils.byteArrayToInt(Arrays.copyOfRange(blocks[i], p_i + 4, p_i + 8)));
-            if (minPair.compareTo(currPair) >= 0) {
-                best_i = i;
-                minPair = currPair;
-            }
-        }
-        return best_i;
-    }
-
-
-    /**
      * converts the sorted sequence of (termId,docId) to the final index files
      *
-     * @param sortedFile name of the sorted sequence file
+     * @param numOfSeq name of the sorted sequence file
      */
-    private void step4(String sortedFile) {
+    private void step3And4(int numOfSeq) {
         File dictFile = new File(outputDir, TEXT_DICT_PATH);
         File concatenatedStrFile = new File(outputDir, TEXT_CONC_STR_PATH);
         File invertedIdxFile = new File(outputDir, TEXT_INV_IDX_PATH);
         File tokensFreqFile = new File(outputDir, TOKEN_FREQ_PATH);
-        File inputFile = new File(tempFilesDir, sortedFile);
-        TextDictWriter dictWriter = new TextDictWriter(
-                inputFile, dictFile, concatenatedStrFile, invertedIdxFile, tokensFreqFile);
-        dictWriter.saveToDisk(sortedTokens);
+        TextDictWriter dictWriter = new TextDictWriter(dictFile, concatenatedStrFile, invertedIdxFile, tokensFreqFile);
+        dictWriter.saveToDisk(sortedTokens, tempFilesDir, numOfSeq);
     }
 
     /**
@@ -412,3 +284,4 @@ public class IndexWriter {
         outStream.write(WebDataUtils.toByteArray(productId, ReviewField.PRODUCT_ID.length));
     }
 }
+

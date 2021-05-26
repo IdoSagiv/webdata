@@ -1,5 +1,6 @@
 package webdata.writing;
 
+import webdata.utils.IntPair;
 import webdata.utils.WebDataUtils;
 
 import java.io.*;
@@ -75,7 +76,6 @@ public class TextDictWriter {
             + (TOKENS_IN_BLOCK - 1) * (TokenParam.LENGTH.length + TokenParam.PREFIX_SIZE.length) +
             TokenParam.CONCATENATED_STR_PTR.length;
 
-    private final File inputFile;
     private final File dictFile;
     private final File concatenatedStrFile;
     private final File invertedIdxFile;
@@ -84,14 +84,11 @@ public class TextDictWriter {
     /**
      * Constructor
      *
-     * @param inputFile           the file thar contains the sorted sequence of (tokenId,docId)
      * @param dictFile            the dictionary file.
      * @param concatenatedStrFile the concatenated string file.
      * @param invertedIdxFile     the inverted index file.
      */
-    public TextDictWriter(File inputFile, File dictFile, File concatenatedStrFile, File invertedIdxFile,
-                          File tokensFreqFile) {
-        this.inputFile = inputFile;
+    public TextDictWriter(File dictFile, File concatenatedStrFile, File invertedIdxFile, File tokensFreqFile) {
         this.dictFile = dictFile;
         this.concatenatedStrFile = concatenatedStrFile;
         this.invertedIdxFile = invertedIdxFile;
@@ -124,7 +121,7 @@ public class TextDictWriter {
      *
      * @param tokens an array with the tokens in the index
      */
-    public void saveToDisk(String[] tokens) {
+    public void saveToDisk(String[] tokens, String dir, int numOfSeq) {
         int stringPtr = 0;
         int invertedPtr = 0, nextInvertedPtr = 0;
         int tokenId = 0, tokenFreq = 0;
@@ -134,18 +131,14 @@ public class TextDictWriter {
         // the last word we wrote to the disk
         String prevWord = "";
 
-        try (BufferedInputStream reader = new BufferedInputStream(new FileInputStream(inputFile));
-             BufferedOutputStream dictWriter = new BufferedOutputStream(new FileOutputStream(dictFile));
+        try (BufferedOutputStream dictWriter = new BufferedOutputStream(new FileOutputStream(dictFile));
              BufferedWriter conStrWriter = new BufferedWriter(new FileWriter(concatenatedStrFile));
              BufferedOutputStream postingListWriter = new BufferedOutputStream(new FileOutputStream(invertedIdxFile));
              BufferedOutputStream tokenFreqWriter = new BufferedOutputStream(new FileOutputStream(tokensFreqFile))
         ) {
-            long bytesRead = 0;
-            long bytesToRead = inputFile.length();
-            while (bytesRead <= bytesToRead - 8) {
-                tokenId = WebDataUtils.byteArrayToInt(reader.readNBytes(4));
-                int ReviewId = WebDataUtils.byteArrayToInt(reader.readNBytes(4));
-                bytesRead += 8;
+            for (IntPair curPair : new MergeGenerator(dir, numOfSeq)) {
+                tokenId = curPair.first;
+                int ReviewId = curPair.second;
                 if (tokens[tokenId].equals(currWord)) {
                     tokenFreq++;
                     if (ReviewId == currReviewId) {

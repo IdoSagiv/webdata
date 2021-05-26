@@ -5,8 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ex2Analyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ex2Analyzer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webdata/IndexWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/IndexWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/utils/IntPair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/utils/IntPair.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/writing/TextDictWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/TextDictWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webdata/writing/TokenIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/TokenIterator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,13 +71,29 @@
       <recent name="C:\github-repos\webdata" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.IndexReaderTest2">
+  <component name="RunManager" selected="Application.main">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="main" />
+      <module name="webdata" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="IndexReaderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="webdata" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="IndexReaderTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -87,36 +108,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MoviesIndexReaderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="IndexReaderTest2Old" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="webdata" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="MoviesIndexReaderTest" />
+      <option name="MAIN_CLASS_NAME" value="IndexReaderTest2Old" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MoviesIndexReaderTest.ShouldFindCorrectIdiesFromText" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="IndexReaderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="webdata" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="16" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="MoviesIndexReaderTest" />
-      <option name="METHOD_NAME" value="ShouldFindCorrectIdiesFromText" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="MAIN_CLASS_NAME" value="IndexReaderTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MoviesIndexReaderTest.getProductReviewsfShouldReturnEmpty" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="webdata" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="MoviesIndexReaderTest" />
-      <option name="METHOD_NAME" value="getProductReviewsfShouldReturnEmpty" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ex1_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MoviesIndexReaderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="webdata" />
       <extension name="coverage">
         <pattern>
@@ -125,7 +138,7 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="webdata" />
-      <option name="MAIN_CLASS_NAME" value="webdata.ex1_test" />
+      <option name="MAIN_CLASS_NAME" value="webdata.MoviesIndexReaderTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -133,18 +146,18 @@
     </configuration>
     <list>
       <item itemvalue="JUnit.MoviesIndexReaderTest" />
-      <item itemvalue="JUnit.MoviesIndexReaderTest.ShouldFindCorrectIdiesFromText" />
-      <item itemvalue="JUnit.MoviesIndexReaderTest.getProductReviewsfShouldReturnEmpty" />
-      <item itemvalue="JUnit.ex1_test" />
       <item itemvalue="JUnit.IndexReaderTest2" />
+      <item itemvalue="JUnit.IndexReaderTest" />
+      <item itemvalue="JUnit.IndexReaderTest2Old" />
+      <item itemvalue="Application.main" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.IndexReaderTest2" />
-        <item itemvalue="JUnit.ex1_test" />
+        <item itemvalue="Application.main" />
         <item itemvalue="JUnit.MoviesIndexReaderTest" />
-        <item itemvalue="JUnit.MoviesIndexReaderTest.getProductReviewsfShouldReturnEmpty" />
-        <item itemvalue="JUnit.MoviesIndexReaderTest.ShouldFindCorrectIdiesFromText" />
+        <item itemvalue="JUnit.IndexReaderTest2Old" />
+        <item itemvalue="JUnit.IndexReaderTest" />
+        <item itemvalue="JUnit.IndexReaderTest2" />
       </list>
     </recent_temporary>
   </component>
@@ -183,9 +196,14 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/webdata/IndexReader.java</url>
-          <line>141</line>
-          <option name="timeStamp" value="4" />
+          <url>file://$PROJECT_DIR$/src/main.java</url>
+          <line>79</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/webdata/utils/WebDataUtils.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

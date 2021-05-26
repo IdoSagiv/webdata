@@ -1,7 +1,6 @@
 package webdata.writing;
 
 import java.util.Enumeration;
-import java.util.NoSuchElementException;
 
 public class TokenIterator implements Enumeration<String> {
     String[] tokens;
@@ -31,12 +30,10 @@ public class TokenIterator implements Enumeration<String> {
      */
     @Override
     public String nextElement() {
-        if (!hasMoreElements()) {
-            throw new NoSuchElementException();
-        }
         String res = tokens[currInd];
 
         currInd++;
+
         while (currInd < tokens.length && tokens[currInd].isEmpty()) {
             currInd++;
         }

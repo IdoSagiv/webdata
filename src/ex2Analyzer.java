@@ -5,6 +5,8 @@ import webdata.writing.Parser;
 import webdata.writing.TokenIterator;
 
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class ex2Analyzer {
@@ -25,13 +27,14 @@ public class ex2Analyzer {
 //            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\1000.txt",
 
 //            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\10000.txt",
-            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\100000.txt"
+//            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\100000.txt"
 //            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\1000000.txt"
 //            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\Movies_&_TV.txt.gz"
 //            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\Books.txt.gz"
 
 //            "/cs/67782/ido_sagiv/Movies_&_TV.txt.gz"
-//            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\1000000.txt"
+//            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\10000.txt"
+            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\1000000.txt"
 //            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\Movies_&_TV.txt.gz"
 //            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\Books.txt.gz"
     };
@@ -45,6 +48,7 @@ public class ex2Analyzer {
 
     public static void analyzeWriter(String datasetPath, String indexFilesDict) {
         File directory = new File(indexFilesDict);
+        System.out.println("Started at " + DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
         System.out.println("Analyzing data set " + datasetPath);
         long startTime = System.currentTimeMillis();
         IndexWriter writer = new IndexWriter();
