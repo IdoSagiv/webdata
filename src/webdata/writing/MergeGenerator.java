@@ -26,7 +26,7 @@ public class MergeGenerator implements Iterable<IntPair> {
     private static class Iter implements Iterator<IntPair> {
         BufferedInputStream[] readers;
         IntPair[] currentPairs;
-        long numOfPairs; // todo: this is long in all.gz
+        long numOfPairs;
         long pairsRead;
 
         Iter(String dir, int numOfSequences) {
