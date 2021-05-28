@@ -1,20 +1,10 @@
-import webdata.IndexReader;
-//import webdata.IndexWriter;
-import webdata.IndexWriter;
-import webdata.IndexWriter;
-import webdata.utils.IntPair;
 import webdata.utils.WebDataUtils;
-//import webdata.writing.ReviewSectionIterator;
+import webdata.IndexWriter;
 
 import java.io.*;
-import java.nio.ByteBuffer;
-import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 
 
 public class main {
@@ -23,7 +13,12 @@ public class main {
 //    final static String DataSetPath = "datasets\\test.txt";
 
     public static void test1() {
-        TreeMap<String,Integer> map = new TreeMap<>();
+        String delim = "[^a-z0-9]+";
+        String data = "I ordered this DVD and received a substitute I never received the DVD I ordered from Importcds (the Vendor). I contacted them and did not recieve any feedback. I can't rate a DVD I have never seen. I didn't bother to send it back because it would have cost me more that I orginally paid for it. In the future I will watch for the name of the person and/or persons I am buying from. I thought they were a good company. I understand a simple mistake but, to not get a response at all is not good businees sense. I spend hundreds of dollars a month on Amazon.com building my DVD collection. I guess I will be more careful in the future.";
+        data = WebDataUtils.preProcessText(data);
+        List<String> split = Arrays.asList(data.split(delim));
+        boolean isEmpty = split.contains("");
+        System.out.println("");
     }
 
     public static void test2() {
@@ -38,7 +33,7 @@ public class main {
         System.out.printf("folder size is: %d MB\n", (ex2Analyzer.fileSize(new File(DictionaryPath))) / WebDataUtils.MEGA);
     }
 
-    static void test4() throws IOException{
+    static void test4() throws IOException {
 //        arr[0]=3;
 //        ByteBuffer buffer = ByteBuffer.allocate(1024*1024*1024);
 //        buffer.putInt(4);
@@ -49,57 +44,30 @@ public class main {
 //        Files.write("tryfile.out", list.toArray(new Byte[0]));
 
 //        try {
-            BufferedOutputStream bw = new BufferedOutputStream(new FileOutputStream(file));
+        BufferedOutputStream bw = new BufferedOutputStream(new FileOutputStream(file));
 //            int j=0;
-            for(int i=0; i<2000000000; i++){
+        for (int i = 0; i < 2000000000; i++) {
 //                j++;
-                write(bw,1);
-            }
+            write(bw, 1);
+        }
 //            BufferedInputStream b = new BufferedInputStream(new FileInputStream(file));
 
-            bw.close();
+        bw.close();
 //            b.close();
 //            System.out.println("here");
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
     }
-    private static void write(BufferedOutputStream bw, int i) throws IOException{
+
+    private static void write(BufferedOutputStream bw, int i) throws IOException {
         bw.write(i);
     }
 
     public static void main(String[] args) throws IOException {
-//        int a = -127;
-//        byte asByte = (byte) a;
-//        System.out.println((asByte & 0xff)>>>8);
-//        int first = ((asByte & 0xff ) >>> 6);
-//        int second = (asByte >> 6);
-//        int res = Byte.toUnsignedInt((byte) (asByte >> 6));
-//        System.out.println(first);
-////        System.out.println("\n");
-//        System.out.println(second);
+//        test1();
 
         ex2Analyzer.analyzeAll();
-
-
-//        IndexReader reader = new IndexReader(DictionaryPath);
-//        System.out.println((double) reader.getTokenCollectionFrequency("the") / reader.getTokenFrequency("the"));
-
-//        Set<String> allTokens = ex2Analyzer.getAllTokens("C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\Movies_&_TV.txt.gz");
-//        double sum = 0;
-//        for (String token : allTokens) {
-//            sum += (double) reader.getTokenCollectionFrequency(token) / reader.getTokenFrequency(token);
-//        }
-//        System.out.println(sum / allTokens.size());
-//        long j=0;
-//        for(long i=0; i<2000000000;i++){
-//            for(int k=0; k<1000000; k++){
-//
-//            }
-//            j++;
-//        }
-//        System.out.println(j);
-
     }
 
 }

@@ -64,11 +64,14 @@ public class IndexWriter {
         // create the directory if not exist
         File outDir = new File(outputDir);
         File tempDir = new File(tempFilesDir);
+
         //creates the directory if not exists
         if (!outDir.exists()) outDir.mkdir();
         if (!tempDir.exists()) tempDir.mkdir();
+
         // writes to disk the sorted lists of pairs
         int numOfSequences = step1And2(inputFile);
+
         // write the dictionary and posting list
         step3And4(numOfSequences);
         removeIndex(tempFilesDir);

@@ -26,8 +26,8 @@ public class MergeGenerator implements Iterable<IntPair> {
     private static class Iter implements Iterator<IntPair> {
         BufferedInputStream[] readers;
         IntPair[] currentPairs;
-        int numOfPairs;
-        int pairsRead;
+        long numOfPairs; // todo: this is long in all.gz
+        long pairsRead;
 
         Iter(String dir, int numOfSequences) {
             pairsRead = 0;
@@ -45,10 +45,10 @@ public class MergeGenerator implements Iterable<IntPair> {
          * @return number of pairs read
          * @throws IOException
          */
-        private int initMergeArrays(String dir, int numOfSequences) throws IOException {
+        private long initMergeArrays(String dir, int numOfSequences) throws IOException {
             readers = new BufferedInputStream[numOfSequences];
             currentPairs = new IntPair[numOfSequences];
-            int N = 0; // total number of pairs to merge
+            long N = 0; // total number of pairs to merge
             for (int i = 0; i < readers.length; i++) {
                 File file = new File(dir, String.format(IndexWriter.TEMP_FILE_TEMPLATE, i));
                 readers[i] = new BufferedInputStream(new FileInputStream(file));

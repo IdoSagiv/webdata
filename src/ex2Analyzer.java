@@ -34,15 +34,15 @@ public class ex2Analyzer {
 
 //            "/cs/67782/ido_sagiv/Movies_&_TV.txt.gz"
 //            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\10000.txt"
-            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\1000000.txt"
-//            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\Movies_&_TV.txt.gz"
+//            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\1000000.txt"
+            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\Movies_&_TV.txt.gz"
 //            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\Books.txt.gz"
     };
 
     public static void analyzeAll() {
         for (String dataSetPath : dataSets) {
             analyzeWriter(dataSetPath, DictionaryPath);
-            analyzeReader(dataSetPath, DictionaryPath);
+//            analyzeReader(dataSetPath, DictionaryPath);
         }
     }
 
