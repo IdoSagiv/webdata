@@ -29,20 +29,21 @@ public class ex2Analyzer {
 //            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\10000.txt",
 //            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\100000.txt"
 //            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\1000000.txt"
-//            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\Movies_&_TV.txt.gz"
+            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\Movies_&_TV.txt.gz"
 //            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\Books.txt.gz"
+//            "C:\\Users\\adiap\\Downloads\\all.txt.gz"
 
 //            "/cs/67782/ido_sagiv/Movies_&_TV.txt.gz"
 //            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\10000.txt"
 //            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\1000000.txt"
-            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\Movies_&_TV.txt.gz"
+//            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\Movies_&_TV.txt.gz"
 //            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\Books.txt.gz"
     };
 
     public static void analyzeAll() {
         for (String dataSetPath : dataSets) {
             analyzeWriter(dataSetPath, DictionaryPath);
-//            analyzeReader(dataSetPath, DictionaryPath);
+            analyzeReader(dataSetPath, DictionaryPath);
         }
     }
 

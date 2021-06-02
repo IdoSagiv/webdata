@@ -1,3 +1,5 @@
+import webdata.IndexReader;
+import webdata.ReviewSearch;
 import webdata.utils.WebDataUtils;
 import webdata.IndexWriter;
 
@@ -9,7 +11,7 @@ import java.util.*;
 
 public class main {
     final static String DictionaryPath = "indexFiles";
-    final static String DataSetPath = "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\1000.txt";
+    final static String DataSetPath = "datasets\\test.txt";
 //    final static String DataSetPath = "datasets\\test.txt";
 
     public static void test1() {
@@ -67,7 +69,17 @@ public class main {
     public static void main(String[] args) throws IOException {
 //        test1();
 
-        ex2Analyzer.analyzeAll();
+//        ex2Analyzer.analyzeAll();
+        IndexWriter writer = new IndexWriter();
+        writer.write(DataSetPath, DictionaryPath);
+        IndexReader reader = new IndexReader(DictionaryPath);
+        ReviewSearch searcher = new ReviewSearch(reader);
+        ArrayList<String> list = new ArrayList<>();
+        list.add("I");
+        list.add("I");
+        list.add("zz");
+        Enumeration<String> query = Collections.enumeration(list);
+        searcher.vectorSpaceSearch(query, 1);
     }
 
 }

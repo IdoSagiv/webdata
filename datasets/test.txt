@@ -5,7 +5,7 @@ review/helpfulness: 1/1
 review/score: 5.0
 review/time: 1303862400
 review/summary: Good Quality Dog Food
-review/text: I
+review/text: I I
 
 product/productId: B00813GRG4
 review/userId: A1D87F6ZCVE5NK
@@ -41,4 +41,4 @@ review/helpfulness: 0/0
 review/score: 5.0
 review/time: 1350777600
 review/summary: Great taffy
-review/text: Great z zz zzz
+review/text: Great z zz zzz zz zz
