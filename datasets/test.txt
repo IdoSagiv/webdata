@@ -5,7 +5,7 @@ review/helpfulness: 1/1
 review/score: 5.0
 review/time: 1303862400
 review/summary: Good Quality Dog Food
-review/text: I I
+review/text: I
 
 product/productId: B00813GRG4
 review/userId: A1D87F6ZCVE5NK
@@ -32,7 +32,7 @@ review/helpfulness: 3/3
 review/score: 2.0
 review/time: 1307923200
 review/summary: Cough Medicine
-review/text: If i
+review/text: If i I
 
 product/productId: B006K2ZZ7K
 review/userId: A1UQRSCLF8GW1T
@@ -41,4 +41,4 @@ review/helpfulness: 0/0
 review/score: 5.0
 review/time: 1350777600
 review/summary: Great taffy
-review/text: Great z zz zzz zz zz
+review/text: Great z zz zzz

@@ -75,11 +75,25 @@ public class main {
         IndexReader reader = new IndexReader(DictionaryPath);
         ReviewSearch searcher = new ReviewSearch(reader);
         ArrayList<String> list = new ArrayList<>();
-        list.add("I");
-        list.add("I");
+        ArrayList<Integer> lst = new ArrayList<>();
+        list.add("i");
+        list.add("i");
         list.add("zz");
-        Enumeration<String> query = Collections.enumeration(list);
-        searcher.vectorSpaceSearch(query, 1);
+        lst.add(2);
+        lst.add(2);
+        lst.add(3);
+        System.out.println(lst.stream().reduce((num1, num2) -> num1 * num2).orElse(0));
+        System.out.println("vector:");
+        Enumeration<Integer> vectorResult =  searcher.vectorSpaceSearch(Collections.enumeration(list), 3);
+        while (vectorResult.hasMoreElements()){
+            System.out.println(vectorResult.nextElement());
+        }
+        System.out.println("lang:");
+        Enumeration<Integer> langResult =  searcher.languageModelSearch(Collections.enumeration(list), 0.5,3);
+        while (langResult.hasMoreElements()){
+            System.out.println(langResult.nextElement());
+        }
+
     }
 
 }
