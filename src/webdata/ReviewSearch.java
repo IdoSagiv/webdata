@@ -28,6 +28,11 @@ public class ReviewSearch {
      * @return a list of the id-s of the k most highly ranked reviews
      */
     public Enumeration<Integer> vectorSpaceSearch(Enumeration<String> query, int k) {
+        return Collections.enumeration(bestKDocs(lnnLtcVectorSpace(query), k));
+    }
+
+
+    private HashMap<Integer, Double> lnnLtcVectorSpace(Enumeration<String> query) {
         HashMap<Integer, Double> documentsScores = new HashMap<>();
         HashMap<String, Integer> tokensIndexes = new HashMap<>();
         HashMap<String, Integer> tokensFreqInQuery = new HashMap<>();
@@ -61,14 +66,18 @@ public class ReviewSearch {
         for (Map.Entry<Integer, ArrayList<Double>> entry : docVectors.entrySet()) {
             documentsScores.put(entry.getKey(), innerProduct(queryVec, entry.getValue()));
         }
-
-        return bestKDocs(documentsScores, k);
+        return documentsScores;
     }
 
-    private Enumeration<Integer> bestKDocs(HashMap<Integer, Double> scores, int k) {
-        ArrayList<Integer> lst = new ArrayList<>(scores.keySet());
-        lst.sort((d1, d2) -> -1 * scores.get(d1).compareTo(scores.get(d2)));
-        return Collections.enumeration(lst.subList(0, Math.min(k, lst.size())));
+    private <T extends Comparable<T>> Collection<T> bestKDocs(HashMap<T, Double> scores, int k) {
+        ArrayList<T> lst = new ArrayList<>(scores.keySet());
+        lst.sort((d1, d2) -> compareScores(scores, d1, d2));
+        return lst.subList(0, Math.min(k, lst.size()));
+    }
+
+    private <T extends Comparable<T>> int compareScores(HashMap<T, Double> scores, T d1, T d2) {
+        int cmp = -1 * scores.get(d1).compareTo(scores.get(d2));
+        return cmp == 0 ? d1.compareTo(d2) : cmp;
     }
 
     /**
@@ -115,6 +124,11 @@ public class ReviewSearch {
      * @return a list of the id-s of the k most highly ranked reviews
      */
     public Enumeration<Integer> languageModelSearch(Enumeration<String> query, double lambda, int k) {
+        return Collections.enumeration(bestKDocs(languageModelRelevantScores(query, lambda), k));
+    }
+
+
+    private HashMap<Integer, Double> languageModelRelevantScores(Enumeration<String> query, double lambda) {
         // todo: what happens if there is a duplicate in the query?
         Set<Integer> docIdSet = new HashSet<>();
         ArrayList<String> tokens = new ArrayList<>(); // todo: if no dup -> change to set
@@ -151,7 +165,7 @@ public class ReviewSearch {
             documentsScores.put(entry.getKey(),
                     entry.getValue().stream().reduce((num1, num2) -> num1 * num2).orElse(0d));
         }
-        return bestKDocs(documentsScores, k);
+        return documentsScores;
     }
 
 
@@ -164,13 +178,66 @@ public class ReviewSearch {
 
     /**
      * returns a list of the id-s of the k most highly ranked productIds for the
-     * given query using a function ....
+     * given query using a function of your choice // TODO: change the doc
      *
      * @param query String enumeration
      * @param k     the number of review to return
      * @return a list of the id-s of the k most highly ranked productId
      */
     public Collection<String> productSearch(Enumeration<String> query, int k) {
-        return null;
+        //Enumeration<String> q = Collections.copy(query);
+        HashMap<Integer, Double> documentsScoresVectorSpace = norm2(lnnLtcVectorSpace(query));
+        //HashMap<Integer, Double> documentsScoresLangModel = norm2(languageModelRelevantScores(query, 0.5));
+        //  HashMap<Integer, Double> documentsScoresCombined = norm2(.....)
+        HashMap<String, ArrayList<Double>> productIdReviewScores = productIdToReviewScores(documentsScoresVectorSpace);
+        HashMap<String, Double> productIdScores = reduce(productIdReviewScores);
+        return bestKDocs(productIdScores, k);
+
+
+        //todo: query - as before - find the reviews which are relevant
+        // and then connect it to the productId.
+        // create map - productId - score
+        // the score calculated by the productId score divided by 5, helpfulness (numenator / denominator)
+        // and maybe normilaize by dividing the number of reviews for this specific productId
+        // and maybe combination with the language model?
+    }
+
+    private HashMap<String, Double> reduce(HashMap<String, ArrayList<Double>> productIdReviewScores) {
+        HashMap<String, Double> result = new HashMap<>();
+        for (Map.Entry<String, ArrayList<Double>> entry : productIdReviewScores.entrySet()) {
+            result.put(entry.getKey(), entry.getValue().stream().mapToDouble(a -> a).average().orElse(0.0));
+        }
+        return result;
+    }
+
+    private HashMap<Integer, Double> norm2(HashMap<Integer, Double> documentsScores) { // todo: change name
+        HashMap<Integer, Double> normalize = new HashMap<>();
+        double maxScore = Collections.max(documentsScores.values());
+        for (int key : documentsScores.keySet()) {
+            normalize.put(key, documentsScores.get(key) / maxScore);
+        }
+
+        return normalize;
+    }
+
+
+    private HashMap<String, ArrayList<Double>> productIdToReviewScores(HashMap<Integer, Double> documentsScores) {
+        HashMap<String, ArrayList<Double>> productIdToScores = new HashMap<>();
+        for (Map.Entry<Integer, Double> entry : documentsScores.entrySet()) {
+            String productId = reader.getProductId(entry.getKey());
+            if (!productIdToScores.containsKey(productId)) {
+                productIdToScores.put(productId, new ArrayList<>());
+            }
+            productIdToScores.get(productId).add(getReviewScore(entry.getKey(), entry.getValue()));
+        }
+        return productIdToScores;
+    }
+
+
+    private double getReviewScore(int reviewId, double queryScore) {
+        double reviewScore = reader.getReviewScore(reviewId) / 5.0;
+        double helpfulness = (double) reader.getReviewHelpfulnessNumerator(reviewId) /
+                reader.getReviewHelpfulnessDenominator(reviewId);
+        return queryScore + (reviewScore + helpfulness) / 2;
     }
 }

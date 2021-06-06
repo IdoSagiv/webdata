@@ -84,16 +84,22 @@ public class main {
         lst.add(3);
         System.out.println(lst.stream().reduce((num1, num2) -> num1 * num2).orElse(0));
         System.out.println("vector:");
-        Enumeration<Integer> vectorResult =  searcher.vectorSpaceSearch(Collections.enumeration(list), 3);
-        while (vectorResult.hasMoreElements()){
+        Enumeration<Integer> vectorResult = searcher.vectorSpaceSearch(Collections.enumeration(list), 5);
+        while (vectorResult.hasMoreElements()) {
             System.out.println(vectorResult.nextElement());
         }
-        System.out.println("lang:");
-        Enumeration<Integer> langResult =  searcher.languageModelSearch(Collections.enumeration(list), 0.5,3);
-        while (langResult.hasMoreElements()){
-            System.out.println(langResult.nextElement());
-        }
+//        System.out.println("lang:");
+//        Enumeration<Integer> langResult =  searcher.languageModelSearch(Collections.enumeration(list), 0.5,5);
+//        while (langResult.hasMoreElements()){
+//            System.out.println(langResult.nextElement());
+//        }
 
+
+        System.out.println("product:");
+        Collection<String> productResult = searcher.productSearch(Collections.enumeration(list), 5);
+        for (String productId : productResult) {
+            System.out.println(productId);
+        }
     }
 
 }

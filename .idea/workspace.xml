@@ -209,16 +209,6 @@
           <line>22</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/webdata/ReviewSearch.java</url>
-          <line>154</line>
-          <option name="timeStamp" value="29" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/webdata/ReviewSearch.java</url>
-          <line>131</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
