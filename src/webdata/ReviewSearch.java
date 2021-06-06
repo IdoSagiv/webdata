@@ -31,7 +31,12 @@ public class ReviewSearch {
         return Collections.enumeration(bestKDocs(lnnLtcVectorSpace(query), k));
     }
 
-
+    /**
+     * an helper method for the vectorSpaceSearch method in order to use it in the productId search also
+     *
+     * @param query String enumeration
+     * @return a list of the id-s of the k most highly ranked reviews
+     */
     private HashMap<Integer, Double> lnnLtcVectorSpace(Enumeration<String> query) {
         HashMap<Integer, Double> documentsScores = new HashMap<>();
         HashMap<String, Integer> tokensIndexes = new HashMap<>();
@@ -62,19 +67,39 @@ public class ReviewSearch {
                 docVectors.get(docId).set(tokensIndexes.get(token), 1 + Math.log10(freq));
             }
         }
-        queryVec = norm(queryVec);
+        queryVec = l2Norm(queryVec);
         for (Map.Entry<Integer, ArrayList<Double>> entry : docVectors.entrySet()) {
             documentsScores.put(entry.getKey(), innerProduct(queryVec, entry.getValue()));
         }
         return documentsScores;
     }
 
+
+    /**
+     * returns the best K docs in the Hash Map by the scores.
+     * if there are two docs with the same score - the review with lower id is returned
+     *
+     * @param scores HashMap<T, Double>
+     * @param k      number of docs to return
+     * @param <T>    generics (Int or String)
+     * @return collection of K best Docs
+     */
     private <T extends Comparable<T>> Collection<T> bestKDocs(HashMap<T, Double> scores, int k) {
         ArrayList<T> lst = new ArrayList<>(scores.keySet());
         lst.sort((d1, d2) -> compareScores(scores, d1, d2));
         return lst.subList(0, Math.min(k, lst.size()));
     }
 
+
+    /**
+     * compares two scores
+     *
+     * @param scores HashMap<T, Double>
+     * @param d1     first doc
+     * @param d2     second doc
+     * @param <T>    generics (Int or String)
+     * @return collection of K best Docs
+     */
     private <T extends Comparable<T>> int compareScores(HashMap<T, Double> scores, T d1, T d2) {
         int cmp = -1 * scores.get(d1).compareTo(scores.get(d2));
         return cmp == 0 ? d1.compareTo(d2) : cmp;
@@ -100,7 +125,7 @@ public class ReviewSearch {
      * @param vector the vector
      * @return l2 norm of the vector
      */
-    private ArrayList<Double> norm(ArrayList<Double> vector) {
+    private ArrayList<Double> l2Norm(ArrayList<Double> vector) {
         ArrayList<Double> result = new ArrayList<>();
         double sum = 0;
         for (double num : vector) {
@@ -127,7 +152,13 @@ public class ReviewSearch {
         return Collections.enumeration(bestKDocs(languageModelRelevantScores(query, lambda), k));
     }
 
-
+    /**
+     * an helper method for languageModelSearch
+     *
+     * @param query  String enumeration
+     * @param lambda lambda param
+     * @return a list of the id-s of the k most highly ranked reviews
+     */
     private HashMap<Integer, Double> languageModelRelevantScores(Enumeration<String> query, double lambda) {
         // todo: what happens if there is a duplicate in the query?
         Set<Integer> docIdSet = new HashSet<>();
@@ -168,7 +199,15 @@ public class ReviewSearch {
         return documentsScores;
     }
 
-
+    /**
+     * calculates the score of a given token by the language model
+     *
+     * @param token     the token
+     * @param reviewId  reviewId
+     * @param freqInDoc number of times the token was in the review
+     * @param lambda    lambda
+     * @return the score of the given token by the language model
+     */
     private double pTokenGivenReview(String token, int reviewId, int freqInDoc, double lambda) {
         double docLen = reader.getReviewLength(reviewId);
         int freqInCorpus = reader.getTokenCollectionFrequency(token);
@@ -178,31 +217,31 @@ public class ReviewSearch {
 
     /**
      * returns a list of the id-s of the k most highly ranked productIds for the
-     * given query using a function of your choice // TODO: change the doc
+     * given query. the scores are calculated as follows:
+     * find the reviews which are relevant using the lnn.ltc function using the vector space model
+     * then, we convert the reviewId to productId Strings, and rank
+     * each productId based on the related document scores and score, helpfulness
+     * of the reviews.
      *
      * @param query String enumeration
      * @param k     the number of review to return
      * @return a list of the id-s of the k most highly ranked productId
      */
     public Collection<String> productSearch(Enumeration<String> query, int k) {
-        //Enumeration<String> q = Collections.copy(query);
-        HashMap<Integer, Double> documentsScoresVectorSpace = norm2(lnnLtcVectorSpace(query));
-        //HashMap<Integer, Double> documentsScoresLangModel = norm2(languageModelRelevantScores(query, 0.5));
-        //  HashMap<Integer, Double> documentsScoresCombined = norm2(.....)
+        HashMap<Integer, Double> documentsScoresVectorSpace = normDocumentsScores(lnnLtcVectorSpace(query));
         HashMap<String, ArrayList<Double>> productIdReviewScores = productIdToReviewScores(documentsScoresVectorSpace);
-        HashMap<String, Double> productIdScores = reduce(productIdReviewScores);
+        HashMap<String, Double> productIdScores = avgScore(productIdReviewScores);
         return bestKDocs(productIdScores, k);
-
-
-        //todo: query - as before - find the reviews which are relevant
-        // and then connect it to the productId.
-        // create map - productId - score
-        // the score calculated by the productId score divided by 5, helpfulness (numenator / denominator)
-        // and maybe normilaize by dividing the number of reviews for this specific productId
-        // and maybe combination with the language model?
     }
 
-    private HashMap<String, Double> reduce(HashMap<String, ArrayList<Double>> productIdReviewScores) {
+
+    /**
+     * the method calculates the average score of all the reviews with the same productId
+     *
+     * @param productIdReviewScores HashMap<String, ArrayList<Double>>
+     * @return HashMap<String, Double> result
+     */
+    private HashMap<String, Double> avgScore(HashMap<String, ArrayList<Double>> productIdReviewScores) {
         HashMap<String, Double> result = new HashMap<>();
         for (Map.Entry<String, ArrayList<Double>> entry : productIdReviewScores.entrySet()) {
             result.put(entry.getKey(), entry.getValue().stream().mapToDouble(a -> a).average().orElse(0.0));
@@ -210,7 +249,11 @@ public class ReviewSearch {
         return result;
     }
 
-    private HashMap<Integer, Double> norm2(HashMap<Integer, Double> documentsScores) { // todo: change name
+    /**
+     * @param documentsScores HashMap<Integer, Double>
+     * @return hash of the same type which all the value are divided by the max value in the original map
+     */
+    private HashMap<Integer, Double> normDocumentsScores(HashMap<Integer, Double> documentsScores) {
         HashMap<Integer, Double> normalize = new HashMap<>();
         double maxScore = Collections.max(documentsScores.values());
         for (int key : documentsScores.keySet()) {
@@ -220,6 +263,13 @@ public class ReviewSearch {
         return normalize;
     }
 
+
+    /**
+     * maps the docId->score to productId->ArrayList<Scores>
+     *
+     * @param documentsScores docId->score mapping
+     * @return productId->ArrayList<Scores> mapping
+     */
 
     private HashMap<String, ArrayList<Double>> productIdToReviewScores(HashMap<Integer, Double> documentsScores) {
         HashMap<String, ArrayList<Double>> productIdToScores = new HashMap<>();
@@ -233,11 +283,15 @@ public class ReviewSearch {
         return productIdToScores;
     }
 
-
+    /**
+     * @param reviewId   reviewId
+     * @param queryScore the score by lnn.ltc vector space model of this reviewId
+     * @return the score of the reviewId based on vector space model and additional fields of the review
+     */
     private double getReviewScore(int reviewId, double queryScore) {
         double reviewScore = reader.getReviewScore(reviewId) / 5.0;
         double helpfulness = (double) reader.getReviewHelpfulnessNumerator(reviewId) /
                 reader.getReviewHelpfulnessDenominator(reviewId);
-        return queryScore + (reviewScore + helpfulness) / 2;
+        return queryScore + reviewScore + helpfulness;
     }
 }

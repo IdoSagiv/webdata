@@ -11,7 +11,7 @@ import java.util.*;
 
 public class main {
     final static String DictionaryPath = "indexFiles";
-    final static String DataSetPath = "datasets\\test.txt";
+    final static String DataSetPath = "datasets\\10000.txt";
 //    final static String DataSetPath = "datasets\\test.txt";
 
     public static void test1() {
@@ -76,15 +76,15 @@ public class main {
         ReviewSearch searcher = new ReviewSearch(reader);
         ArrayList<String> list = new ArrayList<>();
         ArrayList<Integer> lst = new ArrayList<>();
-        list.add("i");
-        list.add("i");
-        list.add("zz");
+        //list.add("droppings");
+        list.add("action");
+        list.add("comedy");
         lst.add(2);
         lst.add(2);
         lst.add(3);
         System.out.println(lst.stream().reduce((num1, num2) -> num1 * num2).orElse(0));
         System.out.println("vector:");
-        Enumeration<Integer> vectorResult = searcher.vectorSpaceSearch(Collections.enumeration(list), 5);
+        Enumeration<Integer> vectorResult = searcher.vectorSpaceSearch(Collections.enumeration(list), 70);
         while (vectorResult.hasMoreElements()) {
             System.out.println(vectorResult.nextElement());
         }
@@ -96,7 +96,7 @@ public class main {
 
 
         System.out.println("product:");
-        Collection<String> productResult = searcher.productSearch(Collections.enumeration(list), 5);
+        Collection<String> productResult = searcher.productSearch(Collections.enumeration(list), 70);
         for (String productId : productResult) {
             System.out.println(productId);
         }
