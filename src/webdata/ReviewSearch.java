@@ -160,9 +160,8 @@ public class ReviewSearch {
      * @return a list of the id-s of the k most highly ranked reviews
      */
     private HashMap<Integer, Double> languageModelRelevantScores(Enumeration<String> query, double lambda) {
-        // todo: what happens if there is a duplicate in the query?
         Set<Integer> docIdSet = new HashSet<>();
-        ArrayList<String> tokens = new ArrayList<>(); // todo: if no dup -> change to set
+        ArrayList<String> tokens = new ArrayList<>();
         while (query.hasMoreElements()) {
             String token = query.nextElement();
             tokens.add(token);
