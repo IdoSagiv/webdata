@@ -97,15 +97,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="IndexReaderTest2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="webdata" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="IndexReaderTest2" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="IndexReaderTest2Old" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="webdata" />
       <option name="PACKAGE_NAME" value="" />
@@ -142,20 +133,29 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ReviewSearchTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="webdata" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="ReviewSearchTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.main" />
       <item itemvalue="JUnit.MoviesIndexReaderTest" />
-      <item itemvalue="JUnit.IndexReaderTest2" />
       <item itemvalue="JUnit.IndexReaderTest" />
       <item itemvalue="JUnit.IndexReaderTest2Old" />
+      <item itemvalue="JUnit.ReviewSearchTest" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.main" />
+        <item itemvalue="JUnit.ReviewSearchTest" />
         <item itemvalue="JUnit.MoviesIndexReaderTest" />
         <item itemvalue="JUnit.IndexReaderTest2Old" />
         <item itemvalue="JUnit.IndexReaderTest" />
-        <item itemvalue="JUnit.IndexReaderTest2" />
       </list>
     </recent_temporary>
   </component>

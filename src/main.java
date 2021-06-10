@@ -11,7 +11,7 @@ import java.util.*;
 
 public class main {
     final static String DictionaryPath = "indexFiles";
-    final static String DataSetPath = "datasets\\10000.txt";
+    final static String DataSetPath = "datasets\\1000.txt";
 //    final static String DataSetPath = "datasets\\test.txt";
 
     public static void test1() {
@@ -75,14 +75,9 @@ public class main {
         IndexReader reader = new IndexReader(DictionaryPath);
         ReviewSearch searcher = new ReviewSearch(reader);
         ArrayList<String> list = new ArrayList<>();
-        ArrayList<Integer> lst = new ArrayList<>();
         //list.add("droppings");
-        list.add("action");
-        list.add("fdsvdfvdfvfvfvfvfvfvfvfvfvfvfvfvfvfvf");
-        lst.add(2);
-        lst.add(2);
-        lst.add(3);
-        System.out.println(lst.stream().reduce((num1, num2) -> num1 * num2).orElse(0));
+        list.add("i");
+        list.add("11111111111111111111111111111111111111111111111111111");
         System.out.println("vector:");
         Enumeration<Integer> vectorResult = searcher.vectorSpaceSearch(Collections.enumeration(list), 70);
         while (vectorResult.hasMoreElements()) {
