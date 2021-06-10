@@ -258,6 +258,7 @@ public class ReviewSearch {
      * @return hash of the same type which all the value are divided by the max value in the original map
      */
     private HashMap<Integer, Double> normDocumentsScores(HashMap<Integer, Double> documentsScores) {
+        if (documentsScores.isEmpty()) return documentsScores;
         HashMap<Integer, Double> normalize = new HashMap<>();
         double maxScore = Collections.max(documentsScores.values());
         for (int key : documentsScores.keySet()) {
