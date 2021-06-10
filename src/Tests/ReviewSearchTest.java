@@ -1,15 +1,12 @@
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+package Tests;
 
-import java.io.IOException;
 import java.util.*;
 
-
 import org.junit.Test;
-import org.junit.Assert;
 import webdata.IndexReader;
 import webdata.ReviewSearch;
+
+import static org.junit.Assert.*;
 
 public class ReviewSearchTest {
 
@@ -19,37 +16,37 @@ public class ReviewSearchTest {
     ReviewSearch rs = new ReviewSearch(ir);
 
 
-    private final String GetErrorMSG(List<String> productID, List<Integer> expected, List<Integer> actual, String name) {
+    private String GetErrorMSG(List<String> productID, List<Integer> expected, List<Integer> actual, String name) {
         return name + " " + productID + " should return " + expected + " and not " + actual;
     }
 
 
     @Test
-    public void getProductReviewsfShouldReturnEmpty() throws IOException {
+    public void getProductReviewsShouldReturnEmpty() {
         Enumeration<Integer> r = rs.vectorSpaceSearch(Collections.enumeration(Arrays.asList("blepp")), 10);
-        assertTrue("blepp should not be found", !r.hasMoreElements());
+        assertFalse("blepp should not be found", r.hasMoreElements());
 
         r = rs.languageModelSearch(Collections.enumeration(Arrays.asList("blepp")), 0.5, 5);
-        assertTrue("blepp should not be found", Collections.list(r).size() == 0);
+        assertEquals("blepp should not be found", 0, Collections.list(r).size());
     }
 
     @Test
-    public void TestCorrectCount() throws IOException {
+    public void TestCorrectCount() {
         Enumeration<Integer> r = rs.vectorSpaceSearch(Collections.enumeration(Arrays.asList("they")), 5);
-        assertTrue("they should return 5 elemnts", Collections.list(r).size() == 5);
+        assertEquals("they should return 5 elemnts", 5, Collections.list(r).size());
 
         r = rs.vectorSpaceSearch(Collections.enumeration(Arrays.asList("quantity")), 1001);
-        assertTrue("quantity should return 6 elemnts", Collections.list(r).size() == 6);
+        assertEquals("quantity should return 6 elemnts", 6, Collections.list(r).size());
 
         r = rs.languageModelSearch(Collections.enumeration(Arrays.asList("they")), 0.5, 5);
-        assertTrue("they should return 5 elemnts", Collections.list(r).size() == 5);
+        assertEquals("they should return 5 elemnts", 5, Collections.list(r).size());
 
         r = rs.languageModelSearch(Collections.enumeration(Arrays.asList("quantity")), 0.5, 1001);
-        assertTrue("quantity should return 6 elemnts", Collections.list(r).size() == 6);
+        assertEquals("quantity should return 6 elemnts", 6, Collections.list(r).size());
     }
 
     @Test
-    public void TestlanguageModelSearch() throws IOException {
+    public void Test_languageModelSearch() {
 
         Map<List<String>, List<Integer>> map = Map.of(
                 Arrays.asList("quantity", "error"), Arrays.asList(731, 2, 854, 642, 984, 1000, 532),
@@ -60,7 +57,7 @@ public class ReviewSearchTest {
             Enumeration<Integer> r = rs.languageModelSearch(Collections.enumeration(text), 0.5, 7);
             List<Integer> actual = Collections.list(r);
             List<Integer> expected = map.get(text);
-            Assert.assertTrue(GetErrorMSG(text, expected, actual, "#1"), expected.equals(actual));
+            assertEquals(GetErrorMSG(text, expected, actual, "#1"), expected, actual);
         }
 
         map = Map.of(
@@ -72,14 +69,13 @@ public class ReviewSearchTest {
             Enumeration<Integer> r = rs.languageModelSearch(Collections.enumeration(text), 0.1, 7);
             List<Integer> actual = Collections.list(r);
             List<Integer> expected = map.get(text);
-            Assert.assertTrue(GetErrorMSG(text, expected, actual, "#2"), expected.equals(actual));
+            assertEquals(GetErrorMSG(text, expected, actual, "#2"), expected, actual);
         }
 
     }
 
     @Test
-    public void TestvectorSpaceSearch() throws IOException {
-
+    public void Test_vectorSpaceSearch() {
         Map<List<String>, List<Integer>> map = Map.of(
                 Arrays.asList("error", "quantity"), Arrays.asList(731, 2, 532, 642, 854, 984, 1000),
                 Arrays.asList("error", "since"), Arrays.asList(2, 731, 47, 96, 97, 122, 140),
@@ -90,9 +86,7 @@ public class ReviewSearchTest {
             Enumeration<Integer> r = rs.vectorSpaceSearch(Collections.enumeration(text), 7);
             List<Integer> actual = Collections.list(r);
             List<Integer> expected = map.get(text);
-            Assert.assertTrue(GetErrorMSG(text, expected, actual, "#1"), expected.equals(actual));
+            assertEquals(GetErrorMSG(text, expected, actual, "#1"), expected, actual);
         }
-
-
     }
 }
