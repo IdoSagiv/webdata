@@ -78,7 +78,7 @@ public class main {
         ArrayList<Integer> lst = new ArrayList<>();
         //list.add("droppings");
         list.add("action");
-        list.add("comedy");
+        list.add("fdsvdfvdfvfvfvfvfvfvfvfvfvfvfvfvfvfvf");
         lst.add(2);
         lst.add(2);
         lst.add(3);
@@ -88,11 +88,11 @@ public class main {
         while (vectorResult.hasMoreElements()) {
             System.out.println(vectorResult.nextElement());
         }
-//        System.out.println("lang:");
-//        Enumeration<Integer> langResult =  searcher.languageModelSearch(Collections.enumeration(list), 0.5,5);
-//        while (langResult.hasMoreElements()){
-//            System.out.println(langResult.nextElement());
-//        }
+        System.out.println("lang:");
+        Enumeration<Integer> langResult =  searcher.languageModelSearch(Collections.enumeration(list), 0.5,5);
+        while (langResult.hasMoreElements()){
+            System.out.println(langResult.nextElement());
+        }
 
 
         System.out.println("product:");

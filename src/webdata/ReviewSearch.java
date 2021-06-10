@@ -162,16 +162,19 @@ public class ReviewSearch {
     private HashMap<Integer, Double> languageModelRelevantScores(Enumeration<String> query, double lambda) {
         Set<Integer> docIdSet = new HashSet<>();
         ArrayList<String> tokens = new ArrayList<>();
+
         while (query.hasMoreElements()) {
             String token = query.nextElement();
             tokens.add(token);
             Enumeration<Integer> curTokenPosList = reader.getReviewsWithToken(token);
+            if (!curTokenPosList.hasMoreElements()) return new HashMap<>();
             while (curTokenPosList.hasMoreElements()) {
                 int docId = curTokenPosList.nextElement();
                 curTokenPosList.nextElement();
                 docIdSet.add(docId);
             }
         }
+
         HashMap<Integer, ArrayList<Double>> docProbabilities = new HashMap<>();
         for (String token : tokens) {
             Enumeration<Integer> curTokenPosList = reader.getReviewsWithToken(token);
@@ -192,8 +195,10 @@ public class ReviewSearch {
         }
         HashMap<Integer, Double> documentsScores = new HashMap<>();
         for (Map.Entry<Integer, ArrayList<Double>> entry : docProbabilities.entrySet()) {
-            documentsScores.put(entry.getKey(),
-                    entry.getValue().stream().reduce((num1, num2) -> num1 * num2).orElse(0d));
+            double score = entry.getValue().stream().reduce((num1, num2) -> num1 * num2).orElse(0d);
+            if (score > 0) {
+                documentsScores.put(entry.getKey(), score);
+            }
         }
         return documentsScores;
     }
