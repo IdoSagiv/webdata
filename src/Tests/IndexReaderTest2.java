@@ -1,125 +1,267 @@
 package Tests;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import webdata.IndexReader;
 import webdata.IndexWriter;
 
-import java.util.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class IndexReaderTest2 {
-    final static String DictionaryPath = "test_output";
-    final static String DataSetPath = "datasets\\1000.txt";
-
-    static IndexReader indexReader;
-
-    private String GetErrorMSG(String productID, List<Integer> expected, List<Integer> actual) {
-        return productID + " should be found at " + expected + " found at " + actual;
-    }
+    final static String indexDir = "test_output";
+    final static String inputFile = "datasets\\1000.txt";
+    static private IndexReader indexReader;
+    static private IndexWriter indexWriter;
+    private final String msgInt = "fail on input: %d";
+    private final String msgStr = "fail on input: %s";
 
     @BeforeAll
-    static void indexReader() {
-        IndexWriter writer = new IndexWriter();
-        writer.write(DataSetPath, DictionaryPath);
-        indexReader = new IndexReader(DictionaryPath);
+    public static void before() {
+        indexWriter = new IndexWriter();
+        indexWriter.write(inputFile, indexDir);
+        indexReader = new IndexReader(indexDir);
     }
 
-    @Test
-    public void ShouldFindCorrectIdsFromText2() {
-        Map<String, List<Integer>> map = Map.of(
-                "0", Arrays.asList(41, 1, 130, 1, 159, 1, 596, 1, 746, 2, 776, 1, 863, 1, 930, 1),
-                "09", Arrays.asList(966, 1),
-                "0g", Arrays.asList(746, 1),
-                "100ml", Arrays.asList(411, 1),
-                "zip", Arrays.asList(17, 1, 193, 2, 476, 1, 690, 1, 852, 1),
-                "zippy", Arrays.asList(627, 1),
-                "zola", Arrays.asList(747, 1),
-                "zucchini", Arrays.asList(902, 2, 932, 1, 942, 1, 944, 1)
-        );
+    @Nested
+    @DisplayName("Testing ReviewId as parameter")
+    class TestReviewIdFunction {
+        @Test
+        @DisplayName("Testing getProductId - valid input")
+        void getProductId() {
+            int[] inputs = {1, 2, 3, 7, 99, 100, 999, 1000};
+            String[] expectedOutputs = {"B001E4KFG0", "B00813GRG4", "B000LQOCH0", "B006K2ZZ7K", "B0019CW0HE",
+                    "B0019CW0HE", "B006F2NYI2", "B006F2NYI2"};
+            for (int i = 0; i < inputs.length; i++) {
+                assertEquals(expectedOutputs[i], indexReader.getProductId(inputs[i]),
+                        String.format(msgInt, inputs[i]));
+            }
+        }
 
-        for (String text : map.keySet()) {
-            List<Integer> actual = Collections.list(indexReader.getReviewsWithToken(text));
-            List<Integer> expected = map.get(text);
-            assertEquals(expected, actual, GetErrorMSG(text, expected, actual));
+        @Test
+        @DisplayName("Testing getReviewScore - valid inputs")
+        void getReviewScore() {
+            int[] inputs = {1, 2, 3, 4, 20, 999, 1000};
+            int[] expectedOutputs = {5, 1, 4, 2, 5, 1, 2};
+            validateArrayWithFunction(inputs, expectedOutputs, indexReader::getReviewScore);
+        }
+
+        @Test
+        @DisplayName("Testing getReviewHelpfulnessNumerator - valid inputs")
+        void getReviewHelpfulnessNumerator() {
+            int[] inputs = {1, 20, 999, 1000};
+            int[] expectedOutputs = {1, 0, 1, 2};
+            validateArrayWithFunction(inputs, expectedOutputs, indexReader::getReviewHelpfulnessNumerator);
+        }
+
+        @Test
+        @DisplayName("Testing getReviewHelpfulnessDenominator - valid inputs")
+        void getReviewHelpfulnessDenominator() {
+            int[] inputs = {1, 20, 999, 1000};
+            int[] expectedOutputs = {1, 0, 2, 5};
+            validateArrayWithFunction(inputs, expectedOutputs, indexReader::getReviewHelpfulnessDenominator);
+        }
+
+        @Test
+        @DisplayName("Testing getReviewReviewLen - valid inputs")
+        void getReviewLen() {
+            int[] inputs = {1, 2, 3, 20, 999, 1000};
+            int[] expectedOutputs = {48, 32, 93, 29, 57, 102};
+            validateArrayWithFunction(inputs, expectedOutputs, indexReader::getReviewLength);
+        }
+
+
+        @Test
+        @DisplayName("Testing getProductId - reviewId doesn't exists")
+        void getProductIdNotExists() {
+            assertAll(
+                    () -> assertNull(indexReader.getProductId(-1), () -> String.format(msgInt, -1)),
+                    () -> assertNull(indexReader.getProductId(0), () -> String.format(msgInt, 0)),
+                    () -> assertNull(indexReader.getProductId(1001), () -> String.format(msgInt, 1001))
+            );
+        }
+
+        @Test
+        @DisplayName("Testing getReviewScore - reviewId doesn't exists")
+        void getReviewScoreNotExists() {
+            int[] inputs = {-1, 0, 1001};
+            int[] expectedOutput = {-1, -1, -1};
+            validateArrayWithFunction(inputs, expectedOutput, indexReader::getReviewScore);
+        }
+
+        @Test
+        @DisplayName("Testing getReviewHelpfulnessNumerator - reviewId doesn't exists")
+        void getReviewHelpfulnessNumeratorNotExists() {
+            int[] inputs = {-1, 0, 1001};
+            int[] expectedOutput = {-1, -1, -1};
+            validateArrayWithFunction(inputs, expectedOutput, indexReader::getReviewHelpfulnessNumerator);
+        }
+
+        @Test
+        @DisplayName("Testing getReviewHelpfulnessDenominator - reviewId doesn't exists")
+        void getReviewHelpfulnessDenominatorNotExists() {
+            int[] inputs = {-1, 0, 1001};
+            int[] expectedOutput = {-1, -1, -1};
+            validateArrayWithFunction(inputs, expectedOutput, indexReader::getReviewHelpfulnessDenominator);
+        }
+
+        @Test
+        @DisplayName("Testing getReviewLength - reviewId doesn't exists")
+        void getReviewLenNotExists() {
+            int[] inputs = {-1, 0, 1001};
+            int[] expectedOutput = {-1, -1, -1};
+            validateArrayWithFunction(inputs, expectedOutput, indexReader::getReviewLength);
+        }
+
+
+        /**
+         * helper for testing Helpfulness, Score, and ReviewLen on several inputs
+         */
+        private void validateArrayWithFunction(int[] inputs, int[] expectedOutputs,
+                                               Function<Integer, Integer> func) {
+            for (int i = 0; i < inputs.length; i++) {
+                assertEquals(expectedOutputs[i], (int) func.apply(inputs[i]), String.format(msgInt, inputs[i]));
+            }
         }
 
     }
 
-    @Test
-    public void ShouldReturnEmptyForWordNotExisting() {
+    @Nested
+    @DisplayName("Testing Token as parameter")
+    class TestTokenFunctions {
 
-        List<String> map = Arrays.asList("jhskdf", "Vitality11");
-
-        for (String text : map) {
-            List<Integer> actual = Collections.list(indexReader.getReviewsWithToken(text));
-            assertTrue(actual.isEmpty(), text + " should return empty enumeration");
+        @Test
+        @DisplayName("Testing getTokenFrequency - valid inputs")
+        void getTokenFrequency() {
+            String[] inputs = {"Greatest", "Buttermilk", "Lord"};
+            int[] expectedOutputs = {2, 3, 2};
+            testTokenFrequency(inputs, expectedOutputs, indexReader::getTokenFrequency);
         }
 
+        @Test
+        @DisplayName("Testing getTokenCollectionFrequency - valid inputs")
+        void getTokenCollectionFrequency() {
+            String[] inputs = {"to", "thing", "Greatest", "ZuCchini"};
+            int[] expectedOutputs = {1522, 45, 2, 5};
+            testTokenFrequency(inputs, expectedOutputs, indexReader::getTokenCollectionFrequency);
+        }
+
+        @Test
+        @DisplayName("Testing getReviewsWithToken - valid inputs")
+        void getReviewsWithToken() {
+            String[] inputs = {"ZuCchini", "taffy", "addition", "bEEr", "sucKer"};
+            int[][] expectedOutputs = {
+                    {902, 2, 932, 1, 942, 1, 944, 1},
+                    {5, 3, 6, 3, 7, 1, 8, 1, 741, 1},
+                    {4, 1, 357, 1, 498, 1, 713, 1, 756, 1, 778, 1, 794, 1, 904, 2},
+                    {4, 1, 6, 1, 270, 1, 452, 1, 467, 1, 468, 2, 500, 1, 575, 1, 603, 2, 604, 1},
+                    {1000, 1},
+            };
+            testEnumerations(inputs, expectedOutputs, indexReader::getReviewsWithToken);
+        }
+
+        @Test
+        @DisplayName("Testing getTokenFrequency - token doesn't exists")
+        void getTokenFrequencyNotExists() {
+            assertEquals(0, indexReader.getTokenFrequency("tokenThatDoesNotExists"));
+        }
+
+        @Test
+        @DisplayName("Testing getTokenCollectionFrequency - token doesn't exists")
+        void getTokenCollectionFrequencyNotExists() {
+            assertEquals(0, indexReader.getTokenCollectionFrequency("tokenThatDoesNotExists"));
+        }
+
+        @Test
+        @DisplayName("Testing getReviewsWithToken - token doesn't exists")
+        void getReviewsWithTokenNotExists() {
+            ArrayList<Integer> arr = Collections.list(indexReader.getReviewsWithToken("Sagiv"));
+            int[] actual = arr.stream().mapToInt(Integer::intValue).toArray();
+            int[] expected = {};
+            assertArrayEquals(expected, actual, () -> String.format(msgStr, "Sagiv"));
+        }
+
+        /**
+         * helper for testing Frequencies of Tokens on several valid inputs
+         */
+        private void testTokenFrequency(String[] inputs, int[] expectedOutputs, Function<String, Integer> func) {
+            for (int i = 0; i < inputs.length; i++) {
+                assertEquals(expectedOutputs[i], (int) func.apply(inputs[i]), String.format(msgStr, inputs[i]));
+            }
+        }
     }
 
-    @Test
-    public void WordCountShouldBeZero() {
+    @Nested
+    @DisplayName("Testing ProductId as parameter")
+    class TestProductIdFunctions {
 
-        List<String> map = Arrays.asList("jhskdf", "Vitality11");
-
-        for (String text : map) {
-            int actual = indexReader.getTokenCollectionFrequency(text);
-            assertEquals(actual, 0);
+        @Test
+        @DisplayName("Testing getProductReviews - valid inputs")
+        void getProductReviews() {
+            String[] inputs = {"B006K2ZZ7K", "B001GVISJM", "B0048IACB2", "B006F2NYI2"};
+            int[][] expectedOutputs = {
+                    {5, 6, 7, 8},
+                    {14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28},
+                    {987},
+                    {988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 999, 1000},
+            };
+            testEnumerations(inputs, expectedOutputs, indexReader::getProductReviews);
         }
 
-    }
-
-
-    @Test
-    public void GetCountTest2() {
-        Map<String, Integer> map = Map.of(
-                "the", 105934474,
-                "is", 34428010,
-                "zz", 562,
-                "zucchini", 985,
-                "0", 43450,
-                "zippy", 1050,
-                "zola", 4833,
-                "dog", 207187
-        );
-
-        for (String text : map.keySet()) {
-            int actual = indexReader.getTokenCollectionFrequency(text);
-            assertEquals(map.get(text), actual, text + " should appear " + map.get(text) + " times and not " + actual);
+        @Test
+        @DisplayName("Testing getProductReviews - productId doesn't exists")
+        void getProductReviewsNotExists() {
+            ArrayList<Integer> arr = Collections.list(indexReader.getProductReviews("B000002399839829"));
+            int[] actual = arr.stream().mapToInt(Integer::intValue).toArray();
+            int[] expected = {};
+            assertArrayEquals(expected, actual, () -> String.format(msgStr, "B000002399839829"));
         }
     }
 
-    @Test
-    public void FrequencyShouldBe0() {
-        List<String> map = Arrays.asList("jhskdf", "Vitality11");
 
-        for (String text : map) {
-            int actual = indexReader.getTokenFrequency(text);
-            assertEquals(actual, 0);
+    @Nested
+    @DisplayName("Testing no parameter")
+    class TestFunctionsWithNoParams {
+
+        @Test
+        @DisplayName("Testing getNumberOfReviews")
+        void getNumberOfReviews() {
+            assertEquals(1000, indexReader.getNumberOfReviews(), "Should returns the total number of reviews");
         }
 
+        @Test
+        @DisplayName("Testing getTokenSizeOfReviews")
+        void getTokenSizeOfReviews() {
+            assertEquals(75447, indexReader.getTokenSizeOfReviews(),
+                    "Should returns the total number of tokens include repetitions");
+        }
     }
 
-    @Test
-    public void GetFrequencyTest2() {
-        Map<String, Integer> map = Map.of(
-                "the", 11758492,
-                "is", 9600518,
-                "zz", 322,
-                "zucchini", 850,
-                "0", 32547,
-                "zippy", 727,
-                "zola", 2504,
-                "dog", 125321
-        );
 
-
-        for (String text : map.keySet()) {
-            int actual = indexReader.getTokenFrequency(text);
-            assertEquals(map.get(text), actual, text + " should appear " + map.get(text) + " times and not " + actual);
+    /**
+     * helper for testing Enumerations returned values
+     */
+    private void testEnumerations(String[] inputs, int[][] expectedOutputs,
+                                  Function<String, Enumeration<Integer>> func) {
+        for (int i = 0; i < inputs.length; i++) {
+            ArrayList<Integer> arr = Collections.list(func.apply(inputs[i]));
+            int[] actual = arr.stream().mapToInt(Integer::intValue).toArray();
+            assertArrayEquals(expectedOutputs[i], actual, String.format(msgStr, inputs[i]));
         }
+    }
 
+
+    /**
+     * comment for not checking removeIndex method of slowWriter!.
+     */
+    @AfterAll
+    static void removeDir() {
+        indexWriter.removeIndex(indexDir);
+        File directory = new File(indexDir);
+        assertFalse(directory.exists());
     }
 }
