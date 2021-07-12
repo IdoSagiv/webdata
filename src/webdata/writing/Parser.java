@@ -42,32 +42,49 @@ public class Parser {
         final int OK_FLAG = 0xf; // binary representation of four ones (1111)
         String line;
         String[] section = new String[4];
+        int prevSectionPart = 0;
+        boolean canAdd = false;
         try {
             int status = 0;
-            while ((status != OK_FLAG) && ((line = reader.readLine()) != null)) {
+            while (((line = reader.readLine()) != null)) {
+                if (!line.isEmpty() && line.indexOf(':') == -1) {
+                    if (canAdd) section[prevSectionPart] += " " + line;
+                    continue;
+                }
+                if (status == OK_FLAG) break;
                 if (line.isEmpty()) continue;
                 String content = line.substring(line.indexOf(':') + 2);
                 switch (line.substring(0, line.indexOf(':'))) {
                     case "product/productId": {
                         status = status | 0x1;
                         section[PRODUCT_ID_IDX] = content;
+                        prevSectionPart = PRODUCT_ID_IDX;
+                        canAdd = true;
                         break;
                     }
                     case "review/helpfulness": {
                         status = status | 0x2;
                         section[HELPFULNESS_IDX] = content;
+                        prevSectionPart = HELPFULNESS_IDX;
+                        canAdd = true;
                         break;
                     }
                     case "review/score": {
                         status = status | 0x4;
                         section[SCORE_IDX] = content;
+                        prevSectionPart = SCORE_IDX;
+                        canAdd = true;
                         break;
                     }
                     case "review/text": {
                         status = status | 0x8;
                         section[TEXT_IDX] = content;
+                        prevSectionPart = TEXT_IDX;
+                        canAdd = true;
                         break;
                     }
+                    default:
+                        canAdd = false;
                 }
             }
             // if all four subsections detected return the section, else return null.

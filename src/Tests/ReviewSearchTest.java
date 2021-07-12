@@ -2,46 +2,52 @@ package Tests;
 
 import java.util.*;
 
+import org.junit.Before;
 import org.junit.Test;
 import webdata.IndexReader;
+import webdata.IndexWriter;
 import webdata.ReviewSearch;
 
 import static org.junit.Assert.*;
 
 public class ReviewSearchTest {
+    private static final String DATASET_PATH = "datasets\\1000.txt";
+    private static final String INDEX_PATH = "test_output";
+    private static ReviewSearch rs;
 
-    final String DictionaryPath = "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\CompateTo\\1_000";
-
-    IndexReader ir = new IndexReader(DictionaryPath);
-    ReviewSearch rs = new ReviewSearch(ir);
-
+    @Before
+    public void prep() {
+        IndexWriter writer = new IndexWriter();
+        writer.write(DATASET_PATH, INDEX_PATH);
+        IndexReader ir = new IndexReader(INDEX_PATH);
+        rs = new ReviewSearch(ir);
+    }
 
     private String GetErrorMSG(List<String> productID, List<Integer> expected, List<Integer> actual, String name) {
         return name + " " + productID + " should return " + expected + " and not " + actual;
     }
 
-
     @Test
     public void getProductReviewsShouldReturnEmpty() {
-        Enumeration<Integer> r = rs.vectorSpaceSearch(Collections.enumeration(Arrays.asList("blepp")), 10);
+        Enumeration<Integer> r = rs.vectorSpaceSearch(Collections.enumeration(Collections.singletonList("blepp")), 10);
         assertFalse("blepp should not be found", r.hasMoreElements());
 
-        r = rs.languageModelSearch(Collections.enumeration(Arrays.asList("blepp")), 0.5, 5);
+        r = rs.languageModelSearch(Collections.enumeration(Collections.singletonList("blepp")), 0.5, 5);
         assertEquals("blepp should not be found", 0, Collections.list(r).size());
     }
 
     @Test
     public void TestCorrectCount() {
-        Enumeration<Integer> r = rs.vectorSpaceSearch(Collections.enumeration(Arrays.asList("they")), 5);
+        Enumeration<Integer> r = rs.vectorSpaceSearch(Collections.enumeration(Collections.singletonList("they")), 5);
         assertEquals("they should return 5 elemnts", 5, Collections.list(r).size());
 
-        r = rs.vectorSpaceSearch(Collections.enumeration(Arrays.asList("quantity")), 1001);
+        r = rs.vectorSpaceSearch(Collections.enumeration(Collections.singletonList("quantity")), 1001);
         assertEquals("quantity should return 6 elemnts", 6, Collections.list(r).size());
 
-        r = rs.languageModelSearch(Collections.enumeration(Arrays.asList("they")), 0.5, 5);
+        r = rs.languageModelSearch(Collections.enumeration(Collections.singletonList("they")), 0.5, 5);
         assertEquals("they should return 5 elemnts", 5, Collections.list(r).size());
 
-        r = rs.languageModelSearch(Collections.enumeration(Arrays.asList("quantity")), 0.5, 1001);
+        r = rs.languageModelSearch(Collections.enumeration(Collections.singletonList("quantity")), 0.5, 1001);
         assertEquals("quantity should return 6 elemnts", 6, Collections.list(r).size());
     }
 
@@ -71,7 +77,6 @@ public class ReviewSearchTest {
             List<Integer> expected = map.get(text);
             assertEquals(GetErrorMSG(text, expected, actual, "#2"), expected, actual);
         }
-
     }
 
     @Test

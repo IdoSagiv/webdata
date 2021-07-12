@@ -13,32 +13,8 @@ public class ex2Analyzer {
 
     final static String DictionaryPath = "indexFiles";
 
-
-    private static String[] dataSets = {
-//            "/cs/67782/adiapel/100.txt",
-//            "/cs/67782/adiapel/1000.txt"
-//            "/cs/usr/adiapel/Desktop/webData/ex2-new/webdata/datasets/test.txt"
-//            "/cs/usr/adiapel/Desktop/webData/ex2-new/webdata/datasets/1000.txt"
-
-//            "/cs/usr/adiapel/Desktop/webData/ex2-new/webdata/datasets/1000.txt"
-//            ,"/cs/usr/adiapel/Desktop/webData/ex2-new/webdata/datasets/100000.txt"
-//            "/cs/67782/adiapel/1000000.txt"
-//            "/tmp/movies.txt.gz"
-//            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\1000.txt",
-
-//            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\10000.txt",
-//            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\100000.txt"
-//            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\1000000.txt"
-            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\Movies_&_TV.txt.gz"
-//            "C:\\Users\\adiap\\Desktop\\university\\year 3\\semB\\web_data\\Books.txt.gz"
-//            "C:\\Users\\adiap\\Downloads\\all.txt.gz"
-
-//            "/cs/67782/ido_sagiv/Movies_&_TV.txt.gz"
-//            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\10000.txt"
-//            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\1000000.txt"
-//            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\Movies_&_TV.txt.gz"
-//            "C:\\Users\\Ido\\Documents\\Degree\\Third Year\\Semester B\\Web Information Retrival\\datasets\\Books.txt.gz"
-    };
+    // todo: put here path to the analyzed datasets
+    private static final String[] dataSets = {""};
 
     public static void analyzeAll() {
         for (String dataSetPath : dataSets) {
@@ -91,7 +67,6 @@ public class ex2Analyzer {
     }
 
     private static List<String> getRandomTokens(String dataSetPath, int n) {
-//        List<String> tokenSet = getAllTokens(dataSetPath).stream().toList();
         List<String> tokenSet = new ArrayList<>(getAllTokens(dataSetPath));
         Collections.shuffle(tokenSet);
         assert (n <= tokenSet.size());

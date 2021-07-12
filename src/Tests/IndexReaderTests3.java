@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IndexReaderTests3 {
     final static String indexDir = "test_output";
-    final static String inputFile = "small_data_set\\2.txt";
+    final static String inputFile = "datasets\\1000.txt";
     static private IndexReader indexReader;
     static private IndexWriter indexWriter;
     private final String msgInt = "fail on input: %d";
@@ -163,8 +163,8 @@ class IndexReaderTests3 {
      */
     @AfterAll
     static void removeDir() {
-//        indexWriter.removeIndex(indexDir);
-//        File directory = new File(indexDir);
-//        assertFalse(directory.exists());
+        indexWriter.removeIndex(indexDir);
+        File directory = new File(indexDir);
+        assertFalse(directory.exists());
     }
 }

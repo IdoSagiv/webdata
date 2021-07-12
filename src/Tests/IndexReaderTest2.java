@@ -9,52 +9,50 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class IndexReaderTest2
-{
-    static final String DictionaryPath = "indexFiles";
-
-    static IndexWriter indexWriter;
+class IndexReaderTest2 {
+    final static String DictionaryPath = "test_output";
+    final static String DataSetPath = "datasets\\1000.txt";
 
     static IndexReader indexReader;
 
+    private String GetErrorMSG(String productID, List<Integer> expected, List<Integer> actual) {
+        return productID + " should be found at " + expected + " found at " + actual;
+    }
+
     @BeforeAll
-    static void indexReader()
-    {
+    static void indexReader() {
+        IndexWriter writer = new IndexWriter();
+        writer.write(DataSetPath, DictionaryPath);
         indexReader = new IndexReader(DictionaryPath);
     }
 
-//    @Test
-//    public void ShouldFindCorrectIdiesFromText2()
-//    {
-//
-//        Map<String, List<Integer>> map = Map.of(
-//                "0", Arrays.asList(41, 1, 130, 1, 159, 1, 596, 1, 746, 2, 776, 1, 863, 1, 930, 1),
-//                "09", Arrays.asList(966, 1),
-//                "0g", Arrays.asList(746, 1),
-//                "100ml", Arrays.asList(411, 1),
-//                "zip", Arrays.asList(17, 1, 193, 2, 476, 1, 690, 1, 852, 1),
-//                "zippy", Arrays.asList(627, 1),
-//                "zola", Arrays.asList(747, 1),
-//                "zucchini", Arrays.asList(902, 2, 932, 1, 942, 1, 944, 1)
-//        );
-//
-//        for (String text : map.keySet())
-//        {
-//            List<Integer> actual = Collections.list(indexReader.getReviewsWithToken(text));
-//            List<Integer> expected = map.get(text);
-//            assertEquals(expected, actual, GetErrorMSG(text, expected, actual));
-//        }
-//
-//    }
+    @Test
+    public void ShouldFindCorrectIdsFromText2() {
+        Map<String, List<Integer>> map = Map.of(
+                "0", Arrays.asList(41, 1, 130, 1, 159, 1, 596, 1, 746, 2, 776, 1, 863, 1, 930, 1),
+                "09", Arrays.asList(966, 1),
+                "0g", Arrays.asList(746, 1),
+                "100ml", Arrays.asList(411, 1),
+                "zip", Arrays.asList(17, 1, 193, 2, 476, 1, 690, 1, 852, 1),
+                "zippy", Arrays.asList(627, 1),
+                "zola", Arrays.asList(747, 1),
+                "zucchini", Arrays.asList(902, 2, 932, 1, 942, 1, 944, 1)
+        );
+
+        for (String text : map.keySet()) {
+            List<Integer> actual = Collections.list(indexReader.getReviewsWithToken(text));
+            List<Integer> expected = map.get(text);
+            assertEquals(expected, actual, GetErrorMSG(text, expected, actual));
+        }
+
+    }
 
     @Test
-    public void ShouldReturnEmptyForWordNotExisting()
-    {
+    public void ShouldReturnEmptyForWordNotExisting() {
 
         List<String> map = Arrays.asList("jhskdf", "Vitality11");
 
-        for (String text : map)
-        {
+        for (String text : map) {
             List<Integer> actual = Collections.list(indexReader.getReviewsWithToken(text));
             assertTrue(actual.isEmpty(), text + " should return empty enumeration");
         }
@@ -62,13 +60,11 @@ class IndexReaderTest2
     }
 
     @Test
-    public void WordCountShouldBeZero()
-    {
+    public void WordCountShouldBeZero() {
 
         List<String> map = Arrays.asList("jhskdf", "Vitality11");
 
-        for (String text : map)
-        {
+        for (String text : map) {
             int actual = indexReader.getTokenCollectionFrequency(text);
             assertEquals(actual, 0);
         }
@@ -77,9 +73,7 @@ class IndexReaderTest2
 
 
     @Test
-    public void GetCountTest2()
-    {
-
+    public void GetCountTest2() {
         Map<String, Integer> map = Map.of(
                 "the", 105934474,
                 "is", 34428010,
@@ -91,22 +85,17 @@ class IndexReaderTest2
                 "dog", 207187
         );
 
-        for (String text : map.keySet())
-        {
+        for (String text : map.keySet()) {
             int actual = indexReader.getTokenCollectionFrequency(text);
             assertEquals(map.get(text), actual, text + " should appear " + map.get(text) + " times and not " + actual);
         }
-
     }
 
     @Test
-    public void FrequencyShouldBe0()
-    {
-
+    public void FrequencyShouldBe0() {
         List<String> map = Arrays.asList("jhskdf", "Vitality11");
 
-        for (String text : map)
-        {
+        for (String text : map) {
             int actual = indexReader.getTokenFrequency(text);
             assertEquals(actual, 0);
         }
@@ -114,8 +103,7 @@ class IndexReaderTest2
     }
 
     @Test
-    public void GetFrequencyTest2()
-    {
+    public void GetFrequencyTest2() {
         Map<String, Integer> map = Map.of(
                 "the", 11758492,
                 "is", 9600518,
@@ -128,8 +116,7 @@ class IndexReaderTest2
         );
 
 
-        for (String text : map.keySet())
-        {
+        for (String text : map.keySet()) {
             int actual = indexReader.getTokenFrequency(text);
             assertEquals(map.get(text), actual, text + " should appear " + map.get(text) + " times and not " + actual);
         }
