@@ -6,15 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Tests/IndexReaderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tests/IndexReaderTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Tests/IndexReaderTest2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tests/IndexReaderTest2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Tests/IndexReaderTest2Old.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tests/IndexReaderTest2Old.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Tests/IndexReaderTests3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tests/IndexReaderTests3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Tests/MoviesIndexReaderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tests/MoviesIndexReaderTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Tests/ReviewSearchTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tests/ReviewSearchTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ex2Analyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ex2Analyzer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webdata/writing/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webdata/writing/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Tests/IndexReaderTests3.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +66,7 @@
       <recent name="C:\github-repos\webdata" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ex2_test">
+  <component name="RunManager" selected="JUnit.ReviewSearchTest">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -86,7 +78,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="IndexReaderTest2Old" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="IndexReaderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="webdata" />
       <extension name="coverage">
         <pattern>
@@ -95,7 +87,37 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="Tests" />
-      <option name="MAIN_CLASS_NAME" value="Tests.IndexReaderTest2Old" />
+      <option name="MAIN_CLASS_NAME" value="Tests.IndexReaderTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="IndexReaderTest2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="webdata" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Tests" />
+      <option name="MAIN_CLASS_NAME" value="Tests.IndexReaderTest2" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="IndexReaderTest2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="webdata" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Tests" />
+      <option name="MAIN_CLASS_NAME" value="Tests.IndexReaderTest2" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -111,21 +133,6 @@
       </extension>
       <option name="PACKAGE_NAME" value="Tests" />
       <option name="MAIN_CLASS_NAME" value="Tests.IndexReaderTests3" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MoviesIndexReaderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="webdata" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Tests" />
-      <option name="MAIN_CLASS_NAME" value="Tests.MoviesIndexReaderTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -161,35 +168,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ex2_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="webdata" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Tests.Ex2SchoolTest.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Tests.Ex2SchoolTest" />
-      <option name="MAIN_CLASS_NAME" value="Tests.Ex2SchoolTest.ex2_test" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="JUnit.IndexReaderTests3" />
+      <item itemvalue="JUnit.IndexReaderTest2" />
+      <item itemvalue="JUnit.IndexReaderTest" />
       <item itemvalue="JUnit.IndexReaderTest2Old" />
-      <item itemvalue="JUnit.MoviesIndexReaderTest" />
       <item itemvalue="JUnit.ReviewSearchTest" />
-      <item itemvalue="JUnit.ex2_test" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ex2_test" />
         <item itemvalue="JUnit.ReviewSearchTest" />
-        <item itemvalue="JUnit.MoviesIndexReaderTest" />
-        <item itemvalue="JUnit.IndexReaderTests3" />
         <item itemvalue="JUnit.IndexReaderTest2Old" />
+        <item itemvalue="JUnit.IndexReaderTest" />
+        <item itemvalue="JUnit.IndexReaderTest2" />
+        <item itemvalue="JUnit.IndexReaderTests3" />
       </list>
     </recent_temporary>
   </component>
@@ -207,6 +199,13 @@
       <workItem from="1620650881429" duration="27000" />
       <workItem from="1620651059309" duration="4946000" />
     </task>
+    <task id="LOCAL‎00001" summary="clean code">
+      <created>1626090356695</created>
+      <option name="number" value="LOCAL‎00001" />
+      <option name="presentableId" value="LOCAL‎00001" />
+      <updated>1626090356695</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -223,6 +222,10 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="clean code" />
+    <option name="LAST_COMMIT_MESSAGE" value="clean code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
