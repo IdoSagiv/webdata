@@ -6,14 +6,6 @@ import json
 import os
 
 
-#
-# def parse_json(filename):
-#     f = gzip.open(filename, 'r')
-#     for review in f:
-#         review = review.decode("utf-8")
-#         yield json.loads(review)
-
-
 def parse(filename):
     is_bytes = pathlib.Path(filename).suffix == ".gz"
     f = gzip.open(filename, 'r') if is_bytes else open(filename, 'r')
@@ -109,15 +101,15 @@ def create_smaller_versions(in_file, review_size, out_dir, num_of_reviews_lst):
 
 
 if __name__ == '__main__':
+    #  todo: put here the paths to the datasets
     datasets = [
         # r"datasets\100.txt",
         # r"datasets\1000.txt",
-        r"C:\Users\Ido\Documents\Degree\Third Year\Semester B\Web Information Retrival\BigDatasets\10000.txt"
-        # r"datasets\Books.txt.gz"
     ]
     # get_statistics(datasets)
+    # todo: complete the arguments
     create_smaller_versions(
-        r"C:\Users\Ido\Documents\Degree\Third Year\Semester B\Web Information Retrival\BigDatasets\Movies_&_TV.txt",
+        r"path_to_the_large_dataset",
         11,
-        r"C:\Users\Ido\Documents\Degree\Third Year\Semester B\Web Information Retrival\BigDatasets",
+        r"path_to_the_output_dir",
         [10000, 100000, 1000000])
