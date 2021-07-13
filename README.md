@@ -5,7 +5,7 @@ The project was written as part of Web Information Retrieval course of The Hebre
 
 ## Technologies
 
-The project is entirely written in Java and was devoloped and tested on Windows and Linux OS.
+The project is written in Java and was devoloped and tested on Windows and Linux OS.
 
 ## Overview
 
