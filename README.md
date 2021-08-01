@@ -5,7 +5,7 @@ The project was written as part of Web Information Retrieval course of The Hebre
 
 ## Technologies
 
-The project is entirely written in Java.
+The project is written in Java and was devoloped and tested on Windows and Linux OS.
 
 ## Overview
 
@@ -27,7 +27,7 @@ The index creation is done according to an External-Sort based indexing techniqu
 
 Simple queries that help answer more sophisticated queries (such as the Searcher queries):
 
-```
+```java
 /**
  * Returns the product identifier for the given review
  * Returns null if there is no review with the given identifier
