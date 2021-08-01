@@ -1,4 +1,6 @@
 /indexFiles
 /out
 /test_output
+/.idea
+/src/Tests/Ex2SchoolTest
 *.class

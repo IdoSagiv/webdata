@@ -67,23 +67,19 @@ public class MergeGenerator implements Iterable<IntPair> {
         public IntPair next() {
             int best_i = findBestPointer();
             IntPair currPair = currentPairs[best_i];
-            byte[] nextPairAsBytes = new byte[0];
             try {
-                nextPairAsBytes = readers[best_i].readNBytes(IndexWriter.PAIR_SIZE_ON_DISK);
+                byte[] nextPairAsBytes = readers[best_i].readNBytes(IndexWriter.PAIR_SIZE_ON_DISK);
+                if (nextPairAsBytes.length == IndexWriter.PAIR_SIZE_ON_DISK) {
+                    currentPairs[best_i] = new IntPair(nextPairAsBytes);
+                } else {
+                    currentPairs[best_i] = null;
+                    readers[best_i].close();
+                }
+                pairsRead++;
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if (nextPairAsBytes.length == IndexWriter.PAIR_SIZE_ON_DISK) {
-                currentPairs[best_i] = new IntPair(nextPairAsBytes);
-            } else {
-                currentPairs[best_i] = null;
-                try {
-                    readers[best_i].close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            pairsRead++;
+
             return currPair;
         }
 

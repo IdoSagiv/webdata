@@ -1,292 +1,300 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
-  <component name="ChangeListManager">
-    <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Tests/IndexReaderTests3.java" beforeDir="false" />
-    </list>
-    <option name="SHOW_DIALOG" value="false" />
-    <option name="HIGHLIGHT_CONFLICTS" value="true" />
-    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
-    <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="GitSEFilterConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
-      <filtered-out-file-type name="REMOTE_BRANCH" />
-      <filtered-out-file-type name="TAG" />
-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
-    </file-type-list>
-  </component>
-  <component name="MavenImportPreferences">
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="jdkForImporter" value="1.8" />
-      </MavenImportingSettings>
-    </option>
-  </component>
-  <component name="ProjectId" id="1r88e0eNl7NPh5rXOTc3M4soURH" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
-  </component>
-  <component name="PropertiesComponent">
-    <property name="Downloaded.Files.Path.Enabled" value="false" />
-    <property name="Repository.Attach.Annotations" value="false" />
-    <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="Repository.Attach.Sources" value="false" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1618341733347" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../webdata-tests/webdata_test" />
-    <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="VisualVMLauncher" />
-  </component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\github-repos\webdata" />
-    </key>
-  </component>
-  <component name="RunManager" selected="JUnit.ReviewSearchTest">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="IndexReaderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="webdata" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Tests" />
-      <option name="MAIN_CLASS_NAME" value="Tests.IndexReaderTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="IndexReaderTest2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="webdata" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Tests" />
-      <option name="MAIN_CLASS_NAME" value="Tests.IndexReaderTest2" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="IndexReaderTest2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="webdata" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Tests" />
-      <option name="MAIN_CLASS_NAME" value="Tests.IndexReaderTest2" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="IndexReaderTests3" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="webdata" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Tests" />
-      <option name="MAIN_CLASS_NAME" value="Tests.IndexReaderTests3" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ReviewSearchTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="webdata" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Tests" />
-      <option name="MAIN_CLASS_NAME" value="Tests.ReviewSearchTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ex2_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="webdata" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Tests.Ex2SchoolTest.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Tests.Ex2SchoolTest" />
-      <option name="MAIN_CLASS_NAME" value="Tests.Ex2SchoolTest.ex2_test" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <list>
-      <item itemvalue="JUnit.IndexReaderTests3" />
-      <item itemvalue="JUnit.IndexReaderTest2" />
-      <item itemvalue="JUnit.IndexReaderTest" />
-      <item itemvalue="JUnit.IndexReaderTest2Old" />
-      <item itemvalue="JUnit.ReviewSearchTest" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="JUnit.ReviewSearchTest" />
-        <item itemvalue="JUnit.IndexReaderTest2Old" />
-        <item itemvalue="JUnit.IndexReaderTest" />
-        <item itemvalue="JUnit.IndexReaderTest2" />
-        <item itemvalue="JUnit.IndexReaderTests3" />
-      </list>
-    </recent_temporary>
-  </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
-  <component name="SvnConfiguration">
-    <configuration />
-  </component>
-  <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="" />
-      <created>1617628223430</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1617628223430</updated>
-      <workItem from="1620650881429" duration="27000" />
-      <workItem from="1620651059309" duration="4946000" />
-    </task>
-    <task id="LOCAL‎00001" summary="clean code">
-      <created>1626090356695</created>
-      <option name="number" value="LOCAL‎00001" />
-      <option name="presentableId" value="LOCAL‎00001" />
-      <updated>1626090356695</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
-    <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="clean code" />
-    <option name="LAST_COMMIT_MESSAGE" value="clean code" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/webdata/utils/WebDataUtils.java</url>
-          <line>39</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/webdata/reading/TextPostIterator.java</url>
-          <line>54</line>
-          <option name="timeStamp" value="40" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/webdata$IndexReaderTest.ic" NAME="IndexReaderTest Coverage Results" MODIFIED="1619010582254" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-  </component>
-  <component name="debuggerHistoryManager">
-    <expressions id="arrayFilter">
-      <expression>
-        <expression-string>10</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-    </expressions>
-    <expressions id="evaluateExpression">
-      <expression>
-        <expression-string>((TextDict)this).dict.get(&quot;100&quot;)</expression-string>
-        <language-id>JAVA</language-id>
-        <custom-info>webdata.Dictionary.TextDict</custom-info>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>((TextDict)this).dict.get(&quot;10&quot;)</expression-string>
-        <language-id>JAVA</language-id>
-        <custom-info>webdata.Dictionary.TextDict</custom-info>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>((TextDict)this).dict.get(10)</expression-string>
-        <language-id>JAVA</language-id>
-        <custom-info>webdata.Dictionary.TextDict</custom-info>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>dict.get(word).reviewList</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>131071&gt;&gt;&gt;16</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-    </expressions>
-  </component>
+    <component name="AutoImportSettings">
+        <option name="autoReloadType" value="SELECTIVE"/>
+    </component>
+    <component name="ChangeListManager">
+        <list default="true" id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment="">
+            <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore"
+                    afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/webdata/writing/MergeGenerator.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/webdata/writing/MergeGenerator.java" afterDir="false"/>
+        </list>
+        <option name="SHOW_DIALOG" value="false"/>
+        <option name="HIGHLIGHT_CONFLICTS" value="true"/>
+        <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false"/>
+        <option name="LAST_RESOLUTION" value="IGNORE"/>
+    </component>
+    <component name="FileTemplateManagerImpl">
+        <option name="RECENT_TEMPLATES">
+            <list>
+                <option value="Class"/>
+            </list>
+        </option>
+    </component>
+    <component name="Git.Settings">
+        <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$"/>
+    </component>
+    <component name="GitSEFilterConfiguration">
+        <file-type-list>
+            <filtered-out-file-type name="LOCAL_BRANCH"/>
+            <filtered-out-file-type name="REMOTE_BRANCH"/>
+            <filtered-out-file-type name="TAG"/>
+            <filtered-out-file-type name="COMMIT_BY_MESSAGE"/>
+        </file-type-list>
+    </component>
+    <component name="MavenImportPreferences">
+        <option name="importingSettings">
+            <MavenImportingSettings>
+                <option name="jdkForImporter" value="1.8"/>
+            </MavenImportingSettings>
+        </option>
+    </component>
+    <component name="ProjectId" id="1r88e0eNl7NPh5rXOTc3M4soURH"/>
+    <component name="ProjectLevelVcsManager" settingsEditedManually="true"/>
+    <component name="ProjectViewState">
+        <option name="hideEmptyMiddlePackages" value="true"/>
+        <option name="showLibraryContents" value="true"/>
+    </component>
+    <component name="PropertiesComponent">
+        <property name="Downloaded.Files.Path.Enabled" value="false"/>
+        <property name="Repository.Attach.Annotations" value="false"/>
+        <property name="Repository.Attach.JavaDocs" value="false"/>
+        <property name="Repository.Attach.Sources" value="false"/>
+        <property name="RunOnceActivity.OpenProjectViewOnStart" value="true"/>
+        <property name="RunOnceActivity.ShowReadmeOnStart" value="true"/>
+        <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true"/>
+        <property name="WebServerToolWindowFactoryState" value="false"/>
+        <property name="aspect.path.notification.shown" value="true"/>
+        <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp"
+                  value="1618341733347"/>
+        <property name="last_opened_file_path" value="$PROJECT_DIR$/../webdata-tests/webdata_test"/>
+        <property name="project.structure.last.edited" value="Project"/>
+        <property name="project.structure.proportion" value="0.15"/>
+        <property name="project.structure.side.proportion" value="0.2"/>
+        <property name="settings.editor.selected.configurable" value="VisualVMLauncher"/>
+    </component>
+    <component name="RecentsManager">
+        <key name="MoveFile.RECENT_KEYS">
+            <recent name="C:\github-repos\webdata"/>
+        </key>
+    </component>
+    <component name="RunManager" selected="Application.main">
+        <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+            <option name="arquillianRunConfiguration">
+                <value>
+                    <option name="containerStateName" value=""/>
+                </value>
+            </option>
+            <option name="TEST_OBJECT" value="class"/>
+            <method v="2">
+                <option name="Make" enabled="true"/>
+            </method>
+        </configuration>
+        <configuration name="main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+            <option name="MAIN_CLASS_NAME" value="main"/>
+            <module name="webdata"/>
+            <method v="2">
+                <option name="Make" enabled="true"/>
+            </method>
+        </configuration>
+        <configuration name="IndexReaderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+            <module name="webdata"/>
+            <extension name="coverage">
+                <pattern>
+                    <option name="PATTERN" value="Tests.*"/>
+                    <option name="ENABLED" value="true"/>
+                </pattern>
+            </extension>
+            <option name="PACKAGE_NAME" value="Tests"/>
+            <option name="MAIN_CLASS_NAME" value="Tests.IndexReaderTest"/>
+            <option name="TEST_OBJECT" value="class"/>
+            <method v="2">
+                <option name="Make" enabled="true"/>
+            </method>
+        </configuration>
+        <configuration name="IndexReaderTest2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+            <module name="webdata"/>
+            <extension name="coverage">
+                <pattern>
+                    <option name="PATTERN" value="Tests.*"/>
+                    <option name="ENABLED" value="true"/>
+                </pattern>
+            </extension>
+            <option name="PACKAGE_NAME" value="Tests"/>
+            <option name="MAIN_CLASS_NAME" value="Tests.IndexReaderTest2"/>
+            <option name="TEST_OBJECT" value="class"/>
+            <method v="2">
+                <option name="Make" enabled="true"/>
+            </method>
+        </configuration>
+        <configuration name="IndexReaderTest2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+            <module name="webdata"/>
+            <extension name="coverage">
+                <pattern>
+                    <option name="PATTERN" value="Tests.*"/>
+                    <option name="ENABLED" value="true"/>
+                </pattern>
+            </extension>
+            <option name="PACKAGE_NAME" value="Tests"/>
+            <option name="MAIN_CLASS_NAME" value="Tests.IndexReaderTest2"/>
+            <option name="TEST_OBJECT" value="class"/>
+            <method v="2">
+                <option name="Make" enabled="true"/>
+            </method>
+        </configuration>
+        <configuration name="IndexReaderTests3" type="JUnit" factoryName="JUnit" temporary="true"
+                       nameIsGenerated="true">
+            <module name="webdata"/>
+            <extension name="coverage">
+                <pattern>
+                    <option name="PATTERN" value="Tests.*"/>
+                    <option name="ENABLED" value="true"/>
+                </pattern>
+            </extension>
+            <option name="PACKAGE_NAME" value="Tests"/>
+            <option name="MAIN_CLASS_NAME" value="Tests.IndexReaderTests3"/>
+            <option name="TEST_OBJECT" value="class"/>
+            <method v="2">
+                <option name="Make" enabled="true"/>
+            </method>
+        </configuration>
+        <configuration name="ReviewSearchTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+            <module name="webdata"/>
+            <extension name="coverage">
+                <pattern>
+                    <option name="PATTERN" value="Tests.*"/>
+                    <option name="ENABLED" value="true"/>
+                </pattern>
+            </extension>
+            <option name="PACKAGE_NAME" value="Tests"/>
+            <option name="MAIN_CLASS_NAME" value="Tests.ReviewSearchTest"/>
+            <option name="TEST_OBJECT" value="class"/>
+            <method v="2">
+                <option name="Make" enabled="true"/>
+            </method>
+        </configuration>
+        <list>
+            <item itemvalue="JUnit.IndexReaderTests3"/>
+            <item itemvalue="JUnit.IndexReaderTest2"/>
+            <item itemvalue="JUnit.IndexReaderTest"/>
+            <item itemvalue="JUnit.ReviewSearchTest"/>
+            <item itemvalue="Application.main"/>
+        </list>
+        <recent_temporary>
+            <list>
+                <item itemvalue="Application.main"/>
+                <item itemvalue="JUnit.ReviewSearchTest"/>
+                <item itemvalue="JUnit.IndexReaderTest"/>
+                <item itemvalue="JUnit.IndexReaderTest2"/>
+                <item itemvalue="JUnit.IndexReaderTests3"/>
+            </list>
+        </recent_temporary>
+    </component>
+    <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0"
+               DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true"/>
+    <component name="SvnConfiguration">
+        <configuration/>
+    </component>
+    <component name="TaskManager">
+        <task active="true" id="Default" summary="Default task">
+            <changelist id="aaa9be66-3c39-4824-9dba-136dbed4fc8d" name="Default Changelist" comment=""/>
+            <created>1617628223430</created>
+            <option name="number" value="Default"/>
+            <option name="presentableId" value="Default"/>
+            <updated>1617628223430</updated>
+            <workItem from="1620650881429" duration="27000"/>
+            <workItem from="1620651059309" duration="4946000"/>
+        </task>
+        <task id="LOCAL‎00001" summary="clean code">
+            <created>1626090356695</created>
+            <option name="number" value="LOCAL‎00001"/>
+            <option name="presentableId" value="LOCAL‎00001"/>
+            <updated>1626090356695</updated>
+        </task>
+        <task id="LOCAL‎00002" summary="remove bad tests">
+            <created>1626090554252</created>
+            <option name="number" value="LOCAL‎00002"/>
+            <option name="presentableId" value="LOCAL‎00002"/>
+            <updated>1626090554252</updated>
+        </task>
+        <option name="localTasksCounter" value="3"/>
+        <servers/>
+    </component>
+    <component name="TypeScriptGeneratedFilesManager">
+        <option name="version" value="3"/>
+    </component>
+    <component name="Vcs.Log.Tabs.Properties">
+        <option name="TAB_STATES">
+            <map>
+                <entry key="MAIN">
+                    <value>
+                        <State/>
+                    </value>
+                </entry>
+            </map>
+        </option>
+        <option name="oldMeFiltersMigrated" value="true"/>
+    </component>
+    <component name="VcsManagerConfiguration">
+        <MESSAGE value="clean code"/>
+        <MESSAGE value="remove bad tests"/>
+        <option name="LAST_COMMIT_MESSAGE" value="remove bad tests"/>
+    </component>
+    <component name="XDebuggerManager">
+        <breakpoint-manager>
+            <breakpoints>
+                <line-breakpoint enabled="true" type="java-line">
+                    <url>file://$PROJECT_DIR$/src/webdata/utils/WebDataUtils.java</url>
+                    <line>39</line>
+                    <option name="timeStamp" value="12"/>
+                </line-breakpoint>
+                <line-breakpoint enabled="true" type="java-line">
+                    <url>file://$PROJECT_DIR$/src/webdata/reading/TextPostIterator.java</url>
+                    <line>54</line>
+                    <option name="timeStamp" value="40"/>
+                </line-breakpoint>
+            </breakpoints>
+        </breakpoint-manager>
+    </component>
+    <component name="XSLT-Support.FileAssociations.UIState">
+        <expand/>
+        <select/>
+    </component>
+    <component name="com.intellij.coverage.CoverageDataManagerImpl">
+        <SUITE FILE_PATH="coverage/webdata$IndexReaderTest.ic" NAME="IndexReaderTest Coverage Results"
+               MODIFIED="1619010582254" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider"
+               RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false"/>
+    </component>
+    <component name="debuggerHistoryManager">
+        <expressions id="arrayFilter">
+            <expression>
+                <expression-string>10</expression-string>
+                <language-id>JAVA</language-id>
+                <evaluation-mode>EXPRESSION</evaluation-mode>
+            </expression>
+        </expressions>
+        <expressions id="evaluateExpression">
+            <expression>
+                <expression-string>((TextDict)this).dict.get(&quot;100&quot;)</expression-string>
+                <language-id>JAVA</language-id>
+                <custom-info>webdata.Dictionary.TextDict</custom-info>
+                <evaluation-mode>EXPRESSION</evaluation-mode>
+            </expression>
+            <expression>
+                <expression-string>((TextDict)this).dict.get(&quot;10&quot;)</expression-string>
+                <language-id>JAVA</language-id>
+                <custom-info>webdata.Dictionary.TextDict</custom-info>
+                <evaluation-mode>EXPRESSION</evaluation-mode>
+            </expression>
+            <expression>
+                <expression-string>((TextDict)this).dict.get(10)</expression-string>
+                <language-id>JAVA</language-id>
+                <custom-info>webdata.Dictionary.TextDict</custom-info>
+                <evaluation-mode>EXPRESSION</evaluation-mode>
+            </expression>
+            <expression>
+                <expression-string>dict.get(word).reviewList</expression-string>
+                <language-id>JAVA</language-id>
+                <evaluation-mode>EXPRESSION</evaluation-mode>
+            </expression>
+            <expression>
+                <expression-string>131071&gt;&gt;&gt;16</expression-string>
+                <language-id>JAVA</language-id>
+                <evaluation-mode>EXPRESSION</evaluation-mode>
+            </expression>
+        </expressions>
+    </component>
 </project>
